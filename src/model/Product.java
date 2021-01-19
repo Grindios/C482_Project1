@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Product {
-    public static ObservableList<Part> assocParts = FXCollections.observableArrayList();
+    public static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     protected int productID;
     protected String productName;
     protected double productPrice = 0.0;
@@ -21,79 +21,96 @@ public class Product {
         this.max = max;
 
     }
-    public static void addAssocPart(Part part){
-        assocParts.add(part);
+
+    public static void addAssociatedPart(Part part){
+        associatedParts.add(part);
     }
 
-    public static boolean removeAssocPart(int partID) {
-        for(Part p : assocParts) {
+    public static boolean deleteAssociatedPart(int partID) {
+        for(Part p : associatedParts) {
             if(p.getPartID() == partID) {
-                assocParts.remove(p);
+                associatedParts.remove(p);
                 return true;
             }
         }
         return false;
     }
     public static Part searchAssocPart(int partID) {
-        return assocParts.get(partID);
+        return associatedParts.get(partID);
     }
 
 
     //ProductID Getters & Setters
     public int getProductID() {
+
         return productID;
     }
 
     public void setProductID(int productID) {
+
         this.productID = productID;
     }
+
     //ProductName Getters & Setters
     public String getProductName() {
         return productName;
     }
 
     public void setProductName(String productName) {
+
         this.productName = productName;
     }
+
     //ProductPrice Getters & Setters
     public double getProductPrice() {
         return productPrice;
     }
 
     public void setProductPrice(double productPrice) {
+
         this.productPrice = productPrice;
     }
+
     //ProductInStock Getters & Setters
     public int getProductInStock() {
+
         return productInStock;
     }
 
     public void setProductInStock(int productInStock) {
+
         this.productInStock = productInStock;
     }
+
     //Min Getters & Setters
     public int getMin() {
+
         return min;
     }
 
     public void setMin(int min) {
+
         this.min = min;
     }
+
     //Max Getters & Setters
     public int getMax() {
+
         return max;
     }
 
     public void setMax(int max) {
+
         this.max = max;
     }
+
     //Assoc Getters & Setters
-    public static ObservableList<Part> getAssocParts() {
-        return assocParts;
+    public static ObservableList<Part> getAllAssociatedParts() {
+        return associatedParts;
     }
 
     public static void setAssocParts(ObservableList<Part> assocParts) {
-        Product.assocParts = assocParts;
+        Product.associatedParts = assocParts;
     }
 
     public static String getProductValidation (int productInStock, double productPrice, int max, int min, String ProductError){

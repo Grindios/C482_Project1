@@ -1,8 +1,6 @@
 package model;
 
 
-import javafx.beans.property.*;
-
 public abstract class Part {
 
     protected int partID;
