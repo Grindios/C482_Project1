@@ -12,7 +12,7 @@ public class Inventory {
 
 
     public static void addProduct (Product allProducts) {
-        allProducts.add(product)
+        allProducts.add(product);
     }
 
 

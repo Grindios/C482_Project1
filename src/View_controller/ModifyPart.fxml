@@ -5,7 +5,7 @@
 <?import javafx.scene.text.*?>
 
 
-<AnchorPane prefHeight="488.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ModifyPart">
+<AnchorPane prefHeight="488.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_controller.ModifyPart">
    <children>
       <Button layoutX="185.0" layoutY="396.0" mnemonicParsing="false" text="Save" />
       <Button layoutX="348.0" layoutY="396.0" mnemonicParsing="false" text="Cancel" />
