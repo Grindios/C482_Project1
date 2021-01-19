@@ -2,7 +2,7 @@ package model;
 
 
 
-public class Outsourced extends Part{
+public class Outsourced extends Parts {
 
     protected String companyName;
 

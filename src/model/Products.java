@@ -3,8 +3,8 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Product {
-    public static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+public class Products {
+    public static ObservableList<Parts> associatedParts = FXCollections.observableArrayList();
     protected int productID;
     protected String productName;
     protected double productPrice = 0.0;
@@ -12,7 +12,7 @@ public class Product {
     protected int min;
     protected int max;
 
-    public Product() {
+    public Products() {
         this.productID = productID;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -22,12 +22,12 @@ public class Product {
 
     }
 
-    public static void addAssociatedPart(Part part){
+    public static void addAssociatedPart(Parts part){
         associatedParts.add(part);
     }
 
     public static boolean deleteAssociatedPart(int partID) {
-        for(Part p : associatedParts) {
+        for(Parts p : associatedParts) {
             if(p.getPartID() == partID) {
                 associatedParts.remove(p);
                 return true;
@@ -35,7 +35,7 @@ public class Product {
         }
         return false;
     }
-    public static Part searchAssocPart(int partID) {
+    public static Parts searchAssocPart(int partID) {
         return associatedParts.get(partID);
     }
 
@@ -105,12 +105,12 @@ public class Product {
     }
 
     //Assoc Getters & Setters
-    public static ObservableList<Part> getAllAssociatedParts() {
+    public static ObservableList<Parts> getAllAssociatedParts() {
         return associatedParts;
     }
 
-    public static void setAssocParts(ObservableList<Part> assocParts) {
-        Product.associatedParts = assocParts;
+    public static void setAssocParts(ObservableList<Parts> assocParts) {
+        Products.associatedParts = assocParts;
     }
 
     public static String getProductValidation (int productInStock, double productPrice, int max, int min, String ProductError){

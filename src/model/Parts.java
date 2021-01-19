@@ -1,7 +1,7 @@
 package model;
 
 
-public abstract class Part {
+public abstract class Parts {
 
     protected int partID;
     protected String partName;
@@ -9,7 +9,7 @@ public abstract class Part {
     protected int partInStock;
     protected int min;
     protected int max;
-    public  Part(){
+    public Parts(){
         this.partID = partID;
         this.partName = partName;
         this.partPrice = partPrice;

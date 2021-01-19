@@ -1,7 +1,7 @@
 package model;
 
 
-public class InHouse extends Part {
+public class InHouse extends Parts {
 
     protected String machineID;
 
