@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 public class Inventory {
     private static ObservableList<Products> allProducts = FXCollections.observableArrayList();
     private static ObservableList<Parts> allParts = FXCollections.observableArrayList();
-    private static int partID = 0;
+    private static int partIDCount = 0;
     private static int productID = 0;
     private static String partName;
     private static String productName;
@@ -89,6 +89,12 @@ public class Inventory {
             }
         }
         return false;
+    }
+
+    //Count
+    public static int getPartIDCount() {
+        partIDCount++;
+        return partIDCount;
     }
 
     //Get all Parts & Products

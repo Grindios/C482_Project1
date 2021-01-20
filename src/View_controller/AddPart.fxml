@@ -16,19 +16,19 @@
       <Label layoutX="30.0" layoutY="215.0" text="Inv" />
       <Label layoutX="25.0" layoutY="256.0" text="Price/Cost" />
       <Label layoutX="27.0" layoutY="292.0" text="Max" />
-      <Label layoutX="22.0" layoutY="330.0" text="Machine ID" />
+      <Label fx:id="addPartsBoolLbl" layoutX="22.0" layoutY="330.0" text="Machine ID" />
       <Label layoutX="306.0" layoutY="292.0" text="Min" />
-      <RadioButton layoutX="193.0" layoutY="61.0" mnemonicParsing="false" text="In-House" />
-      <RadioButton layoutX="347.0" layoutY="61.0" mnemonicParsing="false" text="Outsourced" />
-      <TextField layoutX="108.0" layoutY="170.0" />
-      <TextField layoutX="108.0" layoutY="210.0" />
-      <TextField layoutX="108.0" layoutY="251.0" />
-      <TextField layoutX="108.0" layoutY="287.0" />
-      <TextField layoutX="108.0" layoutY="325.0" />
-      <TextField layoutX="347.0" layoutY="287.0" />
-      <Button layoutX="163.0" layoutY="397.0" mnemonicParsing="false" text="Save" />
+      <RadioButton fx:id="addPartsInHouseRdBtn" layoutX="193.0" layoutY="61.0" mnemonicParsing="false" text="In-House" />
+      <RadioButton fx:id="addPartsOutsourceRdBtn" layoutX="347.0" layoutY="61.0" mnemonicParsing="false" text="Outsourced" />
+      <TextField fx:id="addPartsNametxt" layoutX="108.0" layoutY="170.0" />
+      <TextField fx:id="addPartsInStocktxt" layoutX="108.0" layoutY="210.0" />
+      <TextField fx:id="addPartsPricetxt" layoutX="108.0" layoutY="251.0" />
+      <TextField fx:id="addPartsMaxtxt" layoutX="108.0" layoutY="287.0" />
+      <TextField fx:id="addPartsBooltxt" layoutX="108.0" layoutY="325.0" />
+      <TextField fx:id="addPartsMintxt" layoutX="347.0" layoutY="287.0" />
+      <Button fx:id="addPartsSaveBtn" layoutX="163.0" layoutY="397.0" mnemonicParsing="false" text="Save" />
       <Button layoutX="256.0" layoutY="397.0" mnemonicParsing="false" text="Cancel" />
       <Label layoutX="28.0" layoutY="175.0" text="Name" />
-      <Label layoutX="108.0" layoutY="126.0" prefHeight="26.0" prefWidth="171.0" style="-fx-border-color: Black;" />
+      <Label fx:id="addPartsIDNumberLbl" layoutX="108.0" layoutY="126.0" prefHeight="26.0" prefWidth="171.0" style="-fx-border-color: Black;" />
    </children>
 </AnchorPane>
