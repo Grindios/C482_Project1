@@ -16,7 +16,7 @@
             <children>
                 <AnchorPane fx:id="PartsScreen" layoutX="14.0" layoutY="79.0" prefHeight="310.0" prefWidth="476.0" style="-fx-border-color: gray; -fx-border-radius: 15;">
                     <children>
-                        <Button fx:id="addPartsBtn" layoutX="222.0" layoutY="263.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="46.0" text="Add" textAlignment="CENTER" />
+                        <Button fx:id="addPartsBtn" layoutX="222.0" layoutY="263.0" mnemonicParsing="false" onAction="#addPartsAct" prefHeight="26.0" prefWidth="46.0" text="Add" textAlignment="CENTER" />
                         <Button fx:id="modifyPartsBtn" layoutX="277.0" layoutY="263.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" text="Modify " />
                         <Button fx:id="deletePartsBtn" layoutX="353.0" layoutY="263.0" mnemonicParsing="false" text="Delete" />
                         <Label layoutX="27.0" layoutY="25.0" text="Parts">

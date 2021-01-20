@@ -8,10 +8,10 @@
    <children>
       <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="578.0" prefWidth="950.0" style="-fx-border-color: gray; -fx-border-radius: 15;">
          <children>
-            <Button layoutX="874.0" layoutY="242.0" mnemonicParsing="false" text="Add" />
-            <Button layoutX="750.0" layoutY="538.0" mnemonicParsing="false" text="Save" />
-            <Button layoutX="855.0" layoutY="538.0" mnemonicParsing="false" text="Cancel" />
-            <Button layoutX="750.0" layoutY="506.0" mnemonicParsing="false" text="Remove Associated Part" />
+            <Button layoutX="895.0" layoutY="276.0" mnemonicParsing="false" text="Add" />
+            <Button layoutX="464.0" layoutY="538.0" mnemonicParsing="false" text="Save" />
+            <Button layoutX="517.0" layoutY="538.0" mnemonicParsing="false" text="Cancel" />
+            <Button layoutX="788.0" layoutY="538.0" mnemonicParsing="false" text="Remove Associated Part" />
             <Label layoutX="35.0" layoutY="48.0" text="Modify Product ">
                <font>
                   <Font name="System Bold" size="13.0" />
@@ -28,7 +28,7 @@
             <TextField layoutX="79.0" layoutY="215.0" />
             <TextField layoutX="79.0" layoutY="255.0" />
             <TextField layoutX="312.0" layoutY="255.0" prefHeight="26.0" prefWidth="140.0" />
-            <TableView layoutX="464.0" layoutY="13.0" prefHeight="224.0" prefWidth="462.0">
+            <TableView layoutX="462.0" layoutY="50.0" prefHeight="224.0" prefWidth="475.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="Part ID" />
                 <TableColumn prefWidth="97.0" text="Part Name" />
@@ -36,7 +36,7 @@
                   <TableColumn prefWidth="172.0" text="Price/ Cost per Unit" />
               </columns>
             </TableView>
-            <TableView layoutX="464.0" layoutY="276.0" prefHeight="221.0" prefWidth="475.0">
+            <TableView layoutX="464.0" layoutY="308.0" prefHeight="221.0" prefWidth="475.0">
               <columns>
                 <TableColumn prefWidth="75.0" text="Part ID" />
                 <TableColumn prefWidth="97.0" text="Part Name" />
@@ -44,6 +44,7 @@
                   <TableColumn minWidth="0.0" prefWidth="163.0" text="Price/ Cost per Unit" />
               </columns>
             </TableView>
+            <TextField layoutX="776.0" layoutY="14.0" />
          </children>
       </AnchorPane>
    </children>
