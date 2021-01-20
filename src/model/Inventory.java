@@ -65,10 +65,12 @@ public class Inventory {
         allProducts.set(productIndex, product);
     }
 
-    //Delete Part & Product
+    //Delete Parts
 
-
-    public static boolean deletePart(int partID) {
+    public static void deletePart(Parts parts){
+        allParts.remove(parts);
+    }
+    public static boolean deletePartVal(int partID) {
         for(Parts p: allParts){
             if (p.getPartID() == partID){
                 allParts.remove(p);
@@ -77,6 +79,8 @@ public class Inventory {
         }
         return false;
     }
+
+    //Delete Product
     public static boolean deleteProduct(int productID) {
         for (Products p: allProducts){
             if (p.getProductID() == productID){
