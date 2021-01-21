@@ -8,6 +8,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Inventory;
@@ -17,6 +20,7 @@ import model.InHouse;
 import model.Outsourced;
 import model.Products;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
@@ -54,8 +58,9 @@ public class AddPart implements Initializable{
     private String catchMessage = new String();
     private int partID;
 
+
     @FXML
-    void selectAddPartInHouse(ActionEvent event) {
+    public void selectAddPartInHouse(javafx.event.ActionEvent event) {
         isOutsourced = false;
         addPartsBoolLbl.setText("Machine ID");
         addPartsBooltxt.setPromptText("Machine ID");
@@ -63,15 +68,15 @@ public class AddPart implements Initializable{
     }
 
     @FXML
-    void setAddPartsOutsourceRdBtn(ActionEvent event) {
+    public void setAddPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
         isOutsourced = true;
         addPartsBoolLbl.setText("Company Name");
         addPartsBooltxt.setPromptText("Company Name");
         addPartsOutsourceRdBtn.setSelected(true);
     }
-
+    //Add parts
     @FXML
-    void SaveAddPartsAct(ActionEvent event) throws IOException {
+    public void SaveAddPartsAct(javafx.event.ActionEvent event) throws IOException {
         String partName = addPartsNametxt.getText();
         String partInStock = addPartsInStocktxt.getText();
         String partPrice = addPartsPricetxt.getText();
@@ -81,10 +86,11 @@ public class AddPart implements Initializable{
 
         try {
             catchMessage = model.Parts.getPartValidation(partName,
-                    Integer.parseInt(partMin),
-                    Integer.parseInt(partMax),
+                    Integer.parseInt(partInStock),
                     Double.parseDouble(partPrice),
-                    Integer.parseInt(partInStock), catchMessage);
+                    Integer.parseInt(partMax),
+                    Integer.parseInt(partMin)
+                    , catchMessage);
             if (catchMessage.length() > 0) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error");
@@ -116,8 +122,8 @@ public class AddPart implements Initializable{
                     outPart.setCompanyName(partBool);
                     Inventory.addPart(outPart);
                 }
-                Parent saveAddParts = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-                Scene scene = new Scene(saveAddParts);
+                Parent saveAddPart = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+                Scene scene = new Scene(saveAddPart);
                 Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 window.setScene(scene);
                 window.show();
@@ -134,7 +140,9 @@ public class AddPart implements Initializable{
     }
 
     @FXML
-    private void addPartCancelAct (ActionEvent event) throws IOException {
+    //public void addPartCancelAct(javafx.event.ActionEvent actionEvent) {
+    //    }
+    public void addPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Confirm Cancel");
@@ -161,4 +169,7 @@ public class AddPart implements Initializable{
         addPartsIDNumberLbl.setText("Part ID: " + partID);
 
     }
+
+
+
 }

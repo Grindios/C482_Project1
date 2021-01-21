@@ -4,31 +4,30 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
 <AnchorPane prefHeight="488.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View_controller.ModifyPart">
    <children>
-      <Button layoutX="185.0" layoutY="396.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="348.0" layoutY="396.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="SaveBtn" layoutX="185.0" layoutY="396.0" mnemonicParsing="false" onAction="#SaveModPartsAct" text="Save" />
+      <Button fx:id="cancelBtn" layoutX="348.0" layoutY="396.0" mnemonicParsing="false" onAction="#ModifyPartCancelAct" text="Cancel" />
       <Label layoutX="41.0" layoutY="51.0" text="Modify Part">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <RadioButton layoutX="164.0" layoutY="50.0" mnemonicParsing="false" text="In-House" />
-      <RadioButton layoutX="312.0" layoutY="50.0" mnemonicParsing="false" text="OUtsourced" />
+      <RadioButton fx:id="modifyPartsInHouseRdBtn" layoutX="164.0" layoutY="50.0" mnemonicParsing="false" onAction="#selectModPartInHouse" text="In-House" />
+      <RadioButton fx:id="modifyPartsOutsourceRdBtn" layoutX="312.0" layoutY="50.0" mnemonicParsing="false" onAction="#selectModPartOutsourceRdBtn" text="OUtsourced" />
       <Label layoutX="41.0" layoutY="112.0" text="ID" />
       <Label layoutX="41.0" layoutY="190.0" text="Inv" />
       <Label layoutX="41.0" layoutY="275.0" text="Max" />
       <Label layoutX="41.0" layoutY="232.0" text="Price/Cost" />
       <Label layoutX="41.0" layoutY="147.0" text="Name" />
-      <Label layoutX="41.0" layoutY="323.0" text="Machine ID" />
+      <Label fx:id="modifyPartsBoolLbl" layoutX="41.0" layoutY="323.0" text="Machine ID" />
       <Label layoutX="312.0" layoutY="275.0" text="Min" />
-      <TextField layoutX="125.0" layoutY="107.0" />
-      <TextField layoutX="125.0" layoutY="142.0" />
-      <TextField layoutX="125.0" layoutY="185.0" />
-      <TextField layoutX="125.0" layoutY="227.0" />
-      <TextField layoutX="125.0" layoutY="270.0" />
-      <TextField layoutX="125.0" layoutY="318.0" />
-      <TextField layoutX="348.0" layoutY="270.0" />
+      <TextField fx:id="modifyPartsNametxt" layoutX="125.0" layoutY="142.0" />
+      <TextField fx:id="modifyPartsInStocktxt" layoutX="125.0" layoutY="185.0" />
+      <TextField fx:id="modifyPartsPricetxt" layoutX="125.0" layoutY="227.0" />
+      <TextField fx:id="modifyPartsMaxtxt" layoutX="125.0" layoutY="270.0" />
+      <TextField fx:id="modifyPartsBooltxt" layoutX="125.0" layoutY="318.0" />
+      <TextField fx:id="modifyPartsMintxt" layoutX="348.0" layoutY="270.0" />
+      <Label fx:id="modifyPartsIDNumberLbl" layoutX="125.0" layoutY="107.0" prefHeight="27.0" prefWidth="161.0" style="-fx-border-color: Black;" />
    </children>
 </AnchorPane>

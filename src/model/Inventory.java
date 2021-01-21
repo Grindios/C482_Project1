@@ -16,6 +16,7 @@ public class Inventory {
         allParts.addAll(part);
     }
 
+
     public static void addProduct(Products product) {
         allProducts.add(product);
     }
@@ -70,14 +71,15 @@ public class Inventory {
     public static void deletePart(Parts parts){
         allParts.remove(parts);
     }
+
     public static boolean deletePartVal(int partID) {
-        for(Parts p: allParts){
-            if (p.getPartID() == partID){
-                allParts.remove(p);
-                return true;
+        boolean isFound = false;
+        for (int i = 0; i < allParts.size(); i++) {
+            if (allParts.get(i).get().contains(part)) {
+                isFound = true;
             }
         }
-        return false;
+        return isFound;
     }
 
     //Delete Product

@@ -77,7 +77,7 @@ public abstract class Parts {
 
     // Validate Content Entry
 
-    public  static String getPartValidation (String partName, int partInStock, double partPrice, double max, int min, String PartError) {
+    public  static String getPartValidation (String partName, int partInStock, double partPrice, int max, int min, String PartError) {
         if(partName == null){
             PartError = PartError + "Name Field required. ";
         }
