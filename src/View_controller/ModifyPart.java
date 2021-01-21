@@ -167,7 +167,7 @@ public class ModifyPart implements Initializable {
 
 
 
-        /* Parts part = model.Inventory.getAllParts().get(partIndex);
+        Parts part = model.Inventory.getAllParts().get(partIndex);
         partID = model.Inventory.getAllParts().get(partIndex).getPartID();
         modifyPartsIDNumberLbl.setText("Auto-Gen: " + partID);
         modifyPartsNametxt.setText(part.getPartName());
@@ -175,16 +175,14 @@ public class ModifyPart implements Initializable {
         modifyPartsPricetxt.setText(Double.toString(part.getPartPrice()));
         modifyPartsMintxt.setText(Integer.toString(part.getMin()));
         modifyPartsMaxtxt.setText(Integer.toString(part.getMax()));
-
         if (part instanceof InHouse) {
             modifyPartsBoolLbl.setText("Machine ID");
             modifyPartsBooltxt.setText(Integer.toString(((InHouse) model.Inventory.getAllParts().get(partIndex)).getMachineID()));
             modifyPartsInHouseRdBtn.setSelected(true);
-        }*/
+        }
 
     }
 
 
 
 }
-

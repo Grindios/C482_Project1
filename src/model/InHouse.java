@@ -28,4 +28,3 @@ public class InHouse extends Parts {
         this.machineID.set(machineID);
     }
 }
-

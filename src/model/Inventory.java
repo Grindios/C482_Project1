@@ -17,7 +17,7 @@ public class Inventory {
     }
 
 
-    public static void addProduct(Products product) {
+    public static void addProducts( Products product) {
         allProducts.add(product);
     }
 
@@ -41,7 +41,7 @@ public class Inventory {
     }
     // lookup product
     public static Products lookupProduct(int productID) {
-        for (Products p : allProducts) {
+        for ( Products p : allProducts) {
             if (p.getProductID() == productID) {
                 return p;
             }
@@ -49,7 +49,7 @@ public class Inventory {
         return null;
     }
     public static Products lookupProduct(String productName){
-        for (Products p : allProducts) {
+        for ( Products p : allProducts) {
             if(p.getProductName() == productName){
                 return p;
             }
@@ -62,7 +62,7 @@ public class Inventory {
     public static void updatePart(int partIndex, Parts part) {
         allParts.set(partIndex, part);
     }
-    public static void updateProduct(int productIndex, Products product) {
+    public static void updateProduct(int productIndex,Products product) {
         allProducts.set(productIndex, product);
     }
 
@@ -72,10 +72,10 @@ public class Inventory {
         allParts.remove(parts);
     }
 
-    public static boolean deletePartVal(int partID) {
+    public static boolean deletePartVal(int part) {
         boolean isFound = false;
-        for (int i = 0; i < allParts.size(); i++) {
-            if (allParts.get(i).get().contains(part)) {
+        for (int i = 0; i < allProducts.size(); i++) {
+            if (allProducts.get(i).getAllAssocParts().contains(part)) {
                 isFound = true;
             }
         }
@@ -84,7 +84,7 @@ public class Inventory {
 
     //Delete Product
     public static boolean deleteProduct(int productID) {
-        for (Products p: allProducts){
+        for ( Products p: allProducts){
             if (p.getProductID() == productID){
                 allProducts.remove(p);
                 return true;
@@ -100,6 +100,14 @@ public class Inventory {
     }
 
     //Get all Parts & Products
+
+    public static void setAllProducts(ObservableList<Products> allProducts) {
+        Inventory.allProducts = allProducts;
+    }
+
+    public static void setAllParts(ObservableList<Parts> allParts) {
+        Inventory.allParts = allParts;
+    }
 
     public static ObservableList<Parts> getAllParts() {
         return allParts;
