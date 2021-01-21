@@ -77,7 +77,10 @@ public abstract class Parts {
 
     // Validate Content Entry
 
-    public  static String getPartValidation (int partInStock, double partPrice, int max, int min, String PartError) {
+    public  static String getPartValidation (String partName, int partInStock, double partPrice, int max, int min, String PartError) {
+        if(partName == null){
+            PartError = PartError + "Name Field required. ";
+        }
         if (partInStock < 1) {
             PartError = PartError + "\nThe Inventory cannot be less than 1. ";
         }
@@ -97,7 +100,7 @@ public abstract class Parts {
     }
 
     //Validate Empty Field
-
+/*
     public static String GetEmptyFields (String partName, String partInStock, String partPrice, String max, String min, String partDyn, String EmptyError) {
         if (partName.equals("")) {
             EmptyError = EmptyError + "The Part Name field cannot be empty. ";
@@ -118,6 +121,6 @@ public abstract class Parts {
             EmptyError = EmptyError + "\nThe Part MachineID or Company Name field cannot be empty. ";
         }
         return EmptyError;
-    }
+    }*/
 
 }

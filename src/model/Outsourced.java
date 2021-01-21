@@ -27,5 +27,3 @@ public class Outsourced extends Parts {
     }
 
 }
-
-

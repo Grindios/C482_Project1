@@ -6,7 +6,7 @@ import javafx.collections.ObservableList;
 public class Inventory {
     private static ObservableList<Products> allProducts = FXCollections.observableArrayList();
     private static ObservableList<Parts> allParts = FXCollections.observableArrayList();
-    private static int partID = 0;
+    private static int partIDCount = 0;
     private static int productID = 0;
     private static String partName;
     private static String productName;
@@ -15,6 +15,7 @@ public class Inventory {
     public static void addPart(Parts part) {
         allParts.addAll(part);
     }
+
 
     public static void addProduct(Products product) {
         allProducts.add(product);
@@ -70,14 +71,15 @@ public class Inventory {
     public static void deletePart(Parts parts){
         allParts.remove(parts);
     }
-    public static boolean deletePartVal(int partID) {
-        for(Parts p: allParts){
-            if (p.getPartID() == partID){
-                allParts.remove(p);
-                return true;
+
+    public static boolean deletePartVal(int part) {
+        boolean isFound = false;
+        for (int i = 0; i < allProducts.size(); i++) {
+            if (allProducts.get(i).getAllAssocParts().contains(part)) {
+                isFound = true;
             }
         }
-        return false;
+        return isFound;
     }
 
     //Delete Product
@@ -91,7 +93,21 @@ public class Inventory {
         return false;
     }
 
+    //Count
+    public static int getPartIDCount() {
+        partIDCount++;
+        return partIDCount;
+    }
+
     //Get all Parts & Products
+
+    public static void setAllProducts(ObservableList<Products> allProducts) {
+        Inventory.allProducts = allProducts;
+    }
+
+    public static void setAllParts(ObservableList<Parts> allParts) {
+        Inventory.allParts = allParts;
+    }
 
     public static ObservableList<Parts> getAllParts() {
         return allParts;
