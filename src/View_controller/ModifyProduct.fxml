@@ -9,9 +9,9 @@
       <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="578.0" prefWidth="950.0" style="-fx-border-color: gray; -fx-border-radius: 15;">
          <children>
             <Button layoutX="895.0" layoutY="276.0" mnemonicParsing="false" text="Add" />
-            <Button layoutX="464.0" layoutY="538.0" mnemonicParsing="false" text="Save" />
-            <Button layoutX="517.0" layoutY="538.0" mnemonicParsing="false" text="Cancel" />
-            <Button layoutX="788.0" layoutY="538.0" mnemonicParsing="false" text="Remove Associated Part" />
+            <Button fx:id="modifyProductsSaveBtn" layoutX="464.0" layoutY="538.0" mnemonicParsing="false" onAction="#SaveModProductAct" text="Save" />
+            <Button fx:id="cancelBtn" layoutX="517.0" layoutY="538.0" mnemonicParsing="false" onAction="#ModifyProductCancelAct" text="Cancel" />
+            <Button fx:id="removeBtn" layoutX="788.0" layoutY="538.0" mnemonicParsing="false" onAction="#DeleteAct" text="Remove Associated Part" />
             <Label layoutX="35.0" layoutY="48.0" text="Modify Product ">
                <font>
                   <Font name="System Bold" size="13.0" />

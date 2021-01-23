@@ -42,8 +42,7 @@ public class ModifyPart implements Initializable {
     private Label modifyPartsBoolLbl;
     @FXML
     private TextField modifyPartsBooltxt;
-    @FXML
-    private Button modifyPartsSaveBtn;
+
 
     // Buttons?
 
@@ -76,20 +75,20 @@ public class ModifyPart implements Initializable {
 
     @FXML
     public void SaveModPartsAct(javafx.event.ActionEvent event) throws IOException {
-        String partName = modifyPartsNametxt.getText();
-        String partInStock = modifyPartsInStocktxt.getText();
-        String partPrice = modifyPartsPricetxt.getText();
-        String partMin = modifyPartsMintxt.getText();
-        String partMax = modifyPartsMaxtxt.getText();
+        String name = modifyPartsNametxt.getText();
+        String inStock = modifyPartsInStocktxt.getText();
+        String price = modifyPartsPricetxt.getText();
+        String min = modifyPartsMintxt.getText();
+        String max = modifyPartsMaxtxt.getText();
         String partBool = modifyPartsBooltxt.getText();
 
         try {
-            catchMessage = model.Parts.getPartValidation(partName,
-                    Integer.parseInt(partInStock),
-                    Double.parseDouble(partPrice),
-                    Integer.parseInt(partMax),
-                    Integer.parseInt(partMin)
-                    , catchMessage);
+            catchMessage = model.Parts.getPartValidation(name,
+                    Integer.parseInt(inStock),
+                    Double.parseDouble(price),
+                    Integer.parseInt(max),
+                    Integer.parseInt(min),
+                    catchMessage);
             if (catchMessage.length() > 0) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error");
@@ -98,28 +97,29 @@ public class ModifyPart implements Initializable {
                 alert.showAndWait();
                 catchMessage = "";
             }
+
             else {
                 if (isOutsourced == false) {
-                    System.out.println("Part name: " + partName);
+                    System.out.println("Part name: " + name);
                     InHouse inPart = new InHouse();
                     inPart.setPartID(partID);
-                    inPart.setPartName(partName);
-                    inPart.setPartPrice(Double.parseDouble(partPrice));
-                    inPart.setPartInStock(Integer.parseInt(partInStock));
-                    inPart.setMin(Integer.parseInt(partMin));
-                    inPart.setMax(Integer.parseInt(partMax));
+                    inPart.setName(name);
+                    inPart.setPrice(Double.parseDouble(price));
+                    inPart.setInStock(Integer.parseInt(inStock));
+                    inPart.setMin(Integer.parseInt(min));
+                    inPart.setMax(Integer.parseInt(max));
                     inPart.setMachineID(Integer.parseInt(partBool));
                     Inventory.updatePart(partIndex, inPart);
                 }
                 else {
-                    System.out.println("Part name: " + partName);
+                    System.out.println("Part name: " + name);
                     Outsourced outPart = new Outsourced();
                     outPart.setPartID(partID);
-                    outPart.setPartName(partName);
-                    outPart.setPartPrice(Double.parseDouble(partPrice));
-                    outPart.setPartInStock(Integer.parseInt(partInStock));
-                    outPart.setMin(Integer.parseInt(partMin));
-                    outPart.setMax(Integer.parseInt(partMax));
+                    outPart.setName(name);
+                    outPart.setPrice(Double.parseDouble(price));
+                    outPart.setInStock(Integer.parseInt(inStock));
+                    outPart.setMin(Integer.parseInt(min));
+                    outPart.setMax(Integer.parseInt(max));
                     outPart.setCompanyName(partBool);
                     Inventory.updatePart(partIndex, outPart);
                 }
@@ -170,9 +170,9 @@ public class ModifyPart implements Initializable {
         Parts part = model.Inventory.getAllParts().get(partIndex);
         partID = model.Inventory.getAllParts().get(partIndex).getPartID();
         modifyPartsIDNumberLbl.setText("Auto-Gen: " + partID);
-        modifyPartsNametxt.setText(part.getPartName());
-        modifyPartsInStocktxt.setText(Integer.toString(part.getPartInStock()));
-        modifyPartsPricetxt.setText(Double.toString(part.getPartPrice()));
+        modifyPartsNametxt.setText(part.getName());
+        modifyPartsInStocktxt.setText(Integer.toString(part.getInStock()));
+        modifyPartsPricetxt.setText(Double.toString(part.getPrice()));
         modifyPartsMintxt.setText(Integer.toString(part.getMin()));
         modifyPartsMaxtxt.setText(Integer.toString(part.getMax()));
         if (part instanceof InHouse) {

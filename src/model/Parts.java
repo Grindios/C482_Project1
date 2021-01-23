@@ -4,98 +4,92 @@ package model;
 public abstract class Parts {
 
     protected int partID;
-    protected String partName;
-    protected double partPrice = 0.0;
-    protected int partInStock;
+    protected String name;
+    protected double price = 0.0;
+    protected int inStock;
     protected int min;
     protected int max;
+
     public Parts(){
         this.partID = partID;
-        this.partName = partName;
-        this.partPrice = partPrice;
-        this.partInStock = partInStock;
+        this.name = name;
+        this.price = price;
+        this.inStock = inStock;
         this.min = min;
         this.max = max;
+
     }
 
-
-
-    //PartID Getters & Setters
+    //Part ID Getters and Setters
     public int getPartID() {
         return partID;
     }
-
     public void setPartID(int partID) {
         this.partID = partID;
     }
 
-    //PartName Getters & Setters
-    public String getPartName() {
-        return partName;
+    //Name Getters and Setters
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setPartName(String partName) {
-        this.partName = partName;
+    //Price Getters and Setters
+    public double getPrice() {
+        return price;
+    }
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    //PartPrice Getters & Setters
-    public double getPartPrice() {
-        return partPrice;
+    //InStock Getters and Setters
+    public int getInStock() {
+        return inStock;
+    }
+    public void setInStock(int inStock) {
+        this.inStock = inStock;
     }
 
-    public void setPartPrice(double partPrice) {
-        this.partPrice = partPrice;
-    }
-
-    //PartInStock Getters & Setters
-    public int getPartInStock() {
-        return partInStock;
-    }
-
-    public void setPartInStock(int partInStock) {
-        this.partInStock = partInStock;
-    }
-
-    //Min Getters & Setters
+    //Min Getters and Setters
     public int getMin() {
         return min;
     }
-
     public void setMin(int min) {
         this.min = min;
     }
 
-    //Max Getters & Setters
+    //Max Getters and Setters
     public int getMax() {
         return max;
     }
-
     public void setMax(int max) {
         this.max = max;
     }
 
 
-    // Validate Content Entry
-
-    public  static String getPartValidation (String partName, int partInStock, double partPrice, int max, int min, String PartError) {
-        if(partName == null){
+// Validate Content Entry
+    public  static String getPartValidation (String name, int inStock, double price, int max, int min, String PartError) {
+        if(name == null){
             PartError = PartError + "Name Field required. ";
         }
-        if (partInStock < 1) {
+        if (inStock < 1) {
             PartError = PartError + "\nThe Inventory cannot be less than 1. ";
         }
-        if (partPrice <= 0) {
+        if (price <= 0) {
             PartError = PartError + "\nThePrice must be greater than $0. ";
         }
         if (max < min) {
             PartError = PartError + "\nThe Maximum stock must be greater than the Minimum stock. ";
         }
-        if (partInStock > max) {
+        if (inStock > max) {
             PartError = PartError + "\nThe Inventory must be less than or equal to the Maximum stock. ";
         }
-        if (partInStock < min) {
+        if (inStock < min) {
             PartError = PartError + "\nThe Inventory must be greater than the or equal to the Minimum stock. ";
         }
+
         return PartError;
     }
 

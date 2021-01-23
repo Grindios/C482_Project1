@@ -9,9 +9,9 @@
       <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="578.0" prefWidth="950.0" style="-fx-border-color: gray; -fx-border-radius: 15;">
          <children>
             <Button layoutX="895.0" layoutY="276.0" mnemonicParsing="false" text="Add" />
-            <Button layoutX="464.0" layoutY="538.0" mnemonicParsing="false" text="Save" />
-            <Button layoutX="517.0" layoutY="538.0" mnemonicParsing="false" text="Cancel" />
-            <Button layoutX="788.0" layoutY="538.0" mnemonicParsing="false" text="Remove Associated Part" />
+            <Button fx:id="modifyProductsSaveBtn" layoutX="464.0" layoutY="538.0" mnemonicParsing="false" onAction="#SaveModProductAct" text="Save" />
+            <Button fx:id="cancelBtn" layoutX="517.0" layoutY="538.0" mnemonicParsing="false" onAction="#ModifyProductCancelAct" text="Cancel" />
+            <Button fx:id="removeBtn" layoutX="788.0" layoutY="538.0" mnemonicParsing="false" onAction="#DeleteAct" text="Remove Associated Part" />
             <Label layoutX="35.0" layoutY="48.0" text="Modify Product ">
                <font>
                   <Font name="System Bold" size="13.0" />
@@ -22,29 +22,29 @@
             <Label layoutX="35.0" layoutY="220.0" text="Price" />
             <Label layoutX="35.0" layoutY="260.0" text="Max" />
             <Label layoutX="265.0" layoutY="260.0" text="Min" />
-            <TextField layoutX="79.0" layoutY="108.0" />
-            <TextField layoutX="79.0" layoutY="140.0" />
-            <TextField layoutX="79.0" layoutY="177.0" />
-            <TextField layoutX="79.0" layoutY="215.0" />
-            <TextField layoutX="79.0" layoutY="255.0" />
-            <TextField layoutX="312.0" layoutY="255.0" prefHeight="26.0" prefWidth="140.0" />
-            <TableView layoutX="462.0" layoutY="50.0" prefHeight="224.0" prefWidth="475.0">
+            <TextField fx:id="modifyProductsNametxt" layoutX="79.0" layoutY="140.0" />
+            <TextField fx:id="modifyProductsInStocktxt" layoutX="79.0" layoutY="177.0" />
+            <TextField fx:id="modifyProductsPricetxt" layoutX="79.0" layoutY="215.0" />
+            <TextField fx:id="modifyProductsMaxtxt" layoutX="79.0" layoutY="255.0" />
+            <TextField fx:id="modifyProductsMintxt" layoutX="312.0" layoutY="255.0" prefHeight="26.0" prefWidth="140.0" />
+            <TableView fx:id="modProductAddTbl" layoutX="462.0" layoutY="50.0" prefHeight="224.0" prefWidth="475.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Part ID" />
-                <TableColumn prefWidth="97.0" text="Part Name" />
-                  <TableColumn prefWidth="130.0" text="Inventory Level" />
-                  <TableColumn prefWidth="172.0" text="Price/ Cost per Unit" />
+                <TableColumn fx:id="modPartIdAddCol" prefWidth="75.0" text="Part ID" />
+                <TableColumn fx:id="modPartNameAddCol" prefWidth="97.0" text="Part Name" />
+                  <TableColumn fx:id="modPartsInStockAddCol" prefWidth="130.0" text="Inventory Level" />
+                  <TableColumn fx:id="modPartPriceAddCol" prefWidth="172.0" text="Price/ Cost per Unit" />
               </columns>
             </TableView>
-            <TableView layoutX="464.0" layoutY="308.0" prefHeight="221.0" prefWidth="475.0">
+            <TableView fx:id="modProductDeleteTbl" layoutX="464.0" layoutY="308.0" prefHeight="221.0" prefWidth="475.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Part ID" />
-                <TableColumn prefWidth="97.0" text="Part Name" />
-                  <TableColumn prefWidth="137.0" text="Inventory Level" />
-                  <TableColumn minWidth="0.0" prefWidth="163.0" text="Price/ Cost per Unit" />
+                <TableColumn fx:id="modPartIdDeleteCol" prefWidth="75.0" text="Part ID" />
+                <TableColumn fx:id="modPartNameDeleteCol" prefWidth="97.0" text="Part Name" />
+                  <TableColumn fx:id="modPartsInStockDeleteCol" prefWidth="137.0" text="Inventory Level" />
+                  <TableColumn fx:id="modPartPriceDeleteCol" minWidth="0.0" prefWidth="163.0" text="Price/ Cost per Unit" />
               </columns>
             </TableView>
             <TextField layoutX="776.0" layoutY="14.0" />
+            <Label fx:id="modifyProductsIDNumberLbl" layoutX="79.0" layoutY="103.0" prefHeight="27.0" prefWidth="161.0" style="-fx-border-color: Black;" />
          </children>
       </AnchorPane>
    </children>

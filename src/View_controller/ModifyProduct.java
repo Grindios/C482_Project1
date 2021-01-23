@@ -104,13 +104,13 @@ public class ModifyProduct implements Initializable {
 
     //Delete
     @FXML
-    void DeleteAct(ActionEvent event) {
+    public void DeleteAct(javafx.event.ActionEvent event) {
         Parts part = modProductDeleteTbl.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Part Deletion");
         alert.setHeaderText("Confirm");
-        alert.setContentText("Are you sure you want to delete " + part.getPartName() + " from parts?");
+        alert.setContentText("Are you sure you want to delete " + part.getName() + " from parts?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             currentParts.remove(part);
@@ -120,7 +120,7 @@ public class ModifyProduct implements Initializable {
     }
 
     @FXML
-    private void SaveModProductAct(ActionEvent event) throws IOException {
+    public void SaveModProductAct(javafx.event.ActionEvent event) {
         String productName = modifyProductsNametxt.getText();
         String productInStock = modifyProductsInStocktxt.getText();
         String productPrice = modifyProductsPricetxt.getText();
@@ -138,12 +138,12 @@ public class ModifyProduct implements Initializable {
                 System.out.println("Product name: " + productName);
                 Products newProduct = new Products();
                 newProduct.setProductID(productID);
-                newProduct.setProductName(productName);
-                newProduct.setProductInStock(Integer.parseInt(productInStock));
-                newProduct.setProductPrice(Double.parseDouble(productPrice));
+                newProduct.setName(productName);
+                newProduct.setInStock(Integer.parseInt(productInStock));
+                newProduct.setPrice(Double.parseDouble(productPrice));
                 newProduct.setMin(Integer.parseInt(productMin));
                 newProduct.setMax(Integer.parseInt(productMax));
-                newProduct.setAssocParts(currentParts);
+                newProduct.setAssociatedParts(currentParts);
                 Inventory.updateProduct(productIndex, newProduct);
 
                 Parent modifyProductSaveParent = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
@@ -153,7 +153,7 @@ public class ModifyProduct implements Initializable {
                 window.show();
             }
         }
-        catch (NumberFormatException e) {
+        catch (NumberFormatException | IOException e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Error Modifying Product");
@@ -162,17 +162,39 @@ public class ModifyProduct implements Initializable {
         }
     }
 
+    // Cancel Button
+
+    public void ModifyProductCancelAct (javafx.event.ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("Confirm Cancel");
+        alert.setHeaderText("Confirm Cancel");
+        alert.setContentText("Are you sure you want to cancel adding a new part?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+            Parent addPartCancel = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+            Scene scene = new Scene(addPartCancel);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        }
+        else {
+            System.out.println("Process Canceled. ");
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Products product = model.Inventory.getAllProducts().get(productIndex);
         productID = model.Inventory.getAllProducts().get(productIndex).getProductID();
         modifyProductsIDNumberLbl.setText("Auto-Gen: " + productID);
-        modifyProductsNametxt.setText(product.getProductName());
-        modifyProductsInStocktxt.setText(Integer.toString(product.getProductInStock()));
-        modifyProductsPricetxt.setText(Double.toString(product.getProductPrice()));
+        modifyProductsNametxt.setText(product.getName());
+        modifyProductsInStocktxt.setText(Integer.toString(product.getInStock()));
+        modifyProductsPricetxt.setText(Double.toString(product.getPrice()));
         modifyProductsMintxt.setText(Integer.toString(product.getMin()));
         modifyProductsMaxtxt.setText(Integer.toString(product.getMax()));
-        currentParts = product.getAllAssocParts();
+        currentParts = product.getAssociatedParts();
         modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
         modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
@@ -189,4 +211,7 @@ public class ModifyProduct implements Initializable {
     public void updateAssociatedPartsTV() {
         modProductAddTbl.setItems(model.Inventory.getAllParts());
     }
+
+
+
 }

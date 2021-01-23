@@ -8,20 +8,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Inventory;
-import model.Parts;
-import model.Inventory;
 import model.InHouse;
+import model.Inventory;
 import model.Outsourced;
-import model.Products;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -49,13 +41,11 @@ public class AddPart implements Initializable{
     private Label addPartsBoolLbl;
     @FXML
     private TextField addPartsBooltxt;
-    @FXML
-    private Button addPartsSaveBtn;
 
-    // Buttons?
+
 
     private boolean isOutsourced;
-    private String catchMessage = new String();
+    private String catchError = new String();
     private int partID;
 
 
@@ -64,6 +54,7 @@ public class AddPart implements Initializable{
         isOutsourced = false;
         addPartsBoolLbl.setText("Machine ID");
         addPartsBooltxt.setPromptText("Machine ID");
+        addPartsInHouseRdBtn.setSelected(true);
         addPartsOutsourceRdBtn.setSelected(false);
     }
 
@@ -73,52 +64,67 @@ public class AddPart implements Initializable{
         addPartsBoolLbl.setText("Company Name");
         addPartsBooltxt.setPromptText("Company Name");
         addPartsOutsourceRdBtn.setSelected(true);
+        addPartsInHouseRdBtn.setSelected(false);
     }
     //Add parts
     @FXML
     public void SaveAddPartsAct(javafx.event.ActionEvent event) throws IOException {
-        String partName = addPartsNametxt.getText();
-        String partInStock = addPartsInStocktxt.getText();
-        String partPrice = addPartsPricetxt.getText();
-        String partMin = addPartsMintxt.getText();
-        String partMax = addPartsMaxtxt.getText();
+        String name = addPartsNametxt.getText();
+        String inStock = addPartsInStocktxt.getText();
+        String price = addPartsPricetxt.getText();
+        String min = addPartsMintxt.getText();
+        String max = addPartsMaxtxt.getText();
         String partBool = addPartsBooltxt.getText();
 
+
+
+
         try {
-            catchMessage = model.Parts.getPartValidation(partName,
-                    Integer.parseInt(partInStock),
-                    Double.parseDouble(partPrice),
-                    Integer.parseInt(partMax),
-                    Integer.parseInt(partMin)
-                    , catchMessage);
-            if (catchMessage.length() > 0) {
+            catchError = model.Parts.getPartValidation(name,
+                    Integer.parseInt(inStock),
+                    Double.parseDouble(price),
+                    Integer.parseInt(max),
+                    Integer.parseInt(min)
+                    , catchError);
+            if (catchError.length() > 0) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText("Error adding Part");
-                alert.setContentText(catchMessage);
+                alert.setContentText(catchError);
                 alert.showAndWait();
-                catchMessage = "";
-            } else {
+                catchError = "";
+            }
+                Boolean mID = addPartsInHouseRdBtn.isSelected();
+                Boolean outSrc = addPartsOutsourceRdBtn.isSelected();
+            if(mID == false && outSrc == false){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("In House or Outsourced must be Selected ");
+                alert.setContentText(catchError);
+                alert.showAndWait();
+            }
+
+            else {
                 if (isOutsourced == false) {
-                    System.out.println("Part name: " + partName);
+                    System.out.println("Part name: " + name);
                     InHouse inPart = new InHouse();
                     inPart.setPartID(partID);
-                    inPart.setPartName(partName);
-                    inPart.setPartPrice(Double.parseDouble(partPrice));
-                    inPart.setPartInStock(Integer.parseInt(partInStock));
-                    inPart.setMin(Integer.parseInt(partMin));
-                    inPart.setMax(Integer.parseInt(partMax));
+                    inPart.setName(name);
+                    inPart.setPrice(Double.parseDouble(price));
+                    inPart.setInStock(Integer.parseInt(inStock));
+                    inPart.setMin(Integer.parseInt(min));
+                    inPart.setMax(Integer.parseInt(max));
                     inPart.setMachineID(Integer.parseInt(partBool));
                     Inventory.addPart(inPart);
                 } else {
-                    System.out.println("Part name: " + partName);
+                    System.out.println("Part name: " + name);
                     Outsourced outPart = new Outsourced();
                     outPart.setPartID(partID);
-                    outPart.setPartName(partName);
-                    outPart.setPartPrice(Double.parseDouble(partPrice));
-                    outPart.setPartInStock(Integer.parseInt(partInStock));
-                    outPart.setMin(Integer.parseInt(partMin));
-                    outPart.setMax(Integer.parseInt(partMax));
+                    outPart.setName(name);
+                    outPart.setPrice(Double.parseDouble(price));
+                    outPart.setInStock(Integer.parseInt(inStock));
+                    outPart.setMin(Integer.parseInt(min));
+                    outPart.setMax(Integer.parseInt(max));
                     outPart.setCompanyName(partBool);
                     Inventory.addPart(outPart);
                 }
@@ -140,8 +146,6 @@ public class AddPart implements Initializable{
     }
 
     @FXML
-    //public void addPartCancelAct(javafx.event.ActionEvent actionEvent) {
-    //    }
     public void addPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
