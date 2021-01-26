@@ -10,7 +10,7 @@ public class Inventory {
     private static ObservableList<Products> allProducts = FXCollections.observableArrayList();
     private static ObservableList<Parts> allParts = FXCollections.observableArrayList();
     private static int partIDCount = 0;
-    private static int productID = 0;
+    private static int productIDCount = 0;
 
 
 
@@ -30,7 +30,7 @@ public class Inventory {
     }
 
 
-    // lookup part
+    // lookup part & Product
     public static Parts lookupPart (int partID) {
         for(Parts p : allParts) {
             if(p.getPartID() == partID)
@@ -38,10 +38,6 @@ public class Inventory {
         }
         return null;
     }
-
-
-
-    // lookup product
     public static Products lookupProduct(int productID) {
         for ( Products p : allProducts) {
             if (p.getProductID() == productID) {
@@ -59,11 +55,10 @@ public class Inventory {
     public static void deletePart(Parts parts){
         allParts.remove(parts);
     }
-
     public static boolean deletePartVal(int part) {
         boolean isFound = false;
         for (int i = 0; i < allProducts.size(); i++) {
-            if (allProducts.get(i).getAssociatedParts().contains(part)) {
+            if (allProducts.get(i).getAssociatedPartsList().contains(part)) {
                 isFound = true;
             }
         }
@@ -74,16 +69,21 @@ public class Inventory {
 
 
     //Delete Product
-    public static boolean deleteProduct(int productID) {
-        for ( Products p: allProducts){
-            if (p.getProductID() == productID){
-                allProducts.remove(p);
-                return true;
+    public static boolean deleteProductVal(Products products) {
+        boolean isFound = false;
+        int productID = products.getProductID();
+        for (int i=0; i < allProducts.size(); i++) {
+            if (allProducts.get(i).getProductID() == productID) {
+                if (!allProducts.get(i).getAssociatedPartsList().isEmpty()) {
+                    isFound = true;
+                }
             }
         }
-        return false;
+        return isFound;
     }
-
+    public static void deleteProduct(Products products){
+        allProducts.remove(products);
+    }
 
 
 
@@ -94,8 +94,8 @@ public class Inventory {
         return partIDCount;
     }
     public static int getProductIDCount() {
-        productID++;
-        return productID;
+        productIDCount++;
+        return productIDCount;
     }
 
 

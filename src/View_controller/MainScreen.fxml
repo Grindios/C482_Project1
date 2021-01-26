@@ -36,7 +36,7 @@
                     </children></AnchorPane>
                 <AnchorPane fx:id="ProductsScreen" layoutX="510.0" layoutY="79.0" prefHeight="310.0" prefWidth="476.0" style="-fx-border-color: gray; -fx-border-radius: 15;">
                     <children>
-                        <Button fx:id="deleteProductsBtn" layoutX="381.0" layoutY="260.0" mnemonicParsing="false" onAction="#deleteProduct" text="Delete" />
+                        <Button fx:id="deleteProductsBtn" layoutX="381.0" layoutY="260.0" mnemonicParsing="false" onAction="#productDeleteAct" text="Delete" />
                         <Button fx:id="modifyProductsBtn" layoutX="311.0" layoutY="260.0" mnemonicParsing="false" onAction="#modifyProductsAct" text="Modify" />
                         <Button fx:id="addProductsBtn" layoutX="253.0" layoutY="260.0" mnemonicParsing="false" onAction="#addProductsAct" prefHeight="26.0" prefWidth="46.0" text="Add" />
                         <Label layoutX="23.0" layoutY="26.0" text="Product">

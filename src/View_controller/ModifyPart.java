@@ -52,27 +52,25 @@ public class ModifyPart implements Initializable {
     private int partID;
 
 
+
     @FXML
     public void selectModPartInHouse(javafx.event.ActionEvent event) {
         isOutsourced = false;
-        modifyPartsInHouseRdBtn.setSelected(false);
         modifyPartsBoolLbl.setText("Machine ID");
-        modifyPartsBooltxt.setText("");
         modifyPartsBooltxt.setPromptText("Machine ID");
-
+        modifyPartsInHouseRdBtn.setSelected(true);
+        modifyPartsOutsourceRdBtn.setSelected(false);
     }
 
     @FXML
-    public void selectModPartOutsourceRdBtn(javafx.event.ActionEvent event) {
+    public void setModPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
         isOutsourced = true;
-        modifyPartsOutsourceRdBtn.setSelected(false);
         modifyPartsBoolLbl.setText("Company Name");
-        modifyPartsBooltxt.setText("");
         modifyPartsBooltxt.setPromptText("Company Name");
-
+        modifyPartsInHouseRdBtn.setSelected(false);
+        modifyPartsOutsourceRdBtn.setSelected(true);
     }
     //Modify parts
-
     @FXML
     public void SaveModPartsAct(javafx.event.ActionEvent event) throws IOException {
         String name = modifyPartsNametxt.getText();
@@ -139,7 +137,6 @@ public class ModifyPart implements Initializable {
         }
 
     }
-
     @FXML
     public void ModifyPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -160,8 +157,6 @@ public class ModifyPart implements Initializable {
             System.out.println("Process Canceled. ");
         }
     }
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -179,6 +174,11 @@ public class ModifyPart implements Initializable {
             modifyPartsBoolLbl.setText("Machine ID");
             modifyPartsBooltxt.setText(Integer.toString(((InHouse) model.Inventory.getAllParts().get(partIndex)).getMachineID()));
             modifyPartsInHouseRdBtn.setSelected(true);
+        }
+        else {
+            modifyPartsBoolLbl.setText("Company Name");
+            modifyPartsBooltxt.setText((((Outsourced) Inventory.getAllParts().get(partIndex)).getCompanyName()));
+            modifyPartsOutsourceRdBtn.setSelected(true);
         }
 
     }

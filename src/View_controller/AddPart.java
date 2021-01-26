@@ -104,6 +104,7 @@ public class AddPart implements Initializable{
                 alert.showAndWait();
             }
 
+
             else {
                 if (isOutsourced == false) {
                     System.out.println("Part name: " + name);
@@ -136,11 +137,13 @@ public class AddPart implements Initializable{
             }
         }
         catch(NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error Adding Part");
-            alert.setContentText("Form contains blank fields.");
-            alert.showAndWait();
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error Adding Part");
+                alert.setContentText("Invalid Entry ");
+                alert.showAndWait();
+
         }
 
     }

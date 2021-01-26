@@ -2,6 +2,7 @@ package View_controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,98 +15,77 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.*;
 
-import static View_controller.MainScreen.productsModifyIndex;
-
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-
+import static View_controller.MainScreen.*;
+import static model.Products.*;
 
 
 public class ModifyProduct implements Initializable {
 
-    private ObservableList<Parts> currentParts = FXCollections.observableArrayList();
-    private int productIndex = productsModifyIndex();
-    private String catchMessage= new String();
-    private int productID;
-
     @FXML
     private Label modifyProductsIDNumberLbl;
-
     @FXML
     private TextField modifyProductsNametxt;
-
     @FXML
     private TextField modifyProductsInStocktxt;
-
     @FXML
     private TextField modifyProductsPricetxt;
-
     @FXML
     private TextField modifyProductsMintxt;
-
     @FXML
     private TextField modifyProductsMaxtxt;
-
-    @FXML
-    private TextField modifyProductsSearchtxt;
-
-    @FXML
-    private TextField modifyProductsBooltxt;
-
-    @FXML
-    private Button modifyProductsSaveBtn;
-
     @FXML
     private TableView<Parts> modProductAddTbl;
-
-
     @FXML
     private TableColumn<Parts, Integer> modPartIdAddCol;
-
     @FXML
     private TableColumn<Parts, String> modPartNameAddCol;
-
     @FXML
     private TableColumn<Parts, Integer> modPartsInStockAddCol;
-
     @FXML
     private TableColumn<Parts, Double> modPartPriceAddCol;
-
     @FXML
-    private TableView<Parts> modProductDeleteTbl;
-
+    private TableView<Parts> modProductAssocTbl;
     @FXML
-    private TableColumn<Parts, Integer> modPartIdDeleteCol;
-
+    private TableColumn<Parts, Integer> modPartIdAssocCol;
     @FXML
-    private TableColumn<Parts, String> modPartNameDeleteCol;
-
+    private TableColumn<Parts, String> modPartNameAssocCol;
     @FXML
-    private TableColumn<Parts, Integer> modPartsInStockDeleteCol;
-
+    private TableColumn<Parts, Integer> modPartsInStockAssocCol;
     @FXML
-    private TableColumn<Parts, Double> modPartPriceDeleteCol;
+    private TableColumn<Parts, Double> modPartPriceAssocCol;
+
+    public static ObservableList<Parts> currentAssocParts = FXCollections.observableArrayList();
+    private int productIndex = productsModifyIndex();
+    private String catchMessage = new String();
+    private int productID;
 
     //add
     @FXML
-    void AddAct(ActionEvent event) {
+    public void AddProductAct(ActionEvent actionEvent) {
         Parts part = modProductAddTbl.getSelectionModel().getSelectedItem();
-        currentParts.add(part);
-        updateDeletePartsTableView();
+        if (part == null) {
+            Alert nullAlert = new Alert(Alert.AlertType.ERROR);
+            nullAlert.setTitle("Associated Part Addition Error");
+            nullAlert.setHeaderText("The part was not added!");
+            nullAlert.setContentText("A part was not selected!");
+            nullAlert.showAndWait();
+        }
+        else {
+            addAssociatedPart(part);
+            modProductAssocTbl.setItems(getAssociatedPartsList());
+        }
     }
 
-    public void updateDeletePartsTableView() {
-        modProductDeleteTbl.setItems(currentParts);
-    }
 
-    //Delete
+
     @FXML
     public void DeleteAct(javafx.event.ActionEvent event) {
-        Parts part = modProductDeleteTbl.getSelectionModel().getSelectedItem();
+        Parts part = modProductAssocTbl.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Part Deletion");
@@ -113,44 +93,53 @@ public class ModifyProduct implements Initializable {
         alert.setContentText("Are you sure you want to delete " + part.getName() + " from parts?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            currentParts.remove(part);
+            currentAssocParts.remove(part);
         } else {
             System.out.println("You clicked cancel.");
         }
     }
 
+
     @FXML
     public void SaveModProductAct(javafx.event.ActionEvent event) {
-        String productName = modifyProductsNametxt.getText();
-        String productInStock = modifyProductsInStocktxt.getText();
-        String productPrice = modifyProductsPricetxt.getText();
-        String productMin = modifyProductsMintxt.getText();
-        String productMax = modifyProductsMaxtxt.getText();
+        String name = modifyProductsNametxt.getText();
+        String inStock = modifyProductsInStocktxt.getText();
+        String price = modifyProductsPricetxt.getText();
+        String min = modifyProductsMintxt.getText();
+        String max = modifyProductsMaxtxt.getText();
 
         try {
-            if (currentParts.isEmpty()){
+            catchMessage = Products.getProductValidation(name,
+                    Integer.parseInt(inStock),
+                    Double.parseDouble(price),
+                    Integer.parseInt(max),
+                    Integer.parseInt(min),
+                    currentAssocParts,
+                    catchMessage);
+            if (catchMessage.length()> 0){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Error");
                 alert.setHeaderText("Product must contain at least one part.");
                 alert.showAndWait();
             }
             else {
-                System.out.println("Product name: " + productName);
-                Products newProduct = new Products();
-                newProduct.setProductID(productID);
-                newProduct.setName(productName);
-                newProduct.setInStock(Integer.parseInt(productInStock));
-                newProduct.setPrice(Double.parseDouble(productPrice));
-                newProduct.setMin(Integer.parseInt(productMin));
-                newProduct.setMax(Integer.parseInt(productMax));
-                newProduct.setAssociatedParts(currentParts);
-                Inventory.updateProduct(productIndex, newProduct);
+                Products addProduct = new Products();
+                addProduct.setProductID(productID);
+                addProduct.setName(name);
+                addProduct.setInStock(Integer.parseInt(inStock));
+                addProduct.setPrice(Double.parseDouble(price));
+                addProduct.setMax(Integer.parseInt(max));
+                addProduct.setMin(Integer.parseInt(min));
+                addProduct.setAssociatedPartsList(currentAssocParts);
+                Inventory.updateProduct(getSelectedProductIndex(), addProduct);
 
-                Parent modifyProductSaveParent = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-                Scene scene = new Scene(modifyProductSaveParent);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(scene);
-                window.show();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage winMainScreen = (Stage)((Node)event.getSource()).getScene().getWindow();
+                winMainScreen.setTitle("Inventory Management System");
+                winMainScreen.setScene(scene);
+                winMainScreen.show();
             }
         }
         catch (NumberFormatException | IOException e) {
@@ -161,9 +150,6 @@ public class ModifyProduct implements Initializable {
             alert.showAndWait();
         }
     }
-
-    // Cancel Button
-
     public void ModifyProductCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
@@ -183,34 +169,37 @@ public class ModifyProduct implements Initializable {
             System.out.println("Process Canceled. ");
         }
     }
+    public void updateAssociatedPartsTbl() {
+        modProductAssocTbl.setItems(currentAssocParts);
+    }
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Products product = model.Inventory.getAllProducts().get(productIndex);
-        productID = model.Inventory.getAllProducts().get(productIndex).getProductID();
+        Products selectedProduct = getSelectedProduct();
+        productID = getSelectedProduct().getProductID();
         modifyProductsIDNumberLbl.setText("Auto-Gen: " + productID);
-        modifyProductsNametxt.setText(product.getName());
-        modifyProductsInStocktxt.setText(Integer.toString(product.getInStock()));
-        modifyProductsPricetxt.setText(Double.toString(product.getPrice()));
-        modifyProductsMintxt.setText(Integer.toString(product.getMin()));
-        modifyProductsMaxtxt.setText(Integer.toString(product.getMax()));
-        currentParts = product.getAssociatedParts();
+        modifyProductsNametxt.setText(selectedProduct.getName());
+        modifyProductsInStocktxt.setText(Integer.toString(selectedProduct.getInStock()));
+        modifyProductsPricetxt.setText(Double.toString(selectedProduct.getPrice()));
+        modifyProductsMintxt.setText(Integer.toString(selectedProduct.getMin()));
+        modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
+        currentAssocParts = Products.getAssociatedPartsList();
         modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
         modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
         modPartPriceAddCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        modPartIdDeleteCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        modPartNameDeleteCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        modPartsInStockDeleteCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        modPartPriceDeleteCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        updateAssociatedPartsTV();
-        updateDeletePartsTableView();
+        modPartIdAssocCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        modPartNameAssocCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        modPartsInStockAssocCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        modPartPriceAssocCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        updateAssociatedPartsTbl();
+
     }
 
-    public void updateAssociatedPartsTV() {
-        modProductAddTbl.setItems(model.Inventory.getAllParts());
-    }
 
 
 

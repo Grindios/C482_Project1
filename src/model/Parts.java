@@ -71,6 +71,7 @@ public abstract class Parts {
 
 // Validate Content Entry
     public  static String getPartValidation (String name, int inStock, double price, int max, int min, String PartError) {
+
         if(name == null){
             PartError = PartError + "Name Field required. ";
         }
@@ -89,9 +90,9 @@ public abstract class Parts {
         if (inStock < min) {
             PartError = PartError + "\nThe Inventory must be greater than the or equal to the Minimum stock. ";
         }
-
         return PartError;
     }
+    // Validate add parts for entry type
 
     //Validate Empty Field
 /*

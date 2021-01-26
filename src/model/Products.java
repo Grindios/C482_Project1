@@ -49,10 +49,10 @@ public class Products {
 
 
     //Assoc Getters & Setters
-    public static ObservableList<Parts> getAssociatedParts() {
+    public static ObservableList<Parts> getAssociatedPartsList() {
         return associatedParts;
     }
-    public static void setAssociatedParts(ObservableList<Parts> associatedParts) { Products.associatedParts = associatedParts; }
+    public static void setAssociatedPartsList(ObservableList<Parts> associatedParts) { Products.associatedParts = associatedParts; }
 
 
 
@@ -64,16 +64,17 @@ public class Products {
         associatedParts.add(part);
     }
 
-    public static boolean deleteAssociatedPart(int partID) {
-        for(Parts p : associatedParts) {
-            if(p.getPartID() == partID) {
+
+    public static boolean removeAssociatedPart(int partID) {
+        for (Parts p : associatedParts) {
+            if (p.getPartID() == partID) {
                 associatedParts.remove(p);
                 return true;
             }
         }
         return false;
     }
-    public static Parts searchAssocPart(int partID) {
+    public static Parts lookupAssociatedPart(int partID) {
         return associatedParts.get(partID);
     }
 
@@ -81,7 +82,7 @@ public class Products {
 
    //Product Validation
 
-    public static String getProductValidation (String name, int inStock, double price, int max, int min, String ProductError){
+    public static String getProductValidation (String name, int inStock, double price, int max, int min, ObservableList<Parts> parts, String ProductError){
         if (inStock < 1) {
             ProductError = ProductError + "The Product Name field cannot be empty. ";
         }
@@ -100,23 +101,23 @@ public class Products {
         return ProductError;
     }
 
-   public static String getEmptyFields (String name, String inStock, String price, String max, String min, String ProductEmpty) {
-       if (name.equals("")) {
-           ProductEmpty = ProductEmpty + "The Product Name field cannot be empty. ";
-       }
-       if (inStock.equals("")) {
-           ProductEmpty = ProductEmpty + "\nThe Product Inventory field cannot be empty. ";
-       }
-       if (price.equals("")) {
-           ProductEmpty = ProductEmpty + "\nThe Product Price field cannot be empty. ";
-       }
-       if (max.equals("")) {
-           ProductEmpty = ProductEmpty + "\nThe Product Max field cannot be empty. ";
-       }
-       if (min.equals("")) {
-           ProductEmpty = ProductEmpty + "\nThe product Min field cannot be empty. ";
-       }
-       return ProductEmpty;
-   }
+ // public static String getEmptyFields (String name, int inStock, double price, int max, int min, String ProductEmpty) {
+ //     if (name.equals("")) {
+ //         ProductEmpty = ProductEmpty + "The Product Name field cannot be empty. ";
+ //     }
+ //     if (inStock.equals("")) {
+ //         ProductEmpty = ProductEmpty + "\nThe Product Inventory field cannot be empty. ";
+ //     }
+ //     if (price.equals("")) {
+ //         ProductEmpty = ProductEmpty + "\nThe Product Price field cannot be empty. ";
+ //     }
+ //     if (max.equals("")) {
+ //         ProductEmpty = ProductEmpty + "\nThe Product Max field cannot be empty. ";
+ //     }
+ //     if (min.equals("")) {
+ //         ProductEmpty = ProductEmpty + "\nThe product Min field cannot be empty. ";
+ //     }
+ //     return ProductEmpty;
+ // }
 
 }
