@@ -1,20 +1,20 @@
 package model;
 
 
-public abstract class Parts {
+public abstract class Part {
 
     protected int partID;
-    protected String name;
-    protected double price = 0.0;
-    protected int inStock;
+    protected String partName;
+    protected double partPrice = 0.0;
+    protected int partInStock;
     protected int min;
     protected int max;
 
-    public Parts(){
+    public Part(){
         this.partID = partID;
-        this.name = name;
-        this.price = price;
-        this.inStock = inStock;
+        this.partName = partName;
+        this.partPrice = partPrice;
+        this.partInStock = partInStock;
         this.min = min;
         this.max = max;
 
@@ -29,27 +29,27 @@ public abstract class Parts {
     }
 
     //Name Getters and Setters
-    public String getName() {
-        return name;
+    public String getPartName() {
+        return partName;
     }
-    public void setName(String name) {
-        this.name = name;
+    public void setPartName(String partName) {
+        this.partName = partName;
     }
 
     //Price Getters and Setters
-    public double getPrice() {
-        return price;
+    public double getPartPrice() {
+        return partPrice;
     }
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPartPrice(double partPrice) {
+        this.partPrice = partPrice;
     }
 
     //InStock Getters and Setters
-    public int getInStock() {
-        return inStock;
+    public int getPartInStock() {
+        return partInStock;
     }
-    public void setInStock(int inStock) {
-        this.inStock = inStock;
+    public void setPartInStock(int partInStock) {
+        this.partInStock = partInStock;
     }
 
     //Min Getters and Setters

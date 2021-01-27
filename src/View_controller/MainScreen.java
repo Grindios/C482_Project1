@@ -14,8 +14,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Inventory;
-import model.Parts;
-import model.Products;
+import model.Part;
+import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,43 +41,96 @@ public class MainScreen implements Initializable {
 
     //Parts Table
     @FXML
-    private TableView<Parts> partsTbl;
+    private TableView<Part> partsTbl;
     @FXML
-    private TableColumn<Parts, Integer> partIdCol;
+    private TableColumn<Part, Integer> partIdCol;
     @FXML
-    private TableColumn<Parts, String> partNameCol;
+    private TableColumn<Part, String> partNameCol;
     @FXML
-    private TableColumn<Parts, Integer> partsInStockCol;
+    private TableColumn<Part, Integer> partsInStockCol;
     @FXML
-    private TableColumn<Parts, Double> partPriceCol;
+    private TableColumn<Part, Double> partPriceCol;
 
 
     //Products Table
     @FXML
-    private TableView<Products> productsTbl;
+    private TableView<Product> productsTbl;
     @FXML
-    private TableColumn<Products, Integer> productIdCol;
+    private TableColumn<Product, Integer> productIdCol;
     @FXML
-    private TableColumn<Products, String> productNameCol;
+    private TableColumn<Product, String> productNameCol;
     @FXML
-    private TableColumn<Products, Integer> productInStockCol;
+    private TableColumn<Product, Integer> productInStockCol;
     @FXML
-    private TableColumn<Products, Double> productPriceCol;
+    private TableColumn<Product, Double> productPriceCol;
 
 
+    @FXML
+    public void addPartsAct(ActionEvent actionEvent) throws IOException {
+        try {
+            Parent addPartsParent = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
+            Scene addPartsScene = new Scene(addPartsParent);
+            Stage addPartsStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            addPartsStage.setScene(addPartsScene);
+            addPartsStage.show();
+        }
+        catch (IOException e) {
+
+        }
+    }
+
+    @FXML
+    public void modifyPartsAct(ActionEvent actionEvent) throws IOException {
+            selectedPart = partsTbl.getSelectionModel().getSelectedItem();
+            selectedPartIndex = getParts().indexOf(selectedPart);
+            if (selectedPart == null ) {
+                Alert nullAlert = new Alert(Alert.AlertType.ERROR);
+                nullAlert.setTitle("Part Modification Error");
+                nullAlert.setHeaderText("The part is NOT able to be modified!");
+                nullAlert.setContentText("There was no part selected!");
+                nullAlert.showAndWait();
+            }
+            else {
+                try {
+                    Parent modifyPartScreen = FXMLLoader.load(getClass().getResource("ModifyPartScreen.fxml"));
+                    Scene modifyPartScene = new Scene(modifyPartScreen);
+                    Stage winModifyPart = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+                    winModifyPart.setTitle("Modify Part");
+                    winModifyPart.setScene(modifyPartScene);
+                    winModifyPart.show();
+                }
+                catch (IOException e) {}
+            }
+    }
+
+    @FXML
+    private void partDeleteAct(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Part");
+        alert.setHeaderText("Are you sure you want to delete this part?");
+        alert.setContentText("Press OK to delete the part. \nPress Cancel to cancel the deletion.");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            try {
+                Part part = partsTbl.getSelectionModel().getSelectedItem();
+                deletePart(part.getPartID());
+            }
+            catch (NullPointerException e) {
+                Alert nullalert = new Alert(Alert.AlertType.ERROR);
+                nullalert.setTitle("Part Deletion Error");
+                nullalert.setHeaderText("The part was NOT deleted!");
+                nullalert.setContentText("There was no part selected!");
+                nullalert.showAndWait();
+            }
+        }
+        else {
+            alert.close();
+        }
 
 
+    }
 
-    private static Parts modifyParts;
-    private static int modifyPartsIndex;
-    private static Products modifyProducts;
-    private static int modifyProductsIndex;
-
-
-    public static int partsModifyIndex() { return modifyPartsIndex; }
-    public static int productsModifyIndex() { return modifyProductsIndex; }
-
-    //Parts
     @FXML
     private void SearchPartsAct(ActionEvent event) throws IOException {
         String searchPartString = partsSearchTxt.getText();
@@ -90,12 +143,12 @@ public class MainScreen implements Initializable {
         } else {
             boolean found = false;
             try {
-                Parts searchPart = Inventory.lookupPart(Integer.parseInt(searchPartString));
+                Part searchPart = Inventory.lookupPart(Integer.parseInt(searchPartString));
                 if (searchPart != null) {
                     found = true;
-                    ObservableList<Parts> filteredPartsList = FXCollections.observableArrayList();
-                    filteredPartsList.add(searchPart);
-                    partsTbl.setItems(filteredPartsList);
+                    ObservableList<Part> filteredPartList = FXCollections.observableArrayList();
+                    filteredPartList.add(searchPart);
+                    partsTbl.setItems(filteredPartList);
                 }
 
                 else {
@@ -105,67 +158,19 @@ public class MainScreen implements Initializable {
                     alert.setContentText("The search term entered does not match any part ID!");
                     alert.showAndWait();
                 }
-        }
-            catch (NumberFormatException e) {
-             for (Parts p : getAllParts()) {
-
-                if (p.getName().equals(searchPartString)){
-                     found = true;
-
-                     ObservableList<Parts> filteredPartsList = FXCollections.observableArrayList();
-                     filteredPartsList.add(p);
-                     partsTbl.setItems(filteredPartsList);
-                 }
-                }
-         }
-            if (found == false) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Part Search Warning");
-                alert.setHeaderText("There were no parts found!");
-                alert.setContentText("The search term entered does not match any part name!");
-                alert.showAndWait();
-            }
-        }
-    }
-    @FXML
-    private void SearchProductsAct(ActionEvent event) throws IOException {
-        String searchProductsString = productsSearchTxt.getText();
-        if (searchProductsString.equals("")) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error.");
-            alert.setHeaderText("No parts found.");
-            alert.setContentText("Search does not match any existing parts.");
-            alert.showAndWait();
-        } else {
-            boolean found = false;
-            try {
-                Products searchProduct = Inventory.lookupProduct(Integer.parseInt(searchProductsString));
-                if (searchProduct != null) {
-                    found = true;
-                    ObservableList<Products> filteredProductsList = FXCollections.observableArrayList();
-                    filteredProductsList.add(searchProduct);
-                    productsTbl.setItems(filteredProductsList);
-                }
-                else {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Part Search Warning");
-                    alert.setHeaderText("There were no parts found!");
-                    alert.setContentText("The search term entered does not match any part ID!");
-                    alert.showAndWait();
-                }
             }
             catch (NumberFormatException e) {
-                for (Products p : getAllProducts()) {
+                for (Part p : getParts()) {
 
-                    if (p.getName().equals(searchProductsString)){
+                    if (p.getPartName().equals(searchPartString)){
                         found = true;
 
-                        ObservableList<Products> filteredProductsList = FXCollections.observableArrayList();
-                        filteredProductsList.add(p);
-                        productsTbl.setItems(filteredProductsList);
+                        ObservableList<Part> filteredPartList = FXCollections.observableArrayList();
+                        filteredPartList.add(p);
+                        partsTbl.setItems(filteredPartList);
                     }
                 }
-        }
+            }
             if (found == false) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Part Search Warning");
@@ -173,97 +178,9 @@ public class MainScreen implements Initializable {
                 alert.setContentText("The search term entered does not match any part name!");
                 alert.showAndWait();
             }
-
-       }
-    }
-    @FXML
-    public void addPartsAct(ActionEvent actionEvent) throws IOException {
-        Parent addPartsParent = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
-        Scene addPartsScene = new Scene(addPartsParent);
-        Stage addPartsStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        addPartsStage.setScene(addPartsScene);
-        addPartsStage.show();
-    }
-    @FXML
-    public void modifyPartsAct(ActionEvent actionEvent) throws IOException{
-        try {
-            modifyParts = partsTbl.getSelectionModel().getSelectedItem();
-    if (modifyParts == null ) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Error");
-        alert.setHeaderText("Part not selected ");
-        alert.setContentText("You must select a part. ");
-        alert.showAndWait();
-    }
-
-      else{
-            modifyPartsIndex = getAllParts().indexOf(modifyParts);
-            Parent modifyPartsParent = FXMLLoader.load(getClass().getResource("ModifyPart.fxml"));
-            Scene modifyPartsScene = new Scene(modifyPartsParent);
-            Stage modifyPartsStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            modifyPartsStage.setScene(modifyPartsScene);
-            modifyPartsStage.show();
-        }
-        }
-        catch (IOException e) {
-
         }
     }
-    @FXML
-    public void updatePartsTable(){
-        partsTbl.setItems(Inventory.getAllParts());
-    }
-    @FXML
-    private void partDeleteAct(ActionEvent event) {
-        Parts part = partsTbl.getSelectionModel().getSelectedItem();
 
-        if (deletePartVal(part.getPartID())) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Deletion Error");
-            alert.setHeaderText("Part cannot be deleted!");
-            alert.setContentText("Part is being used by one or more products.");
-            alert.showAndWait();
-
-        }
-
-        else {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.initModality(Modality.NONE);
-            alert.setTitle("Part Deletion");
-            alert.setHeaderText("Confirm?");
-            alert.setContentText("Are you sure you want to delete " + part.getName() + "?");
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.get() == ButtonType.OK) {
-                deletePart(part);
-                updatePartsTable();
-                System.out.println("Part " + part.getName() + " was removed.");
-
-            }
-
-            else {
-                System.out.println("Part " + part.getName() + " was not removed.");
-            }
-        }
-
-
-    }
-    public void updatePartsTableView() { partsTbl.setItems(getAllParts()); }
-
-
-    //Products
-
-    private static Products selectedProduct;
-    private static int selectedProductIndex;
-
-    public static Products getSelectedProduct() {
-        return selectedProduct;
-    }
-
-    public static int getSelectedProductIndex() {
-        return selectedProductIndex;
-    }
-    public void updateProductsTableView() { productsTbl.setItems(getAllProducts()); }
     @FXML
     public void addProductsAct(ActionEvent actionEvent) throws IOException{
         Parent addProductsParent = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
@@ -272,11 +189,10 @@ public class MainScreen implements Initializable {
         addProductsStage.setScene(addProductsScene);
         addProductsStage.show();
     }
-
     @FXML
     public void modifyProductsAct(ActionEvent actionEvent) throws IOException{
         selectedProduct = productsTbl.getSelectionModel().getSelectedItem();
-        selectedProductIndex = getAllProducts().indexOf(selectedProduct);
+        selectedProductIndex = getProducts().indexOf(selectedProduct);
         if (selectedProduct == null) {
             Alert nullalert = new Alert(Alert.AlertType.ERROR);
             nullalert.setTitle("Product Modification Error");
@@ -295,9 +211,10 @@ public class MainScreen implements Initializable {
             catch (IOException e) {}
         }
     }
+
     @FXML
     private void productDeleteAct(ActionEvent event) {
-        Products product = productsTbl.getSelectionModel().getSelectedItem();
+        Product product = productsTbl.getSelectionModel().getSelectedItem();
         if(deleteProductVal(product))
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -314,8 +231,8 @@ public class MainScreen implements Initializable {
             alert.setContentText("Are you sure you want to delete " + product.getName() + "?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
-                deleteProduct(product);
-                updateProductsTableView();
+                removeProduct(product.getProductID());
+                updateProductsTbl();
                 System.out.println("Product " + product.getName() + " was removed.");
             } else {
                 System.out.println("Product " + product.getName() + " was removed.");
@@ -323,24 +240,60 @@ public class MainScreen implements Initializable {
         }
     }
 
+    @FXML
+    private void SearchProductsAct(ActionEvent event) throws IOException {
+        String searchProductsString = productsSearchTxt.getText();
+        if (searchProductsString.equals("")) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error.");
+            alert.setHeaderText("No parts found.");
+            alert.setContentText("Search does not match any existing parts.");
+            alert.showAndWait();
+        } else {
+            boolean found = false;
+            try {
+                Product searchProduct = Inventory.lookupProduct(Integer.parseInt(searchProductsString));
+                if (searchProduct != null) {
+                    found = true;
+                    ObservableList<Product> filteredProductList = FXCollections.observableArrayList();
+                    filteredProductList.add(searchProduct);
+                    productsTbl.setItems(filteredProductList);
+                }
+                else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Part Search Warning");
+                    alert.setHeaderText("There were no parts found!");
+                    alert.setContentText("The search term entered does not match any part ID!");
+                    alert.showAndWait();
+                }
+            }
+            catch (NumberFormatException e) {
+                for (Product p : getProducts()) {
 
-    // new
-    private static Parts selectedPart;
+                    if (p.getName().equals(searchProductsString)){
+                        found = true;
 
-    private static int selectedPartIndex;
+                        ObservableList<Product> filteredProductList = FXCollections.observableArrayList();
+                        filteredProductList.add(p);
+                        productsTbl.setItems(filteredProductList);
+                    }
+                }
+            }
+            if (found == false) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Part Search Warning");
+                alert.setHeaderText("There were no parts found!");
+                alert.setContentText("The search term entered does not match any part name!");
+                alert.showAndWait();
+            }
 
-    public static Parts getSelectedPart() {
-        return selectedPart;
+        }
     }
-    public static int getSelectedPartIndex() {
-        return selectedPartIndex;
-    }
+    @FXML
+    public void updatePartsTable() { partsTbl.setItems(getParts()); }
+    @FXML
+    public void updateProductsTbl() { productsTbl.setItems(getProducts()); }
 
-    public static ObservableList<Parts> selectedAssocPart = FXCollections.observableArrayList();
-
-    // new
-
-    //Exit Button & Refresh
     @FXML
     public void exitProgramButton(javafx.event.ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -357,6 +310,36 @@ public class MainScreen implements Initializable {
             System.out.println("Canceled.");
         }
     }
+    private static Part selectedPart;
+
+    private static int selectedPartIndex;
+
+    public static Part getSelectedPart() {
+        return selectedPart;
+    }
+    public static int getSelectedPartIndex() {
+        return selectedPartIndex;
+    }
+
+    private static Product selectedProduct;
+    private static int selectedProductIndex;
+
+    public static Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public static int getSelectedProductIndex() {
+        return selectedProductIndex;
+    }
+
+    public static ObservableList<Part> selectedAssocPart = FXCollections.observableArrayList();
+
+    // everything above has been vetted
+
+
+
+    //Exit Button & Refresh
+
     public void RefreshAct(javafx.event.ActionEvent actionEvent) throws IOException {
         Parent RefreshAct = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
         Scene scene = new Scene(RefreshAct);
@@ -372,12 +355,12 @@ public class MainScreen implements Initializable {
         partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         partsInStockCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
         partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
-        updatePartsTableView();
+        updatePartsTable();
         productIdCol.setCellValueFactory(new PropertyValueFactory("productID"));
         productNameCol.setCellValueFactory(new PropertyValueFactory("name"));
         productInStockCol.setCellValueFactory(new PropertyValueFactory("inStock"));
         productPriceCol.setCellValueFactory(new PropertyValueFactory("price"));
-        updateProductsTableView();
+        updateProductsTbl();
 
     }
 

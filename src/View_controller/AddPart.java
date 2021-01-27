@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import model.InHouse;
 import model.Inventory;
 import model.Outsourced;
+import model.Part;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,112 +43,6 @@ public class AddPart implements Initializable{
     @FXML
     private TextField addPartsBooltxt;
 
-
-
-    private boolean isOutsourced;
-    private String catchError = new String();
-    private int partID;
-
-
-    @FXML
-    public void selectAddPartInHouse(javafx.event.ActionEvent event) {
-        isOutsourced = false;
-        addPartsBoolLbl.setText("Machine ID");
-        addPartsBooltxt.setPromptText("Machine ID");
-        addPartsInHouseRdBtn.setSelected(true);
-        addPartsOutsourceRdBtn.setSelected(false);
-    }
-
-    @FXML
-    public void setAddPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
-        isOutsourced = true;
-        addPartsBoolLbl.setText("Company Name");
-        addPartsBooltxt.setPromptText("Company Name");
-        addPartsOutsourceRdBtn.setSelected(true);
-        addPartsInHouseRdBtn.setSelected(false);
-    }
-    //Add parts
-    @FXML
-    public void SaveAddPartsAct(javafx.event.ActionEvent event) throws IOException {
-        String name = addPartsNametxt.getText();
-        String inStock = addPartsInStocktxt.getText();
-        String price = addPartsPricetxt.getText();
-        String min = addPartsMintxt.getText();
-        String max = addPartsMaxtxt.getText();
-        String partBool = addPartsBooltxt.getText();
-
-
-
-
-        try {
-            catchError = model.Parts.getPartValidation(name,
-                    Integer.parseInt(inStock),
-                    Double.parseDouble(price),
-                    Integer.parseInt(max),
-                    Integer.parseInt(min)
-                    , catchError);
-            if (catchError.length() > 0) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("Error adding Part");
-                alert.setContentText(catchError);
-                alert.showAndWait();
-                catchError = "";
-            }
-                Boolean mID = addPartsInHouseRdBtn.isSelected();
-                Boolean outSrc = addPartsOutsourceRdBtn.isSelected();
-            if(mID == false && outSrc == false){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("In House or Outsourced must be Selected ");
-                alert.setContentText(catchError);
-                alert.showAndWait();
-            }
-
-
-            else {
-                if (isOutsourced == false) {
-                    System.out.println("Part name: " + name);
-                    InHouse inPart = new InHouse();
-                    inPart.setPartID(partID);
-                    inPart.setName(name);
-                    inPart.setPrice(Double.parseDouble(price));
-                    inPart.setInStock(Integer.parseInt(inStock));
-                    inPart.setMin(Integer.parseInt(min));
-                    inPart.setMax(Integer.parseInt(max));
-                    inPart.setMachineID(Integer.parseInt(partBool));
-                    Inventory.addPart(inPart);
-                } else {
-                    System.out.println("Part name: " + name);
-                    Outsourced outPart = new Outsourced();
-                    outPart.setPartID(partID);
-                    outPart.setName(name);
-                    outPart.setPrice(Double.parseDouble(price));
-                    outPart.setInStock(Integer.parseInt(inStock));
-                    outPart.setMin(Integer.parseInt(min));
-                    outPart.setMax(Integer.parseInt(max));
-                    outPart.setCompanyName(partBool);
-                    Inventory.addPart(outPart);
-                }
-                Parent saveAddPart = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-                Scene scene = new Scene(saveAddPart);
-                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                window.setScene(scene);
-                window.show();
-            }
-        }
-        catch(NumberFormatException e) {
-
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("Error Adding Part");
-                alert.setContentText("Invalid Entry ");
-                alert.showAndWait();
-
-        }
-
-    }
-
     @FXML
     public void addPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -168,6 +63,114 @@ public class AddPart implements Initializable{
             System.out.println("Process Canceled. ");
         }
     }
+
+    @FXML
+    public void SaveAddPartsAct(javafx.event.ActionEvent event) throws IOException {
+        String name = addPartsNametxt.getText();
+        String inStock = addPartsInStocktxt.getText();
+        String price = addPartsPricetxt.getText();
+        String min = addPartsMintxt.getText();
+        String max = addPartsMaxtxt.getText();
+        String partBool = addPartsBooltxt.getText();
+
+
+
+
+        try {
+            catchError = Part.getPartValidation(name,
+                    Integer.parseInt(inStock),
+                    Double.parseDouble(price),
+                    Integer.parseInt(max),
+                    Integer.parseInt(min)
+                    , catchError);
+            if (catchError.length() > 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Error adding Part");
+                alert.setContentText(catchError);
+                alert.showAndWait();
+                catchError = "";
+            }
+            Boolean mID = addPartsInHouseRdBtn.isSelected();
+            Boolean outSrc = addPartsOutsourceRdBtn.isSelected();
+            if(mID == false && outSrc == false){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("In House or Outsourced must be Selected ");
+                alert.setContentText(catchError);
+                alert.showAndWait();
+            }
+
+
+            else {
+                if (isOutsourced == false) {
+                    System.out.println("Part name: " + name);
+                    InHouse inPart = new InHouse();
+                    inPart.setPartID(partID);
+                    inPart.setPartName(name);
+                    inPart.setPartPrice(Double.parseDouble(price));
+                    inPart.setPartInStock(Integer.parseInt(inStock));
+                    inPart.setMin(Integer.parseInt(min));
+                    inPart.setMax(Integer.parseInt(max));
+                    inPart.setMachineID(Integer.parseInt(partBool));
+                    Inventory.addPart(inPart);
+                } else {
+                    System.out.println("Part name: " + name);
+                    Outsourced outPart = new Outsourced();
+                    outPart.setPartID(partID);
+                    outPart.setPartName(name);
+                    outPart.setPartPrice(Double.parseDouble(price));
+                    outPart.setPartInStock(Integer.parseInt(inStock));
+                    outPart.setMin(Integer.parseInt(min));
+                    outPart.setMax(Integer.parseInt(max));
+                    outPart.setCompanyName(partBool);
+                    Inventory.addPart(outPart);
+                }
+                Parent saveAddPart = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+                Scene scene = new Scene(saveAddPart);
+                Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                window.setScene(scene);
+                window.show();
+            }
+        }
+        catch(NumberFormatException e) {
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error Adding Part");
+            alert.setContentText("Invalid Entry ");
+            alert.showAndWait();
+
+        }
+
+    }
+
+
+
+    private String catchError = new String();
+    private int partID;
+
+    private boolean isOutsourced;
+    @FXML
+    public void selectAddPartInHouse(javafx.event.ActionEvent event) {
+        isOutsourced = false;
+        addPartsBoolLbl.setText("Machine ID");
+        addPartsBooltxt.setPromptText("Machine ID");
+        addPartsInHouseRdBtn.setSelected(true);
+        addPartsOutsourceRdBtn.setSelected(false);
+    }
+
+    @FXML
+    public void setAddPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
+        isOutsourced = true;
+        addPartsBoolLbl.setText("Company Name");
+        addPartsBooltxt.setPromptText("Company Name");
+        addPartsOutsourceRdBtn.setSelected(true);
+        addPartsInHouseRdBtn.setSelected(false);
+    }
+    //Add parts
+
+
 
 
     @Override

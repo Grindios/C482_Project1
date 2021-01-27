@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 
 
-public class InHouse extends Parts {
+public class InHouse extends Part {
 
     protected final IntegerProperty machineID;
 

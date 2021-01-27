@@ -3,8 +3,8 @@ package model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class Products {
-    public static ObservableList<Parts> associatedParts = FXCollections.observableArrayList();
+public class Product {
+    public static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     protected int productID;
     protected String name;
     protected double price = 0.0;
@@ -12,7 +12,7 @@ public class Products {
     protected int min;
     protected int max;
 
-    public Products() {
+    public Product() {
         this.productID = productID;
         this.name = name;
         this.price = price;
@@ -21,7 +21,23 @@ public class Products {
         this.max = max;
 
     }
- //Test Code
+    public static void addAssociatedPart(Part part){
+        associatedParts.add(part);
+    }
+
+
+    public static boolean removeAssociatedPart(int partID) {
+        for (Part p : associatedParts) {
+            if (p.getPartID() == partID) {
+                associatedParts.remove(p);
+                return true;
+            }
+        }
+        return false;
+    }
+    public static Part lookupAssociatedPart(int partID) {
+        return associatedParts.get(partID);
+    }
 
     //Product ID Getters and Setters
     public int getProductID() { return productID; }
@@ -49,40 +65,24 @@ public class Products {
 
 
     //Assoc Getters & Setters
-    public static ObservableList<Parts> getAssociatedPartsList() {
+    public static ObservableList<Part> getAssociatedPartsList() {
         return associatedParts;
     }
-    public static void setAssociatedPartsList(ObservableList<Parts> associatedParts) { Products.associatedParts = associatedParts; }
+    public static void setAssociatedPartsList(ObservableList<Part> associatedParts) { Product.associatedParts = associatedParts; }
 
 
 
 
 
-    // add, remove, search  associated parts
-
-    public static void addAssociatedPart(Parts part){
-        associatedParts.add(part);
-    }
 
 
-    public static boolean removeAssociatedPart(int partID) {
-        for (Parts p : associatedParts) {
-            if (p.getPartID() == partID) {
-                associatedParts.remove(p);
-                return true;
-            }
-        }
-        return false;
-    }
-    public static Parts lookupAssociatedPart(int partID) {
-        return associatedParts.get(partID);
-    }
+
 
 
 
    //Product Validation
 
-    public static String getProductValidation (String name, int inStock, double price, int max, int min, ObservableList<Parts> parts, String ProductError){
+    public static String getProductValidation (String name, int inStock, double price, int max, int min, String ProductError){
         if (inStock < 1) {
             ProductError = ProductError + "The Product Name field cannot be empty. ";
         }
@@ -101,23 +101,23 @@ public class Products {
         return ProductError;
     }
 
- // public static String getEmptyFields (String name, int inStock, double price, int max, int min, String ProductEmpty) {
- //     if (name.equals("")) {
- //         ProductEmpty = ProductEmpty + "The Product Name field cannot be empty. ";
- //     }
- //     if (inStock.equals("")) {
- //         ProductEmpty = ProductEmpty + "\nThe Product Inventory field cannot be empty. ";
- //     }
- //     if (price.equals("")) {
- //         ProductEmpty = ProductEmpty + "\nThe Product Price field cannot be empty. ";
- //     }
- //     if (max.equals("")) {
- //         ProductEmpty = ProductEmpty + "\nThe Product Max field cannot be empty. ";
- //     }
- //     if (min.equals("")) {
- //         ProductEmpty = ProductEmpty + "\nThe product Min field cannot be empty. ";
- //     }
- //     return ProductEmpty;
- // }
+ public static String getEmptyFields (String name, String inStock, String price, String max, String min, String ProductEmpty) {
+     if (name.equals("")) {
+         ProductEmpty = ProductEmpty + "The Product Name field cannot be empty. ";
+     }
+     if (inStock.equals("")) {
+         ProductEmpty = ProductEmpty + "\nThe Product Inventory field cannot be empty. ";
+     }
+     if (price.equals("")) {
+         ProductEmpty = ProductEmpty + "\nThe Product Price field cannot be empty. ";
+     }
+     if (max.equals("")) {
+         ProductEmpty = ProductEmpty + "\nThe Product Max field cannot be empty. ";
+     }
+     if (min.equals("")) {
+         ProductEmpty = ProductEmpty + "\nThe product Min field cannot be empty. ";
+     }
+     return ProductEmpty;
+ }
 
 }

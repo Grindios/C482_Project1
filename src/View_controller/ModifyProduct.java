@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static View_controller.MainScreen.*;
-import static model.Products.*;
+import static model.Product.*;
 
 
 public class ModifyProduct implements Initializable {
@@ -39,41 +39,41 @@ public class ModifyProduct implements Initializable {
     @FXML
     private TextField modifyProductsMaxtxt;
     @FXML
-    private TableView<Parts> modProductAddTbl;
+    private TableView<Part> modProductAddTbl;
     @FXML
-    private TableColumn<Parts, Integer> modPartIdAddCol;
+    private TableColumn<Part, Integer> modPartIdAddCol;
     @FXML
-    private TableColumn<Parts, String> modPartNameAddCol;
+    private TableColumn<Part, String> modPartNameAddCol;
     @FXML
-    private TableColumn<Parts, Integer> modPartsInStockAddCol;
+    private TableColumn<Part, Integer> modPartsInStockAddCol;
     @FXML
-    private TableColumn<Parts, Double> modPartPriceAddCol;
+    private TableColumn<Part, Double> modPartPriceAddCol;
     @FXML
-    private TableView<Parts> modProductAssocTbl;
+    private TableView<Part> modProductAssocTbl;
     @FXML
-    private TableColumn<Parts, Integer> modPartIdAssocCol;
+    private TableColumn<Part, Integer> modPartIdAssocCol;
     @FXML
-    private TableColumn<Parts, String> modPartNameAssocCol;
+    private TableColumn<Part, String> modPartNameAssocCol;
     @FXML
-    private TableColumn<Parts, Integer> modPartsInStockAssocCol;
+    private TableColumn<Part, Integer> modPartsInStockAssocCol;
     @FXML
-    private TableColumn<Parts, Double> modPartPriceAssocCol;
+    private TableColumn<Part, Double> modPartPriceAssocCol;
 
-    public static ObservableList<Parts> currentAssocParts = FXCollections.observableArrayList();
-    private int productIndex = productsModifyIndex();
+    public static ObservableList<Part> currentAssocParts = FXCollections.observableArrayList();
+    private int productIndex = getSelectedProductIndex();
     private String catchMessage = new String();
     private int productID;
 
     //add
     @FXML
-    public void AddProductAct(ActionEvent actionEvent) {
-        Parts part = modProductAddTbl.getSelectionModel().getSelectedItem();
+    public void AddProductAct(ActionEvent event) {
+        Part part = modProductAddTbl.getSelectionModel().getSelectedItem();
         if (part == null) {
-            Alert nullAlert = new Alert(Alert.AlertType.ERROR);
-            nullAlert.setTitle("Associated Part Addition Error");
-            nullAlert.setHeaderText("The part was not added!");
-            nullAlert.setContentText("A part was not selected!");
-            nullAlert.showAndWait();
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Associated Part Addition Error");
+            nullalert.setHeaderText("The part was not added!");
+            nullalert.setContentText("A part was not selected!");
+            nullalert.showAndWait();
         }
         else {
             addAssociatedPart(part);
@@ -85,12 +85,12 @@ public class ModifyProduct implements Initializable {
 
     @FXML
     public void DeleteAct(javafx.event.ActionEvent event) {
-        Parts part = modProductAssocTbl.getSelectionModel().getSelectedItem();
+        Part part = modProductAssocTbl.getSelectionModel().getSelectedItem();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
         alert.setTitle("Part Deletion");
         alert.setHeaderText("Confirm");
-        alert.setContentText("Are you sure you want to delete " + part.getName() + " from parts?");
+        alert.setContentText("Are you sure you want to delete " + part.getPartName() + " from parts?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             currentAssocParts.remove(part);
@@ -109,12 +109,11 @@ public class ModifyProduct implements Initializable {
         String max = modifyProductsMaxtxt.getText();
 
         try {
-            catchMessage = Products.getProductValidation(name,
+            catchMessage = Product.getProductValidation(name,
                     Integer.parseInt(inStock),
                     Double.parseDouble(price),
                     Integer.parseInt(max),
                     Integer.parseInt(min),
-                    currentAssocParts,
                     catchMessage);
             if (catchMessage.length()> 0){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -123,7 +122,7 @@ public class ModifyProduct implements Initializable {
                 alert.showAndWait();
             }
             else {
-                Products addProduct = new Products();
+                Product addProduct = new Product();
                 addProduct.setProductID(productID);
                 addProduct.setName(name);
                 addProduct.setInStock(Integer.parseInt(inStock));
@@ -178,7 +177,7 @@ public class ModifyProduct implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Products selectedProduct = getSelectedProduct();
+        Product selectedProduct = getSelectedProduct();
         productID = getSelectedProduct().getProductID();
         modifyProductsIDNumberLbl.setText("Auto-Gen: " + productID);
         modifyProductsNametxt.setText(selectedProduct.getName());
@@ -186,7 +185,7 @@ public class ModifyProduct implements Initializable {
         modifyProductsPricetxt.setText(Double.toString(selectedProduct.getPrice()));
         modifyProductsMintxt.setText(Integer.toString(selectedProduct.getMin()));
         modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
-        currentAssocParts = Products.getAssociatedPartsList();
+        currentAssocParts = Product.getAssociatedPartsList();
         modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
         modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("name"));
         modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));

@@ -4,7 +4,7 @@ package model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Outsourced extends Parts {
+public class Outsourced extends Part {
 
     private final StringProperty companyName;
 
