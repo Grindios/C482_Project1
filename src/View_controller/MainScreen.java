@@ -183,11 +183,11 @@ public class MainScreen implements Initializable {
 
     @FXML
     public void addProductsAct(ActionEvent actionEvent) throws IOException{
-        Parent addProductsParent = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
-        Scene addProductsScene = new Scene(addProductsParent);
-        Stage addProductsStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        addProductsStage.setScene(addProductsScene);
-        addProductsStage.show();
+        Parent addPartsParent = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
+        Scene addPartsScene = new Scene(addPartsParent);
+        Stage addPartsStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        addPartsStage.setScene(addPartsScene);
+        addPartsStage.show();
     }
     @FXML
     public void modifyProductsAct(ActionEvent actionEvent) throws IOException{
@@ -352,9 +352,9 @@ public class MainScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         partIdCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partsInStockCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        partNameCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
+        partsInStockCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
+        partPriceCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
         updatePartsTable();
         productIdCol.setCellValueFactory(new PropertyValueFactory("productID"));
         productNameCol.setCellValueFactory(new PropertyValueFactory("name"));

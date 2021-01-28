@@ -27,7 +27,7 @@
             <TextField fx:id="modifyProductsPricetxt" layoutX="79.0" layoutY="215.0" />
             <TextField fx:id="modifyProductsMaxtxt" layoutX="79.0" layoutY="255.0" />
             <TextField fx:id="modifyProductsMintxt" layoutX="312.0" layoutY="255.0" prefHeight="26.0" prefWidth="140.0" />
-            <TableView fx:id="modProductAddTbl" layoutX="462.0" layoutY="50.0" prefHeight="224.0" prefWidth="475.0">
+            <TableView fx:id="modPartsAddTbl" layoutX="462.0" layoutY="50.0" prefHeight="224.0" prefWidth="475.0">
               <columns>
                 <TableColumn fx:id="modPartIdAddCol" prefWidth="75.0" text="Part ID" />
                 <TableColumn fx:id="modPartNameAddCol" prefWidth="97.0" text="Part Name" />

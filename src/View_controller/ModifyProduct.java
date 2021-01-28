@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static View_controller.MainScreen.*;
+import static model.Inventory.getParts;
 import static model.Product.*;
 
 
@@ -39,7 +40,7 @@ public class ModifyProduct implements Initializable {
     @FXML
     private TextField modifyProductsMaxtxt;
     @FXML
-    private TableView<Part> modProductAddTbl;
+    private TableView<Part> modPartsAddTbl;
     @FXML
     private TableColumn<Part, Integer> modPartIdAddCol;
     @FXML
@@ -67,7 +68,7 @@ public class ModifyProduct implements Initializable {
     //add
     @FXML
     public void AddProductAct(ActionEvent event) {
-        Part part = modProductAddTbl.getSelectionModel().getSelectedItem();
+        Part part = modPartsAddTbl.getSelectionModel().getSelectedItem();
         if (part == null) {
             Alert nullalert = new Alert(Alert.AlertType.ERROR);
             nullalert.setTitle("Associated Part Addition Error");
@@ -169,10 +170,11 @@ public class ModifyProduct implements Initializable {
         }
     }
     public void updateAssociatedPartsTbl() {
-        modProductAssocTbl.setItems(currentAssocParts);
+        modProductAssocTbl.setItems(getAssociatedPartsList());
     }
 
-
+    @FXML
+    public void updatePartsTable() { modPartsAddTbl.setItems(getParts()); }
 
 
     @Override
@@ -187,15 +189,16 @@ public class ModifyProduct implements Initializable {
         modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
         currentAssocParts = Product.getAssociatedPartsList();
         modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        modPartPriceAddCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
+        modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
+        modPartPriceAddCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
 
         modPartIdAssocCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        modPartNameAssocCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-        modPartsInStockAssocCol.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        modPartPriceAssocCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        modPartNameAssocCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
+        modPartsInStockAssocCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
+        modPartPriceAssocCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
         updateAssociatedPartsTbl();
+        updatePartsTable();
 
     }
 

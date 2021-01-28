@@ -21,8 +21,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import static model.Inventory.getParts;
-import static model.Product.addAssociatedPart;
-import static model.Product.removeAssociatedPart;
+import static model.Product.*;
 
 
 public class AddProduct implements Initializable {
@@ -53,15 +52,15 @@ public class AddProduct implements Initializable {
     @FXML
     private TableColumn<Part, Double> addProductPriceAddColumn;
     @FXML
-    private TableView<Part> addProductDeleteTbl;
+    private TableView<Part> addProductAssocTbl;
     @FXML
-    private TableColumn<Part, Integer> addProductDeleteIDColumn;
+    private TableColumn<Part, Integer> addProductAssocIDColumn;
     @FXML
-    private TableColumn<Part, String> addProductDeleteNameColumn;
+    private TableColumn<Part, String> addProductNameAssocColumn;
     @FXML
-    private TableColumn<Part, Integer> addProductDeleteInStockColumn;
+    private TableColumn<Part, Integer> addProductInStockAssocColumn;
     @FXML
-    private TableColumn<Part, Double> addProductDeletePriceColumn;
+    private TableColumn<Part, Double> addProductPriceAssocColumn;
     @FXML
     private TextField addProductSearchTxt;
 
@@ -109,21 +108,45 @@ public class AddProduct implements Initializable {
         }
     }
 
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 
     @FXML
     public void AddPartsAct(javafx.event.ActionEvent event) {
-
         Part part = addProductPartsTbl.getSelectionModel().getSelectedItem();
-        if (part == null) {
-            Alert nullAlert = new Alert(Alert.AlertType.ERROR);
-            nullAlert.setTitle("Associated Part Addition Error");
-            nullAlert.setHeaderText("The part was not added!");
-            nullAlert.setContentText("A part was not selected!");
-            nullAlert.showAndWait();
-        } else {
-            addAssociatedPart(part);
-            addProductDeleteTbl.setItems(Product.getAssociatedPartsList());
-        }
+        boolean repeatedItem = false;
+          if (part == null) {
+              return;
+          } else {
+              int id = part.getPartID();
+              for (int i = 0; i < associatedParts.size(); i++)
+                  if (associatedParts.get(i).getPartID() == id) {
+                      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                      alert.setTitle("Error");
+                      alert.setHeaderText("That Part is already associated.");
+                      alert.showAndWait();
+                      repeatedItem = true;
+                  }
+          }
+          if (!repeatedItem) {
+              associatedParts.add(part);
+          }
+        addProductAssocTbl.setItems(associatedParts);
+
+
+
+
+
+   //    Part part = addProductPartsTbl.getSelectionModel().getSelectedItem();
+   //    if (part == null) {
+   //        Alert nullAlert = new Alert(Alert.AlertType.ERROR);
+   //        nullAlert.setTitle("Associated Part Addition Error");
+   //        nullAlert.setHeaderText("The part was not added!");
+   //        nullAlert.setContentText("A part was not selected!");
+   //        nullAlert.showAndWait();
+   //    } else {
+   //        addAssociatedPart(part);
+   //        addProductAssocTbl.setItems(Product.getAssociatedPartsList());
+   //    }
     }
 
     @FXML
@@ -136,7 +159,7 @@ public class AddProduct implements Initializable {
 
         if (alert.getResult() == ButtonType.OK) {
             try {
-                Part part = addProductDeleteTbl.getSelectionModel().getSelectedItem();
+                Part part = addProductAssocTbl.getSelectionModel().getSelectedItem();
                 removeAssociatedPart(part.getPartID());
             } catch (NullPointerException e) {
                 Alert nullalert = new Alert(Alert.AlertType.ERROR);
@@ -157,7 +180,7 @@ public class AddProduct implements Initializable {
         String price = addProductsPriceTxt.getText();
         String max = addProductsMaxTxt.getText();
         String min = addProductsMinTxt.getText();
-        ObservableList<Part> associatedParts = addProductDeleteTbl.getItems();
+        ObservableList<Part> associatedParts = addProductAssocTbl.getItems();
 
         catchError = Product.getEmptyFields(name, inStock, price, max, min, catchError);
         if (catchError.length() > 0) {
@@ -199,6 +222,7 @@ public class AddProduct implements Initializable {
                         addProduct.setMin(Integer.parseInt(min));
                         addProduct.setAssociatedPartsList(associatedParts);
                         Inventory.addProduct(addProduct);
+
 
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
                         Parent root = loader.load();
@@ -245,20 +269,23 @@ public class AddProduct implements Initializable {
     private int productID;
 
 
-
+    @FXML
+    public void updatePartsTable() { addProductPartsTbl.setItems(getParts()); }
+    @FXML
+    public void updateAssocTable() {addProductAssocTbl.setItems(associatedParts);}
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         addProductIDAddColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        addProductNameAddColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        addProductInStockAddColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        addProductPriceAddColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        addProductDeleteIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        addProductDeleteNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        addProductDeleteInStockColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
-        addProductDeletePriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-
+        addProductNameAddColumn.setCellValueFactory(new PropertyValueFactory<>("partName"));
+        addProductInStockAddColumn.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
+        addProductPriceAddColumn.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
+        updatePartsTable();
+        addProductAssocIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        addProductNameAssocColumn.setCellValueFactory(new PropertyValueFactory<>("partName"));
+        addProductInStockAssocColumn.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
+        addProductPriceAssocColumn.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
+        updateAssocTable();
         productID = Inventory.getProductIDCount();
         addProductsIDNumberLbl.setText("Part ID :" + productID);
 
