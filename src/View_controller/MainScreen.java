@@ -191,6 +191,7 @@ public class MainScreen implements Initializable {
     }
     @FXML
     public void modifyProductsAct(ActionEvent actionEvent) throws IOException{
+
         selectedProduct = productsTbl.getSelectionModel().getSelectedItem();
         selectedProductIndex = getProducts().indexOf(selectedProduct);
         if (selectedProduct == null) {
@@ -228,14 +229,14 @@ public class MainScreen implements Initializable {
             alert.initModality(Modality.NONE);
             alert.setTitle("Product Deletion");
             alert.setHeaderText("Confirm Delete?");
-            alert.setContentText("Are you sure you want to delete " + product.getName() + "?");
+            alert.setContentText("Are you sure you want to delete " + product.getProductName() + "?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 removeProduct(product.getProductID());
                 updateProductsTbl();
-                System.out.println("Product " + product.getName() + " was removed.");
+                System.out.println("Product " + product.getProductName() + " was removed.");
             } else {
-                System.out.println("Product " + product.getName() + " was removed.");
+                System.out.println("Product " + product.getProductName() + " was removed.");
             }
         }
     }
@@ -270,7 +271,7 @@ public class MainScreen implements Initializable {
             catch (NumberFormatException e) {
                 for (Product p : getProducts()) {
 
-                    if (p.getName().equals(searchProductsString)){
+                    if (p.getProductName().equals(searchProductsString)){
                         found = true;
 
                         ObservableList<Product> filteredProductList = FXCollections.observableArrayList();
@@ -357,9 +358,9 @@ public class MainScreen implements Initializable {
         partPriceCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
         updatePartsTable();
         productIdCol.setCellValueFactory(new PropertyValueFactory("productID"));
-        productNameCol.setCellValueFactory(new PropertyValueFactory("name"));
-        productInStockCol.setCellValueFactory(new PropertyValueFactory("inStock"));
-        productPriceCol.setCellValueFactory(new PropertyValueFactory("price"));
+        productNameCol.setCellValueFactory(new PropertyValueFactory("productName"));
+        productInStockCol.setCellValueFactory(new PropertyValueFactory("productInStock"));
+        productPriceCol.setCellValueFactory(new PropertyValueFactory("productPrice"));
         updateProductsTbl();
 
     }

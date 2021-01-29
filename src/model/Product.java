@@ -6,17 +6,17 @@ import javafx.collections.ObservableList;
 public class Product {
     public static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     protected int productID;
-    protected String name;
-    protected double price = 0.0;
-    protected int inStock;
+    protected String productName;
+    protected double productPrice = 0.0;
+    protected int productInStock;
     protected int min;
     protected int max;
 
     public Product() {
         this.productID = productID;
-        this.name = name;
-        this.price = price;
-        this.inStock = inStock;
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productInStock = productInStock;
         this.min = min;
         this.max = max;
 
@@ -44,16 +44,16 @@ public class Product {
     public void setProductID(int productID) { this.productID = productID; }
 
     //Name Getters and Setters
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getProductName() { return productName; }
+    public void setProductName(String productName) { this.productName = productName; }
 
     //Price Getters and Setters
-    public double getPrice() { return price; }
-    public void setPrice(double price) { this.price = price; }
+    public double getProductPrice() { return productPrice; }
+    public void setProductPrice(double productPrice) { this.productPrice = productPrice; }
 
     //In Stock Getters and Setters
-    public int getInStock() { return inStock; }
-    public void setInStock(int inStock) { this.inStock = inStock; }
+    public int getProductInStock() { return productInStock; }
+    public void setProductInStock(int productInStock) { this.productInStock = productInStock; }
 
     //Min Getters and Setters
     public int getMin() { return min; }
@@ -65,10 +65,13 @@ public class Product {
 
 
     //Assoc Getters & Setters
-    public static ObservableList<Part> getAssociatedPartsList() {
+    public static ObservableList getAssociatedPartsList() {
         return associatedParts;
     }
-    public static void setAssociatedPartsList(ObservableList<Part> associatedParts) { Product.associatedParts = associatedParts; }
+    public void setAssociatedPartsList(ObservableList<Part> associatedParts) {
+       this.associatedParts = associatedParts;
+        // Product.associatedParts = associatedParts;
+    }
 
 
 

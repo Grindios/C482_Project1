@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 import static View_controller.MainScreen.*;
 import static model.Inventory.getParts;
+import static model.Inventory.getProducts;
 import static model.Product.*;
 
 
@@ -60,7 +61,7 @@ public class ModifyProduct implements Initializable {
     @FXML
     private TableColumn<Part, Double> modPartPriceAssocCol;
 
-    public static ObservableList<Part> currentAssocParts = FXCollections.observableArrayList();
+    private ObservableList<Part> currentParts = FXCollections.observableArrayList();
     private int productIndex = getSelectedProductIndex();
     private String catchMessage = new String();
     private int productID;
@@ -77,8 +78,10 @@ public class ModifyProduct implements Initializable {
             nullalert.showAndWait();
         }
         else {
-            addAssociatedPart(part);
-            modProductAssocTbl.setItems(getAssociatedPartsList());
+            //addAssociatedPart(part);
+            currentParts.add(part);
+            //modProductAssocTbl.setItems(getAssociatedPartsList());
+            updateAssociatedPartsTbl();
         }
     }
 
@@ -94,7 +97,7 @@ public class ModifyProduct implements Initializable {
         alert.setContentText("Are you sure you want to delete " + part.getPartName() + " from parts?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            currentAssocParts.remove(part);
+            currentParts.remove(part);
         } else {
             System.out.println("You clicked cancel.");
         }
@@ -125,13 +128,13 @@ public class ModifyProduct implements Initializable {
             else {
                 Product addProduct = new Product();
                 addProduct.setProductID(productID);
-                addProduct.setName(name);
-                addProduct.setInStock(Integer.parseInt(inStock));
-                addProduct.setPrice(Double.parseDouble(price));
+                addProduct.setProductName(name);
+                addProduct.setProductInStock(Integer.parseInt(inStock));
+                addProduct.setProductPrice(Double.parseDouble(price));
                 addProduct.setMax(Integer.parseInt(max));
                 addProduct.setMin(Integer.parseInt(min));
-                addProduct.setAssociatedPartsList(currentAssocParts);
-                Inventory.updateProduct(getSelectedProductIndex(), addProduct);
+                addProduct.setAssociatedPartsList(currentParts);
+                Inventory.updateProduct(productIndex, addProduct);
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
                 Parent root = loader.load();
@@ -170,7 +173,7 @@ public class ModifyProduct implements Initializable {
         }
     }
     public void updateAssociatedPartsTbl() {
-        modProductAssocTbl.setItems(getAssociatedPartsList());
+        modProductAssocTbl.setItems(currentParts);
     }
 
     @FXML
@@ -179,15 +182,15 @@ public class ModifyProduct implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Product selectedProduct = getSelectedProduct();
-        productID = getSelectedProduct().getProductID();
+        Product selectedProduct = getProducts().get(productIndex);
+        productID = getProducts().get(productIndex).getProductID();
         modifyProductsIDNumberLbl.setText("Auto-Gen: " + productID);
-        modifyProductsNametxt.setText(selectedProduct.getName());
-        modifyProductsInStocktxt.setText(Integer.toString(selectedProduct.getInStock()));
-        modifyProductsPricetxt.setText(Double.toString(selectedProduct.getPrice()));
+        modifyProductsNametxt.setText(selectedProduct.getProductName());
+        modifyProductsInStocktxt.setText(Integer.toString(selectedProduct.getProductInStock()));
+        modifyProductsPricetxt.setText(Double.toString(selectedProduct.getProductPrice()));
         modifyProductsMintxt.setText(Integer.toString(selectedProduct.getMin()));
         modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
-        currentAssocParts = Product.getAssociatedPartsList();
+        currentParts = Product.getAssociatedPartsList();
         modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
         modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
         modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));

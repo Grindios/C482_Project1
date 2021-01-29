@@ -27,7 +27,7 @@ import static model.Product.*;
 public class AddProduct implements Initializable {
 
 
-    // private ObservableList<Parts> currentParts = FXCollections.observableArrayList();
+
     @FXML
     private Label addProductsIDNumberLbl;
     @FXML
@@ -108,7 +108,7 @@ public class AddProduct implements Initializable {
         }
     }
 
-    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private ObservableList<Part> currentParts = FXCollections.observableArrayList();
 
     @FXML
     public void AddPartsAct(javafx.event.ActionEvent event) {
@@ -118,8 +118,8 @@ public class AddProduct implements Initializable {
               return;
           } else {
               int id = part.getPartID();
-              for (int i = 0; i < associatedParts.size(); i++)
-                  if (associatedParts.get(i).getPartID() == id) {
+              for (int i = 0; i < currentParts.size(); i++)
+                  if (currentParts.get(i).getPartID() == id) {
                       Alert alert = new Alert(Alert.AlertType.INFORMATION);
                       alert.setTitle("Error");
                       alert.setHeaderText("That Part is already associated.");
@@ -128,25 +128,14 @@ public class AddProduct implements Initializable {
                   }
           }
           if (!repeatedItem) {
-              associatedParts.add(part);
+              currentParts.add(part);
           }
-        addProductAssocTbl.setItems(associatedParts);
+        addProductAssocTbl.setItems(currentParts);
 
 
 
 
 
-   //    Part part = addProductPartsTbl.getSelectionModel().getSelectedItem();
-   //    if (part == null) {
-   //        Alert nullAlert = new Alert(Alert.AlertType.ERROR);
-   //        nullAlert.setTitle("Associated Part Addition Error");
-   //        nullAlert.setHeaderText("The part was not added!");
-   //        nullAlert.setContentText("A part was not selected!");
-   //        nullAlert.showAndWait();
-   //    } else {
-   //        addAssociatedPart(part);
-   //        addProductAssocTbl.setItems(Product.getAssociatedPartsList());
-   //    }
     }
 
     @FXML
@@ -180,7 +169,7 @@ public class AddProduct implements Initializable {
         String price = addProductsPriceTxt.getText();
         String max = addProductsMaxTxt.getText();
         String min = addProductsMinTxt.getText();
-        ObservableList<Part> associatedParts = addProductAssocTbl.getItems();
+
 
         catchError = Product.getEmptyFields(name, inStock, price, max, min, catchError);
         if (catchError.length() > 0) {
@@ -191,7 +180,7 @@ public class AddProduct implements Initializable {
             alert.showAndWait();
             catchError = "";
         } else {
-            if (associatedParts.isEmpty()) {
+            if (currentParts.isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Product Save Error");
                 alert.setHeaderText("The product was not saved!");
@@ -215,14 +204,18 @@ public class AddProduct implements Initializable {
                     } else {
                         Product addProduct = new Product();
                         addProduct.setProductID(productID);
-                        addProduct.setName(name);
-                        addProduct.setInStock(Integer.parseInt(inStock));
-                        addProduct.setPrice(Double.parseDouble(price));
+                        addProduct.setProductName(name);
+                        addProduct.setProductInStock(Integer.parseInt(inStock));
+                        addProduct.setProductPrice(Double.parseDouble(price));
                         addProduct.setMax(Integer.parseInt(max));
                         addProduct.setMin(Integer.parseInt(min));
-                        addProduct.setAssociatedPartsList(associatedParts);
-                        Inventory.addProduct(addProduct);
+                        for ( int i = 0; i < currentParts.size(); i ++) {
 
+                            addProduct.addAssociatedPart(currentParts.get(i));
+                            //addProduct.setAssociatedPartsList(currentParts);
+
+                        }
+                        Inventory.addProduct(addProduct);
 
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
                         Parent root = loader.load();
@@ -272,7 +265,7 @@ public class AddProduct implements Initializable {
     @FXML
     public void updatePartsTable() { addProductPartsTbl.setItems(getParts()); }
     @FXML
-    public void updateAssocTable() {addProductAssocTbl.setItems(associatedParts);}
+    public void updateAssocTable() {addProductAssocTbl.setItems(currentParts);}
 
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
