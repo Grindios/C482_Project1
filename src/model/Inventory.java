@@ -11,13 +11,11 @@ public class Inventory {
     private static int productID = 0;
 
 
-
+//add, remove, lookup and update product
     public static void addProduct( Product products) {
         allProducts.add(products);
     }
-
     public static boolean removeProduct(int productID){
-
         for (Product p : allProducts){
             if (p.getProductID() == productID) {
                 allProducts.remove(p);
@@ -38,11 +36,11 @@ public class Inventory {
         allProducts.set(productIndex, product);
     }
 
+    //add, remove, lookup and update part
     public static void addPart(Part part) {
         allParts.addAll(part);
     }
-
-    public static boolean deletePart(int partID){
+    public static boolean removePart(int partID){
         for (Part p : allParts) {
             if (p.getPartID() == partID) {
                 allParts.remove(p);
@@ -51,7 +49,6 @@ public class Inventory {
         }
         return false;
     }
-
     public static Part lookupPart (int partID) {
         for(Part p : allParts) {
             if(p.getPartID() == partID)
@@ -74,7 +71,7 @@ public class Inventory {
         return productID;
     }
 
-
+    //getters
     public static ObservableList<Part> getParts() {
         return allParts;
     }
@@ -109,8 +106,6 @@ public class Inventory {
         }
         return isFound;
     }
-
-
 }
 
 

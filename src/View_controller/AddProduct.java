@@ -64,9 +64,25 @@ public class AddProduct implements Initializable {
     @FXML
     private TextField addProductSearchTxt;
 
+    private ObservableList<Part> currentParts = FXCollections.observableArrayList();
+    private String catchError = new String();
+    private int productID;
 
+  /*
+  * Above are the variables
+  *
+  *
+  *
+  * Below are the methods
+  * */
+
+
+
+
+
+    //search action for the add product screen
     @FXML
-    public void SearchProductAction() {
+    public void SearchProductAct() {
         String searchPartIDString = addProductSearchTxt.getText();
         if (searchPartIDString.equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -109,8 +125,8 @@ public class AddProduct implements Initializable {
         }
     }
 
-    private ObservableList<Part> currentParts = FXCollections.observableArrayList();
 
+//action to add part
     @FXML
     public void AddPartsAct(javafx.event.ActionEvent event) {
         Part part = addProductPartsTbl.getSelectionModel().getSelectedItem();
@@ -133,14 +149,13 @@ public class AddProduct implements Initializable {
           }
         addProductAssocTbl.setItems(currentParts);
 
-
-
-
-
     }
 
+
+
+    // removes selected part
     @FXML
-    public void DeleteItemAct(javafx.event.ActionEvent event) {
+    public void DeleteItemAct() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Associated Part");
         alert.setHeaderText("Are you sure you want to delete the associated part?");
@@ -163,8 +178,9 @@ public class AddProduct implements Initializable {
         }
     }
 
+    //Saves the associated parts and Product
     @FXML
-    public void SaveItemsAct(javafx.event.ActionEvent event) throws IOException {
+    public void SaveItemsAct(javafx.event.ActionEvent event){
         String name = addProductsNameTxt.getText();
         String inStock = addProductsInStockTxt.getText();
         String price = addProductsPriceTxt.getText();
@@ -233,6 +249,8 @@ public class AddProduct implements Initializable {
         }
     }
 
+
+    //Cancels the add product action
     @FXML
     public void CancelAct(javafx.event.ActionEvent event) throws IOException {
         try {
@@ -256,16 +274,10 @@ public class AddProduct implements Initializable {
         }
     }
 
-
-    //Everything above is vetted
-
-
-    private String catchError = new String();
-    private int productID;
-
-
+    //Update inStock parts table
     @FXML
     public void updatePartsTable() { addProductPartsTbl.setItems(getParts()); }
+    //updates Associated parts table
     @FXML
     public void updateAssocTable() {addProductAssocTbl.setItems(currentParts);}
 

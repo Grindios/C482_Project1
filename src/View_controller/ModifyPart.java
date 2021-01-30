@@ -43,16 +43,23 @@ public class ModifyPart implements Initializable {
     @FXML
     private TextField modifyPartsBooltxt;
 
-
-    // Buttons?
-
     private boolean isOutsourced;
     int partIndex = View_controller.MainScreen.getSelectedPartIndex();
     private String catchMessage = new String();
     private int partID;
 
+/*
+* above are variables
+*
+*
+*
+* below are methods
+* */
 
 
+
+
+    //Handles the selection of in house radio button
     @FXML
     public void selectModPartInHouse(javafx.event.ActionEvent event) {
         isOutsourced = false;
@@ -62,6 +69,7 @@ public class ModifyPart implements Initializable {
         modifyPartsOutsourceRdBtn.setSelected(false);
     }
 
+    //Handles the selection of outsourced radio button
     @FXML
     public void setModPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
         isOutsourced = true;
@@ -70,7 +78,8 @@ public class ModifyPart implements Initializable {
         modifyPartsInHouseRdBtn.setSelected(false);
         modifyPartsOutsourceRdBtn.setSelected(true);
     }
-    //Modify parts
+
+    //Saves the modification of the selected part
     @FXML
     public void SaveModPartsAct(javafx.event.ActionEvent event) throws IOException {
         String name = modifyPartsNametxt.getText();
@@ -137,6 +146,8 @@ public class ModifyPart implements Initializable {
         }
 
     }
+
+    //Cancels the modification of the selected part
     @FXML
     public void ModifyPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -157,11 +168,11 @@ public class ModifyPart implements Initializable {
             System.out.println("Process Canceled. ");
         }
     }
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-
         Part part = model.Inventory.getParts().get(partIndex);
         partID = model.Inventory.getParts().get(partIndex).getPartID();
         modifyPartsIDNumberLbl.setText("Auto-Gen: " + partID);
@@ -180,9 +191,5 @@ public class ModifyPart implements Initializable {
             modifyPartsBooltxt.setText((((Outsourced) Inventory.getParts().get(partIndex)).getCompanyName()));
             modifyPartsOutsourceRdBtn.setSelected(true);
         }
-
     }
-
-
-
 }

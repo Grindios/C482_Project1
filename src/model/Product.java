@@ -25,22 +25,6 @@ public class Product {
        this.associatedParts.add(part);
 
    }
-   // public void setAssociatedPartsList(ObservableList<Part> associatedParts) {
-    //        Product.associatedParts = associatedParts;
-
-
-    public boolean removeAssociatedPart(int partID) {
-        for (Part p : associatedParts) {
-            if (p.getPartID() == partID) {
-                associatedParts.remove(p);
-                return true;
-            }
-        }
-        return false;
-    }
-    public Part lookupAssociatedPart(int partID) {
-        return associatedParts.get(partID);
-    }
 
     //Product ID Getters and Setters
     public int getProductID() { return productID; }
@@ -72,12 +56,6 @@ public class Product {
         return associatedParts;
     }
 
-
-
-    //  public static void setAssociatedPartsList(ObservableList<Part> associatedParts) {
- //     Product.associatedParts = associatedParts;
- //      // Product.associatedParts = associatedParts;
- //  }
 
 
 

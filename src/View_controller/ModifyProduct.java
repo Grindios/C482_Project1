@@ -69,165 +69,19 @@ public class ModifyProduct implements Initializable {
     private int productIndex = getSelectedProductIndex();
     private String catchMessage = new String();
     private int productID;
-    private Product productToModify;
 
 
+/*
+* above are variables
+*
+*
+*
+* below are methods
+* */
 
-
-
-    //add
+//handles the search of the parts in stock table
     @FXML
-    public void AddProductAct(ActionEvent event) {
-        Part part = modPartsAddTbl.getSelectionModel().getSelectedItem();
-        if (part == null) {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Associated Part Addition Error");
-            nullalert.setHeaderText("The part was not added!");
-            nullalert.setContentText("A part was not selected!");
-            nullalert.showAndWait();
-        }
-        else {
-            //addAssociatedPart(part);
-            currentParts.add(part);
-            //modProductAssocTbl.setItems(getAssociatedPartsList());
-            updateAssociatedPartsTbl();
-        }
-    }
-
-
-
-    @FXML
-    public void DeleteAct(javafx.event.ActionEvent event) {
-        Part part = modProductAssocTbl.getSelectionModel().getSelectedItem();
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initModality(Modality.NONE);
-        alert.setTitle("Part Deletion");
-        alert.setHeaderText("Confirm");
-        alert.setContentText("Are you sure you want to delete " + part.getPartName() + " from parts?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            currentParts.remove(part);
-        } else {
-            System.out.println("You clicked cancel.");
-        }
-    }
-
-
-    @FXML
-    public void SaveModProductAct(javafx.event.ActionEvent event) {
-        String name = modifyProductsNametxt.getText();
-        String inStock = modifyProductsInStocktxt.getText();
-        String price = modifyProductsPricetxt.getText();
-        String min = modifyProductsMintxt.getText();
-        String max = modifyProductsMaxtxt.getText();
-
-        try {
-            catchMessage = Product.getProductValidation(name,
-                    Integer.parseInt(inStock),
-                    Double.parseDouble(price),
-                    Integer.parseInt(max),
-                    Integer.parseInt(min),
-                    catchMessage);
-            if (catchMessage.length()> 0){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("Product must contain at least one part.");
-                alert.showAndWait();
-            }
-            else {
-                Product addProduct = new Product();
-                addProduct.setProductID(productID);
-                addProduct.setProductName(name);
-                addProduct.setProductInStock(Integer.parseInt(inStock));
-                addProduct.setProductPrice(Double.parseDouble(price));
-                addProduct.setMax(Integer.parseInt(max));
-                addProduct.setMin(Integer.parseInt(min));
-                for ( int i = 0; i < currentParts.size(); i ++) {
-
-                    addProduct.addAssociatedPart(currentParts.get(i));
-                    //addProduct.setAssociatedPartsList(currentParts);
-
-                }
-                Inventory.updateProduct(productIndex, addProduct);
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
-                Stage winMainScreen = (Stage)((Node)event.getSource()).getScene().getWindow();
-                winMainScreen.setTitle("Inventory Management System");
-                winMainScreen.setScene(scene);
-                winMainScreen.show();
-            }
-        }
-        catch (NumberFormatException | IOException e) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Error Modifying Product");
-            alert.setContentText("Form contains blank fields.");
-            alert.showAndWait();
-        }
-    }
-    public void ModifyProductCancelAct (javafx.event.ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initModality(Modality.NONE);
-        alert.setTitle("Confirm Cancel");
-        alert.setHeaderText("Confirm Cancel");
-        alert.setContentText("Are you sure you want to cancel adding a new part?");
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if (result.get() == ButtonType.OK) {
-            Parent addPartCancel = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
-            Scene scene = new Scene(addPartCancel);
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        }
-        else {
-            System.out.println("Process Canceled. ");
-        }
-    }
-    public void updateAssociatedPartsTbl() {
-
-
-        modProductAssocTbl.setItems(currentParts);
-    }
-
-    @FXML
-    public void updatePartsTable() { modPartsAddTbl.setItems(getParts()); }
-
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        Product selectedProduct = getProducts().get(productIndex);
-        productID = getProducts().get(productIndex).getProductID();
-        modifyProductsIDNumberLbl.setText("Auto-Gen: " + productID);
-        modifyProductsNametxt.setText(selectedProduct.getProductName());
-        modifyProductsInStocktxt.setText(Integer.toString(selectedProduct.getProductInStock()));
-        modifyProductsPricetxt.setText(Double.toString(selectedProduct.getProductPrice()));
-        modifyProductsMintxt.setText(Integer.toString(selectedProduct.getMin()));
-        modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
-        currentParts.addAll(selectedProduct.getAssociatedPartsList());
-        modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
-        modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
-        modPartPriceAddCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
-
-        modPartIdAssocCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        modPartNameAssocCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
-        modPartsInStockAssocCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
-        modPartPriceAssocCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
-        updateAssociatedPartsTbl();
-        updatePartsTable();
-
-    }
-
-
-
-
-
-
-    @FXML
-    public void SearchProductPartAction(javafx.event.ActionEvent actionEvent) {
+    public void SearchProductPartAction() {
         String searchPartIDString = modProductSearchTxt.getText();
         if (searchPartIDString.equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -270,7 +124,144 @@ public class ModifyProduct implements Initializable {
         }
     }
 
+    //handles the association of product to part
+    @FXML
+    public void AddProductAct() {
+        Part part = modPartsAddTbl.getSelectionModel().getSelectedItem();
+        if (part == null) {
+            Alert nullalert = new Alert(Alert.AlertType.ERROR);
+            nullalert.setTitle("Associated Part Addition Error");
+            nullalert.setHeaderText("The part was not added!");
+            nullalert.setContentText("A part was not selected!");
+            nullalert.showAndWait();
+        }
+        else {
+            currentParts.add(part);
+            updateAssociatedPartsTbl();
+        }
+    }
+
+    //removes the associated part from the associated part table
+    @FXML
+    public void DeleteAct() {
+        Part part = modProductAssocTbl.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("Part Deletion");
+        alert.setHeaderText("Confirm");
+        alert.setContentText("Are you sure you want to delete " + part.getPartName() + " from parts?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            currentParts.remove(part);
+        } else {
+            System.out.println("You clicked cancel.");
+        }
+    }
+
+    // saves the modification done to part and association
+    @FXML
+    public void SaveModProductAct(javafx.event.ActionEvent event) {
+        String name = modifyProductsNametxt.getText();
+        String inStock = modifyProductsInStocktxt.getText();
+        String price = modifyProductsPricetxt.getText();
+        String min = modifyProductsMintxt.getText();
+        String max = modifyProductsMaxtxt.getText();
+
+        try {
+            catchMessage = Product.getProductValidation(name,
+                    Integer.parseInt(inStock),
+                    Double.parseDouble(price),
+                    Integer.parseInt(max),
+                    Integer.parseInt(min),
+                    catchMessage);
+            if (catchMessage.length()> 0){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setHeaderText("Product must contain at least one part.");
+                alert.showAndWait();
+            }
+            else {
+                Product addProduct = new Product();
+                addProduct.setProductID(productID);
+                addProduct.setProductName(name);
+                addProduct.setProductInStock(Integer.parseInt(inStock));
+                addProduct.setProductPrice(Double.parseDouble(price));
+                addProduct.setMax(Integer.parseInt(max));
+                addProduct.setMin(Integer.parseInt(min));
+                for ( int i = 0; i < currentParts.size(); i ++) {
+                    addProduct.addAssociatedPart(currentParts.get(i));
+                }
+                Inventory.updateProduct(productIndex, addProduct);
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage winMainScreen = (Stage)((Node)event.getSource()).getScene().getWindow();
+                winMainScreen.setTitle("Inventory Management System");
+                winMainScreen.setScene(scene);
+                winMainScreen.show();
+            }
+        }
+        catch (NumberFormatException | IOException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error Modifying Product");
+            alert.setContentText("Form contains blank fields.");
+            alert.showAndWait();
+        }
+    }
+
+    //cancels the modification of product
+    public void ModifyProductCancelAct (javafx.event.ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initModality(Modality.NONE);
+        alert.setTitle("Confirm Cancel");
+        alert.setHeaderText("Confirm Cancel");
+        alert.setContentText("Are you sure you want to cancel adding a new part?");
+        Optional<ButtonType> result = alert.showAndWait();
+
+        if (result.get() == ButtonType.OK) {
+            Parent addPartCancel = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
+            Scene scene = new Scene(addPartCancel);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        }
+        else {
+            System.out.println("Process Canceled. ");
+        }
+    }
+    //updates the associated parts table view
+    public void updateAssociatedPartsTbl() {
+        modProductAssocTbl.setItems(currentParts);
+    }
+    //updates the parts in stock table view
+    @FXML
+    public void updatePartsTable() { modPartsAddTbl.setItems(getParts()); }
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        Product selectedProduct = getProducts().get(productIndex);
+        productID = getProducts().get(productIndex).getProductID();
+        modifyProductsIDNumberLbl.setText("Auto-Gen: " + productID);
+        modifyProductsNametxt.setText(selectedProduct.getProductName());
+        modifyProductsInStocktxt.setText(Integer.toString(selectedProduct.getProductInStock()));
+        modifyProductsPricetxt.setText(Double.toString(selectedProduct.getProductPrice()));
+        modifyProductsMintxt.setText(Integer.toString(selectedProduct.getMin()));
+        modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
+        currentParts.addAll(selectedProduct.getAssociatedPartsList());
+        modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
+        modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
+        modPartPriceAddCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
 
+        modPartIdAssocCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        modPartNameAssocCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
+        modPartsInStockAssocCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
+        modPartPriceAssocCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
+        updateAssociatedPartsTbl();
+        updatePartsTable();
+
+    }
 }

@@ -10,7 +10,7 @@ public abstract class Part {
     protected int min;
     protected int max;
 
-    public Part(){
+    public Part() {
         this.partID = partID;
         this.partName = partName;
         this.partPrice = partPrice;
@@ -24,6 +24,7 @@ public abstract class Part {
     public int getPartID() {
         return partID;
     }
+
     public void setPartID(int partID) {
         this.partID = partID;
     }
@@ -32,6 +33,7 @@ public abstract class Part {
     public String getPartName() {
         return partName;
     }
+
     public void setPartName(String partName) {
         this.partName = partName;
     }
@@ -40,6 +42,7 @@ public abstract class Part {
     public double getPartPrice() {
         return partPrice;
     }
+
     public void setPartPrice(double partPrice) {
         this.partPrice = partPrice;
     }
@@ -48,6 +51,7 @@ public abstract class Part {
     public int getPartInStock() {
         return partInStock;
     }
+
     public void setPartInStock(int partInStock) {
         this.partInStock = partInStock;
     }
@@ -56,6 +60,7 @@ public abstract class Part {
     public int getMin() {
         return min;
     }
+
     public void setMin(int min) {
         this.min = min;
     }
@@ -64,15 +69,16 @@ public abstract class Part {
     public int getMax() {
         return max;
     }
+
     public void setMax(int max) {
         this.max = max;
     }
 
 
-// Validate Content Entry
-    public  static String getPartValidation (String name, int inStock, double price, int max, int min, String PartError) {
+    // Validate Content Entry
+    public static String getPartValidation(String name, int inStock, double price, int max, int min, String PartError) {
 
-        if(name == null){
+        if (name == null) {
             PartError = PartError + "Name Field required. ";
         }
         if (inStock < 1) {
@@ -92,30 +98,4 @@ public abstract class Part {
         }
         return PartError;
     }
-    // Validate add parts for entry type
-
-    //Validate Empty Field
-/*
-    public static String GetEmptyFields (String partName, String partInStock, String partPrice, String max, String min, String partDyn, String EmptyError) {
-        if (partName.equals("")) {
-            EmptyError = EmptyError + "The Part Name field cannot be empty. ";
-        }
-        if (partInStock.equals("")) {
-            EmptyError = EmptyError + "\nThe Part Inventory field cannot be empty. ";
-        }
-        if (partPrice.equals("")) {
-            EmptyError = EmptyError + "\nThe Part Price field cannot be empty. ";
-        }
-        if (max.equals("")) {
-            EmptyError = EmptyError + "\nThe Part Max field cannot be empty. ";
-        }
-        if (min.equals("")) {
-            EmptyError = EmptyError + "\nThe Part Min field cannot be empty. ";
-        }
-        if (partDyn.equals("")) {
-            EmptyError = EmptyError + "\nThe Part MachineID or Company Name field cannot be empty. ";
-        }
-        return EmptyError;
-    }*/
-
 }

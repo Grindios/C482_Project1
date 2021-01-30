@@ -45,7 +45,7 @@
             </TableView>
             <TextField fx:id="addProductSearchTxt" layoutX="673.0" layoutY="14.0" />
             <Label fx:id="addProductsIDNumberLbl" layoutX="60.0" layoutY="82.0" prefHeight="27.0" prefWidth="171.0" style="-fx-border-color: black;" />
-            <Button layoutX="854.0" layoutY="14.0" mnemonicParsing="false" onAction="#SearchProductAction" text="search" />
+            <Button layoutX="854.0" layoutY="14.0" mnemonicParsing="false" onAction="#SearchProductAct" text="search" />
          </children>
       </AnchorPane>
    </children>

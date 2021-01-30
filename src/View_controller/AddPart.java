@@ -43,6 +43,27 @@ public class AddPart implements Initializable{
     @FXML
     private TextField addPartsBooltxt;
 
+    private String catchError = new String();
+    private int partID;
+    private boolean isOutsourced;
+
+    /*
+    *
+    * Variables go above
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    *
+    * Below are the methods
+    */
+
+    //cancels the addition of part and takes the user back to the home screen.
     @FXML
     public void addPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -64,6 +85,7 @@ public class AddPart implements Initializable{
         }
     }
 
+    //saves the newly added part
     @FXML
     public void SaveAddPartsAct(javafx.event.ActionEvent event) throws IOException {
         String name = addPartsNametxt.getText();
@@ -147,10 +169,7 @@ public class AddPart implements Initializable{
 
 
 
-    private String catchError = new String();
-    private int partID;
-
-    private boolean isOutsourced;
+   //selects the InHouse radio button
     @FXML
     public void selectAddPartInHouse(javafx.event.ActionEvent event) {
         isOutsourced = false;
@@ -160,6 +179,7 @@ public class AddPart implements Initializable{
         addPartsOutsourceRdBtn.setSelected(false);
     }
 
+    //selects the Outsourced radio button
     @FXML
     public void setAddPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
         isOutsourced = true;
@@ -168,8 +188,6 @@ public class AddPart implements Initializable{
         addPartsOutsourceRdBtn.setSelected(true);
         addPartsInHouseRdBtn.setSelected(false);
     }
-    //Add parts
-
 
 
 

@@ -63,10 +63,27 @@ public class MainScreen implements Initializable {
     private TableColumn<Product, Integer> productInStockCol;
     @FXML
     private TableColumn<Product, Double> productPriceCol;
+    private static Part selectedPart;
+    private static int selectedPartIndex;
+    private static Product selectedProduct;
+    private static int selectedProductIndex;
+
+    /*
+    * above are variables
+    *
+    *
+    *
+    * below are methods
+    * */
 
 
+
+
+
+ //Parts pane methods
+//Takes the user to the add parts screen
     @FXML
-    public void addPartsAct(ActionEvent actionEvent) throws IOException {
+    public void addPartsAct(ActionEvent actionEvent){
         try {
             Parent addPartsParent = FXMLLoader.load(getClass().getResource("AddPart.fxml"));
             Scene addPartsScene = new Scene(addPartsParent);
@@ -79,8 +96,9 @@ public class MainScreen implements Initializable {
         }
     }
 
+    // takes the user to the selected modify parts screen
     @FXML
-    public void modifyPartsAct(ActionEvent actionEvent) throws IOException {
+    public void modifyPartsAct(ActionEvent actionEvent) {
             selectedPart = partsTbl.getSelectionModel().getSelectedItem();
             selectedPartIndex = getParts().indexOf(selectedPart);
           if (selectedPart == null ) {
@@ -103,8 +121,9 @@ public class MainScreen implements Initializable {
             }
     }
 
+    //deletes the selected part
     @FXML
-    private void partDeleteAct(ActionEvent event) {
+    private void partDeleteAct() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Part");
         alert.setHeaderText("Are you sure you want to delete this part?");
@@ -114,7 +133,7 @@ public class MainScreen implements Initializable {
         if (alert.getResult() == ButtonType.OK) {
             try {
                 Part part = partsTbl.getSelectionModel().getSelectedItem();
-                deletePart(part.getPartID());
+                removePart(part.getPartID());
             }
             catch (NullPointerException e) {
                 Alert nullalert = new Alert(Alert.AlertType.ERROR);
@@ -128,9 +147,9 @@ public class MainScreen implements Initializable {
             alert.close();
         }
 
-
     }
 
+    //searches the parts table for string similarities and ID#
     @FXML
     private void SearchPartsAct(ActionEvent event) throws IOException {
         String searchPartString = partsSearchTxt.getText();
@@ -181,6 +200,17 @@ public class MainScreen implements Initializable {
         }
     }
 
+
+
+    /*
+    *Below are product pane methods
+    *
+    *
+    *
+    * */
+
+
+    //Takes the user to the add products screen
     @FXML
     public void addProductsAct(ActionEvent actionEvent) throws IOException{
         Parent addPartsParent = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
@@ -189,6 +219,8 @@ public class MainScreen implements Initializable {
         addPartsStage.setScene(addPartsScene);
         addPartsStage.show();
     }
+
+    //takes the user to modify the selected product
     @FXML
     public void modifyProductsAct(ActionEvent actionEvent) throws IOException{
 
@@ -213,6 +245,7 @@ public class MainScreen implements Initializable {
         }
     }
 
+    //takes the user to delete a selected product
     @FXML
     private void productDeleteAct(ActionEvent event) {
         Product product = productsTbl.getSelectionModel().getSelectedItem();
@@ -241,6 +274,7 @@ public class MainScreen implements Initializable {
         }
     }
 
+    // Searches the product table for string similarities and ID#
     @FXML
     private void SearchProductsAct(ActionEvent event) throws IOException {
         String searchProductsString = productsSearchTxt.getText();
@@ -290,11 +324,15 @@ public class MainScreen implements Initializable {
 
         }
     }
+
+    //updates the parts table
     @FXML
     public void updatePartsTable() { partsTbl.setItems(getParts()); }
+    //updates the product table
     @FXML
     public void updateProductsTbl() { productsTbl.setItems(getProducts()); }
 
+    //exits the program
     @FXML
     public void exitProgramButton(javafx.event.ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -311,35 +349,7 @@ public class MainScreen implements Initializable {
             System.out.println("Canceled.");
         }
     }
-    private static Part selectedPart;
-
-    private static int selectedPartIndex;
-
-    public static Part getSelectedPart() {
-        return selectedPart;
-    }
-    public static int getSelectedPartIndex() {
-        return selectedPartIndex;
-    }
-
-    private static Product selectedProduct;
-    private static int selectedProductIndex;
-
-    public static Product getSelectedProduct() {
-        return selectedProduct;
-    }
-
-    public static int getSelectedProductIndex() {
-        return selectedProductIndex;
-    }
-
-    public static ObservableList<Part> selectedAssocPart = FXCollections.observableArrayList();
-
-    // everything above has been vetted
-
-
-
-    //Exit Button & Refresh
+    //Refresh the program to clear search fields
 
     public void RefreshAct(javafx.event.ActionEvent actionEvent) throws IOException {
         Parent RefreshAct = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
@@ -347,6 +357,14 @@ public class MainScreen implements Initializable {
         Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         window.setScene(scene);
         window.show();
+    }
+
+    //Getters
+    public static int getSelectedPartIndex() {
+        return selectedPartIndex;
+    }
+    public static int getSelectedProductIndex() {
+        return selectedProductIndex;
     }
 
     //Initializable
@@ -364,7 +382,5 @@ public class MainScreen implements Initializable {
         updateProductsTbl();
 
     }
-
-//https://github.com/tvories/C482/blob/10ead0279160bd7a07d07e57ed9185f2b111770f/src/C482/View_Controller/ModifyProductController.java
 
 }
