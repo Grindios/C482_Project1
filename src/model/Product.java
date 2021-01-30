@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Product {
-    public static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    public ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     protected int productID;
     protected String productName;
     protected double productPrice = 0.0;
@@ -22,14 +22,14 @@ public class Product {
 
     }
    public void addAssociatedPart(Part part){
-       associatedParts.add(part);
+       this.associatedParts.add(part);
 
    }
    // public void setAssociatedPartsList(ObservableList<Part> associatedParts) {
     //        Product.associatedParts = associatedParts;
 
 
-    public static boolean removeAssociatedPart(int partID) {
+    public boolean removeAssociatedPart(int partID) {
         for (Part p : associatedParts) {
             if (p.getPartID() == partID) {
                 associatedParts.remove(p);
@@ -38,7 +38,7 @@ public class Product {
         }
         return false;
     }
-    public static Part lookupAssociatedPart(int partID) {
+    public Part lookupAssociatedPart(int partID) {
         return associatedParts.get(partID);
     }
 
@@ -68,13 +68,11 @@ public class Product {
 
 
     //Assoc Getters & Setters
-    public static ObservableList<Part> getAssociatedPartsList() {
+    public ObservableList<Part> getAssociatedPartsList() {
         return associatedParts;
     }
 
-    public boolean setAssociatedPartsList(ObservableList<Part> parts) {
-        return this.associatedParts.setAll(parts);
-    }
+
 
     //  public static void setAssociatedPartsList(ObservableList<Part> associatedParts) {
  //     Product.associatedParts = associatedParts;

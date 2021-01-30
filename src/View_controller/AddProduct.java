@@ -149,7 +149,7 @@ public class AddProduct implements Initializable {
         if (alert.getResult() == ButtonType.OK) {
             try {
                 Part part = addProductAssocTbl.getSelectionModel().getSelectedItem();
-                removeAssociatedPart(part.getPartID());
+                currentParts.remove(part);
             } catch (NullPointerException e) {
                 Alert nullalert = new Alert(Alert.AlertType.ERROR);
                 nullalert.setTitle("Associated Part Deletion Error");
@@ -210,15 +210,12 @@ public class AddProduct implements Initializable {
                         SaveProduct.setProductPrice(Double.parseDouble(price));
                         SaveProduct.setMax(Integer.parseInt(max));
                         SaveProduct.setMin(Integer.parseInt(min));
-                        SaveProduct.setAssociatedPartsList(currentParts);
+                        //SaveProduct.setAssociatedPartsList(currentParts);
 
-                 // for ( int i = 0; i < currentParts.size(); i ++) {
-                 //
-                 //     SaveProduct.addAssociatedPart(currentParts.get(i));
-                 //     //addProduct.addAssociatedPart(SaveProduct.get(i));
-                 //
-                 //
-                 // }
+                        for(Part p : currentParts)
+                        {
+                            SaveProduct.addAssociatedPart(p);
+                        }
                         Inventory.addProduct(SaveProduct);
 
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));

@@ -65,7 +65,6 @@ public class ModifyProduct implements Initializable {
     private int productIndex = getSelectedProductIndex();
     private String catchMessage = new String();
     private int productID;
-    private Inventory inventory;
     private Product productToModify;
 
   // public ModifyProductController(Inventory inventory,  Product productToModify) {
@@ -211,7 +210,7 @@ public class ModifyProduct implements Initializable {
         modifyProductsPricetxt.setText(Double.toString(selectedProduct.getProductPrice()));
         modifyProductsMintxt.setText(Integer.toString(selectedProduct.getMin()));
         modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
-        this.currentParts = FXCollections.observableArrayList(productToModify.getAssociatedPartsList()); 
+        currentParts.addAll(selectedProduct.getAssociatedPartsList());
         modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
         modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
         modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
