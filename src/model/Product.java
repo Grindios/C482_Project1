@@ -21,9 +21,12 @@ public class Product {
         this.max = max;
 
     }
-    public static void addAssociatedPart(Part part){
-        associatedParts.add(part);
-    }
+   public void addAssociatedPart(Part part){
+       associatedParts.add(part);
+
+   }
+   // public void setAssociatedPartsList(ObservableList<Part> associatedParts) {
+    //        Product.associatedParts = associatedParts;
 
 
     public static boolean removeAssociatedPart(int partID) {
@@ -65,13 +68,18 @@ public class Product {
 
 
     //Assoc Getters & Setters
-    public static ObservableList getAssociatedPartsList() {
+    public static ObservableList<Part> getAssociatedPartsList() {
         return associatedParts;
     }
-    public void setAssociatedPartsList(ObservableList<Part> associatedParts) {
-       this.associatedParts = associatedParts;
-        // Product.associatedParts = associatedParts;
+
+    public boolean setAssociatedPartsList(ObservableList<Part> parts) {
+        return this.associatedParts.setAll(parts);
     }
+
+    //  public static void setAssociatedPartsList(ObservableList<Part> associatedParts) {
+ //     Product.associatedParts = associatedParts;
+ //      // Product.associatedParts = associatedParts;
+ //  }
 
 
 
@@ -122,5 +130,6 @@ public class Product {
      }
      return ProductEmpty;
  }
+
 
 }

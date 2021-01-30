@@ -65,6 +65,20 @@ public class ModifyProduct implements Initializable {
     private int productIndex = getSelectedProductIndex();
     private String catchMessage = new String();
     private int productID;
+    private Inventory inventory;
+    private Product productToModify;
+
+  // public ModifyProductController(Inventory inventory,  Product productToModify) {
+  //     this.inventory = inventory;
+  //
+  //     this.productToModify = productToModify;
+  //     this.currentParts = FXCollections.observableArrayList(productToModify.getAssociatedPartsList());
+  //
+  //     // Clean up lists
+  //
+  // }
+
+
 
     //add
     @FXML
@@ -133,7 +147,12 @@ public class ModifyProduct implements Initializable {
                 addProduct.setProductPrice(Double.parseDouble(price));
                 addProduct.setMax(Integer.parseInt(max));
                 addProduct.setMin(Integer.parseInt(min));
-                addProduct.setAssociatedPartsList(currentParts);
+                for ( int i = 0; i < currentParts.size(); i ++) {
+
+                    addProduct.addAssociatedPart(currentParts.get(i));
+                    //addProduct.setAssociatedPartsList(currentParts);
+
+                }
                 Inventory.updateProduct(productIndex, addProduct);
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
@@ -173,6 +192,8 @@ public class ModifyProduct implements Initializable {
         }
     }
     public void updateAssociatedPartsTbl() {
+
+
         modProductAssocTbl.setItems(currentParts);
     }
 
@@ -190,7 +211,7 @@ public class ModifyProduct implements Initializable {
         modifyProductsPricetxt.setText(Double.toString(selectedProduct.getProductPrice()));
         modifyProductsMintxt.setText(Integer.toString(selectedProduct.getMin()));
         modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
-        currentParts = Product.getAssociatedPartsList();
+        this.currentParts = FXCollections.observableArrayList(productToModify.getAssociatedPartsList()); 
         modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
         modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
         modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));

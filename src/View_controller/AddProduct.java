@@ -202,20 +202,24 @@ public class AddProduct implements Initializable {
                         alert.showAndWait();
                         catchError = "";
                     } else {
-                        Product addProduct = new Product();
-                        addProduct.setProductID(productID);
-                        addProduct.setProductName(name);
-                        addProduct.setProductInStock(Integer.parseInt(inStock));
-                        addProduct.setProductPrice(Double.parseDouble(price));
-                        addProduct.setMax(Integer.parseInt(max));
-                        addProduct.setMin(Integer.parseInt(min));
-                        for ( int i = 0; i < currentParts.size(); i ++) {
 
-                            addProduct.addAssociatedPart(currentParts.get(i));
-                            //addProduct.setAssociatedPartsList(currentParts);
+                        Product SaveProduct = new Product();
+                        SaveProduct.setProductID(productID);
+                        SaveProduct.setProductName(name);
+                        SaveProduct.setProductInStock(Integer.parseInt(inStock));
+                        SaveProduct.setProductPrice(Double.parseDouble(price));
+                        SaveProduct.setMax(Integer.parseInt(max));
+                        SaveProduct.setMin(Integer.parseInt(min));
+                        SaveProduct.setAssociatedPartsList(currentParts);
 
-                        }
-                        Inventory.addProduct(addProduct);
+                 // for ( int i = 0; i < currentParts.size(); i ++) {
+                 //
+                 //     SaveProduct.addAssociatedPart(currentParts.get(i));
+                 //     //addProduct.addAssociatedPart(SaveProduct.get(i));
+                 //
+                 //
+                 // }
+                        Inventory.addProduct(SaveProduct);
 
                         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
                         Parent root = loader.load();
