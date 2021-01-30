@@ -14,13 +14,13 @@
          </font>
       </Label>
       <RadioButton fx:id="modifyPartsInHouseRdBtn" layoutX="164.0" layoutY="50.0" mnemonicParsing="false" onAction="#selectModPartInHouse" text="In-House" />
-      <RadioButton fx:id="modifyPartsOutsourceRdBtn" layoutX="312.0" layoutY="50.0" mnemonicParsing="false" onAction="#selectModPartOutsourceRdBtn" text="OUtsourced" />
+      <RadioButton fx:id="modifyPartsOutsourceRdBtn" layoutX="312.0" layoutY="50.0" mnemonicParsing="false" onAction="#setModPartsOutsourceRdBtn" text="Outsourced" />
       <Label layoutX="41.0" layoutY="112.0" text="ID" />
-      <Label layoutX="41.0" layoutY="190.0" text="Inv" />
-      <Label layoutX="41.0" layoutY="275.0" text="Max" />
-      <Label layoutX="41.0" layoutY="232.0" text="Price/Cost" />
-      <Label layoutX="41.0" layoutY="147.0" text="Name" />
-      <Label fx:id="modifyPartsBoolLbl" layoutX="41.0" layoutY="323.0" text="Machine ID" />
+      <Label layoutX="38.0" layoutY="190.0" text="Inv" />
+      <Label layoutX="35.0" layoutY="275.0" text="Max" />
+      <Label layoutX="36.0" layoutY="232.0" text="Price/Cost" />
+      <Label layoutX="37.0" layoutY="147.0" text="Name" />
+      <Label fx:id="modifyPartsBoolLbl" layoutX="34.0" layoutY="323.0" text="Machine ID" />
       <Label layoutX="312.0" layoutY="275.0" text="Min" />
       <TextField fx:id="modifyPartsNametxt" layoutX="125.0" layoutY="142.0" />
       <TextField fx:id="modifyPartsInStocktxt" layoutX="125.0" layoutY="185.0" />
