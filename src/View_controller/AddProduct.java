@@ -64,8 +64,9 @@ public class AddProduct implements Initializable {
     @FXML
     private TextField addProductSearchTxt;
 
+
     @FXML
-    public void SearchProductAction(ActionEvent event) {
+    public void SearchProductAction() {
         String searchPartIDString = addProductSearchTxt.getText();
         if (searchPartIDString.equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -90,7 +91,7 @@ public class AddProduct implements Initializable {
                 }
             } catch (NumberFormatException e) {
                 for (Part p : getParts()) {
-                    if (p.getPartName().equals(searchPartIDString)) {
+                    if (p.getPartName().contains(searchPartIDString)) {
                         found = true;
                         ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
                         filteredPartsList.add(p);
@@ -284,6 +285,8 @@ public class AddProduct implements Initializable {
         addProductsIDNumberLbl.setText("Part ID :" + productID);
 
     }
+
+
 
 
 }

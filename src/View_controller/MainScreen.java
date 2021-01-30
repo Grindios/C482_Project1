@@ -83,16 +83,16 @@ public class MainScreen implements Initializable {
     public void modifyPartsAct(ActionEvent actionEvent) throws IOException {
             selectedPart = partsTbl.getSelectionModel().getSelectedItem();
             selectedPartIndex = getParts().indexOf(selectedPart);
-            if (selectedPart == null ) {
-                Alert nullAlert = new Alert(Alert.AlertType.ERROR);
-                nullAlert.setTitle("Part Modification Error");
-                nullAlert.setHeaderText("The part is NOT able to be modified!");
-                nullAlert.setContentText("There was no part selected!");
-                nullAlert.showAndWait();
-            }
-            else {
+          if (selectedPart == null ) {
+              Alert nullAlert = new Alert(Alert.AlertType.ERROR);
+              nullAlert.setTitle("Part Modification Error");
+              nullAlert.setHeaderText("The part is NOT able to be modified!");
+              nullAlert.setContentText("There was no part selected!");
+              nullAlert.showAndWait();
+          }
+          else {
                 try {
-                    Parent modifyPartScreen = FXMLLoader.load(getClass().getResource("ModifyPartScreen.fxml"));
+                    Parent modifyPartScreen = FXMLLoader.load(getClass().getResource("ModifyPart.fxml"));
                     Scene modifyPartScene = new Scene(modifyPartScreen);
                     Stage winModifyPart = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
                     winModifyPart.setTitle("Modify Part");
@@ -162,7 +162,7 @@ public class MainScreen implements Initializable {
             catch (NumberFormatException e) {
                 for (Part p : getParts()) {
 
-                    if (p.getPartName().equals(searchPartString)){
+                    if (p.getPartName().contains(searchPartString)){
                         found = true;
 
                         ObservableList<Part> filteredPartList = FXCollections.observableArrayList();
@@ -271,7 +271,7 @@ public class MainScreen implements Initializable {
             catch (NumberFormatException e) {
                 for (Product p : getProducts()) {
 
-                    if (p.getProductName().equals(searchProductsString)){
+                    if (p.getProductName().contains(searchProductsString)){
                         found = true;
 
                         ObservableList<Product> filteredProductList = FXCollections.observableArrayList();

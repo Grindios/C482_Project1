@@ -60,6 +60,10 @@ public class ModifyProduct implements Initializable {
     private TableColumn<Part, Integer> modPartsInStockAssocCol;
     @FXML
     private TableColumn<Part, Double> modPartPriceAssocCol;
+    @FXML
+    private Button searchBtn;
+    @FXML
+    private TextField modProductSearchTxt;
 
     private ObservableList<Part> currentParts = FXCollections.observableArrayList();
     private int productIndex = getSelectedProductIndex();
@@ -67,15 +71,7 @@ public class ModifyProduct implements Initializable {
     private int productID;
     private Product productToModify;
 
-  // public ModifyProductController(Inventory inventory,  Product productToModify) {
-  //     this.inventory = inventory;
-  //
-  //     this.productToModify = productToModify;
-  //     this.currentParts = FXCollections.observableArrayList(productToModify.getAssociatedPartsList());
-  //
-  //     // Clean up lists
-  //
-  // }
+
 
 
 
@@ -223,6 +219,55 @@ public class ModifyProduct implements Initializable {
         updateAssociatedPartsTbl();
         updatePartsTable();
 
+    }
+
+
+
+
+
+
+    @FXML
+    public void SearchProductPartAction(javafx.event.ActionEvent actionEvent) {
+        String searchPartIDString = modProductSearchTxt.getText();
+        if (searchPartIDString.equals("")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Part Search Warning");
+            alert.setHeaderText("There were no parts found!");
+            alert.setContentText("You did not enter a part to search for!");
+            alert.showAndWait();
+        } else {
+            boolean found = false;
+            try {
+                Part searchPart = Inventory.lookupPart(Integer.parseInt(searchPartIDString));
+                if (searchPart != null) {
+                    ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
+                    filteredPartsList.add(searchPart);
+                    modPartsAddTbl.setItems(filteredPartsList);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Part Search Warning");
+                    alert.setHeaderText("There were no parts found!");
+                    alert.setContentText("The search term entered does not match any part ID!");
+                    alert.showAndWait();
+                }
+            } catch (NumberFormatException e) {
+                for (Part p : getParts()) {
+                    if (p.getPartName().contains(searchPartIDString)) {
+                        found = true;
+                        ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
+                        filteredPartsList.add(p);
+                        modPartsAddTbl.setItems(filteredPartsList);
+                    }
+                }
+                if (found == false) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Part Search Warning");
+                    alert.setHeaderText("There were no parts found!");
+                    alert.setContentText("The search term entered does not match any part name!");
+                    alert.showAndWait();
+                }
+            }
+        }
     }
 
 

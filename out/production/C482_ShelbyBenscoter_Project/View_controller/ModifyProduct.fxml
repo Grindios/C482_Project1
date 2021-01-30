@@ -43,8 +43,9 @@
                   <TableColumn fx:id="modPartPriceAssocCol" minWidth="0.0" prefWidth="163.0" text="Price/ Cost per Unit" />
               </columns>
             </TableView>
-            <TextField layoutX="776.0" layoutY="14.0" />
-            <Label fx:id="modifyProductsIDNumberLbl" layoutX="79.0" layoutY="103.0" prefHeight="27.0" prefWidth="161.0" style="-fx-border-color: Black;" />
+            <TextField fx:id="modProductSearchTxt" layoutX="693.0" layoutY="14.0" />
+            <Label fx:id="modifyProductsIDNumberLbl" layoutX="79.0" layoutY="103.0" prefHeight="27.0" prefWidth="171.0" style="-fx-border-color: Black;" />
+            <Button fx:id="searchBtn" layoutX="875.0" layoutY="14.0" mnemonicParsing="false" onAction="#SearchProductPartAction" text="Search" />
          </children>
       </AnchorPane>
    </children>
