@@ -17,6 +17,7 @@ import model.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -106,7 +107,7 @@ public class ModifyProduct implements Initializable {
                 }
             } catch (NumberFormatException e) {
                 for (Part p : getParts()) {
-                    if (p.getPartName().contains(searchPartIDString)) {
+                    if (p.getPartName().toLowerCase(Locale.ROOT).contains(searchPartIDString.toLowerCase(Locale.ROOT))) {
                         found = true;
                         ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
                         filteredPartsList.add(p);
@@ -129,11 +130,11 @@ public class ModifyProduct implements Initializable {
     public void AddProductAct() {
         Part part = modPartsAddTbl.getSelectionModel().getSelectedItem();
         if (part == null) {
-            Alert nullalert = new Alert(Alert.AlertType.ERROR);
-            nullalert.setTitle("Associated Part Addition Error");
-            nullalert.setHeaderText("The part was not added!");
-            nullalert.setContentText("A part was not selected!");
-            nullalert.showAndWait();
+            Alert nullAlert = new Alert(Alert.AlertType.ERROR);
+            nullAlert.setTitle("Associated Part Addition Error");
+            nullAlert.setHeaderText("The part was not added!");
+            nullAlert.setContentText("A part was not selected!");
+            nullAlert.showAndWait();
         }
         else {
             currentParts.add(part);
@@ -168,7 +169,7 @@ public class ModifyProduct implements Initializable {
         String max = modifyProductsMaxtxt.getText();
 
         try {
-            catchMessage = Product.getProductValidation(name,
+            catchMessage = AddProduct.getProductValidation(name,
                     Integer.parseInt(inStock),
                     Double.parseDouble(price),
                     Integer.parseInt(max),

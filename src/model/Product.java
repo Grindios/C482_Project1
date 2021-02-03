@@ -58,15 +58,6 @@ public class Product {
 
 
 
-
-
-
-
-
-
-
-
-
    //Product Validation
 
     public static String getProductValidation (String name, int inStock, double price, int max, int min, String ProductError){

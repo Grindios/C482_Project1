@@ -75,27 +75,4 @@ public abstract class Part {
     }
 
 
-    // Validate Content Entry
-    public static String getPartValidation(String name, int inStock, double price, int max, int min, String PartError) {
-
-        if (name == null) {
-            PartError = PartError + "Name Field required. ";
-        }
-        if (inStock < 1) {
-            PartError = PartError + "\nThe Inventory cannot be less than 1. ";
-        }
-        if (price <= 0) {
-            PartError = PartError + "\nThePrice must be greater than $0. ";
-        }
-        if (max < min) {
-            PartError = PartError + "\nThe Maximum stock must be greater than the Minimum stock. ";
-        }
-        if (inStock > max) {
-            PartError = PartError + "\nThe Inventory must be less than or equal to the Maximum stock. ";
-        }
-        if (inStock < min) {
-            PartError = PartError + "\nThe Inventory must be greater than the or equal to the Minimum stock. ";
-        }
-        return PartError;
-    }
 }

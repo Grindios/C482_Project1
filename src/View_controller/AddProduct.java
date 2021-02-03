@@ -18,6 +18,7 @@ import model.Product;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static model.Inventory.getParts;
@@ -107,7 +108,7 @@ public class AddProduct implements Initializable {
                 }
             } catch (NumberFormatException e) {
                 for (Part p : getParts()) {
-                    if (p.getPartName().contains(searchPartIDString)) {
+                    if (p.getPartName().toLowerCase(Locale.ROOT).contains(searchPartIDString.toLowerCase(Locale.ROOT))) {
                         found = true;
                         ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
                         filteredPartsList.add(p);
@@ -188,7 +189,7 @@ public class AddProduct implements Initializable {
         String min = addProductsMinTxt.getText();
 
 
-        catchError = Product.getEmptyFields(name, inStock, price, max, min, catchError);
+        catchError = getEmptyFields(name, inStock, price, max, min, catchError);
         if (catchError.length() > 0) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Product Addition Warning");
@@ -205,7 +206,7 @@ public class AddProduct implements Initializable {
                 alert.showAndWait();
             } else {
                 try {
-                    catchError = Product.getProductValidation(name,
+                    catchError = getProductValidation(name,
                             Integer.parseInt(inStock),
                             Double.parseDouble(price),
                             Integer.parseInt(max),
@@ -272,6 +273,46 @@ public class AddProduct implements Initializable {
             }
         } catch (IOException e) {
         }
+    }
+
+    //Product Validation
+
+    public static String getProductValidation (String name, int inStock, double price, int max, int min, String ProductError){
+        if (inStock < 1) {
+            ProductError = ProductError + "The Product Name field cannot be empty. ";
+        }
+        if(price <= 0) {
+            ProductError = ProductError + "\nThe Price must be greater than $0; ";
+        }
+        if (max < min) {
+            ProductError = ProductError + "\nThe Maximum stock must be greater than the Minimum stock";
+        }
+        if (inStock > max) {
+            ProductError = ProductError + "\nThe Inventory Must be less than or equal to the Maximum stock. ";
+        }
+        if (inStock < min) {
+            ProductError = ProductError + "\nThe Inventory must be greater than or equal to the Minimum stock. ";
+        }
+        return ProductError;
+    }
+
+    public static String getEmptyFields (String name, String inStock, String price, String max, String min, String ProductEmpty) {
+        if (name.equals("")) {
+            ProductEmpty = ProductEmpty + "The Product Name field cannot be empty. ";
+        }
+        if (inStock.equals("")) {
+            ProductEmpty = ProductEmpty + "\nThe Product Inventory field cannot be empty. ";
+        }
+        if (price.equals("")) {
+            ProductEmpty = ProductEmpty + "\nThe Product Price field cannot be empty. ";
+        }
+        if (max.equals("")) {
+            ProductEmpty = ProductEmpty + "\nThe Product Max field cannot be empty. ";
+        }
+        if (min.equals("")) {
+            ProductEmpty = ProductEmpty + "\nThe product Min field cannot be empty. ";
+        }
+        return ProductEmpty;
     }
 
     //Update inStock parts table

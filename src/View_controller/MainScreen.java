@@ -19,6 +19,7 @@ import model.Product;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -152,7 +153,7 @@ public class MainScreen implements Initializable {
     //searches the parts table for string similarities and ID#
     @FXML
     private void SearchPartsAct(ActionEvent event) throws IOException {
-        String searchPartString = partsSearchTxt.getText();
+        String searchPartString = partsSearchTxt.getText().trim();
         if (searchPartString.equals("")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error.");
@@ -181,7 +182,7 @@ public class MainScreen implements Initializable {
             catch (NumberFormatException e) {
                 for (Part p : getParts()) {
 
-                    if (p.getPartName().contains(searchPartString)){
+                    if (p.getPartName().toLowerCase(Locale.ROOT).contains(searchPartString.toLowerCase(Locale.ROOT))){
                         found = true;
 
                         ObservableList<Part> filteredPartList = FXCollections.observableArrayList();
@@ -305,7 +306,7 @@ public class MainScreen implements Initializable {
             catch (NumberFormatException e) {
                 for (Product p : getProducts()) {
 
-                    if (p.getProductName().contains(searchProductsString)){
+                    if (p.getProductName().toLowerCase(Locale.ROOT).contains(searchProductsString.toLowerCase(Locale.ROOT))){
                         found = true;
 
                         ObservableList<Product> filteredProductList = FXCollections.observableArrayList();

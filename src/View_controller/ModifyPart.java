@@ -90,7 +90,7 @@ public class ModifyPart implements Initializable {
         String partBool = modifyPartsBooltxt.getText();
 
         try {
-            catchMessage = Part.getPartValidation(name,
+            catchMessage = AddPart.getPartValidation(name,
                     Integer.parseInt(inStock),
                     Double.parseDouble(price),
                     Integer.parseInt(max),
@@ -141,7 +141,7 @@ public class ModifyPart implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error");
             alert.setHeaderText("Error Adding Part");
-            alert.setContentText("Form contains blank fields.");
+            alert.setContentText("Invalid Entry ");
             alert.showAndWait();
         }
 
