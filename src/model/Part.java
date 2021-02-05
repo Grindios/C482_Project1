@@ -1,6 +1,6 @@
 package model;
 
-
+/**This class handles */
 public abstract class Part {
 
     protected int partID;

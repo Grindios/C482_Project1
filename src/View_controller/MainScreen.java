@@ -151,15 +151,18 @@ public class MainScreen implements Initializable {
     }
 
     //searches the parts table for string similarities and ID#
+    private ObservableList<Part> filteredPartList = FXCollections.observableArrayList();
     @FXML
     private void SearchPartsAct(ActionEvent event) throws IOException {
         String searchPartString = partsSearchTxt.getText().trim();
+        partsSearchTxt.clear();
         if (searchPartString.equals("")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error.");
             alert.setHeaderText("No parts found.");
             alert.setContentText("Search does not match any existing parts.");
             alert.showAndWait();
+            updatePartsTable();
         } else {
             boolean found = false;
             try {
@@ -185,18 +188,15 @@ public class MainScreen implements Initializable {
                     if (p.getPartName().toLowerCase(Locale.ROOT).contains(searchPartString.toLowerCase(Locale.ROOT))){
                         found = true;
 
-                        ObservableList<Part> filteredPartList = FXCollections.observableArrayList();
                         filteredPartList.add(p);
-                        partsTbl.setItems(filteredPartList);
+
                     }
                 }
+                partsTbl.setItems(filteredPartList);
+                partsTbl.refresh();
             }
             if (found == false) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Part Search Warning");
-                alert.setHeaderText("There were no parts found!");
-                alert.setContentText("The search term entered does not match any part name!");
-                alert.showAndWait();
+                //????????????
             }
         }
     }
@@ -279,6 +279,7 @@ public class MainScreen implements Initializable {
     @FXML
     private void SearchProductsAct(ActionEvent event) throws IOException {
         String searchProductsString = productsSearchTxt.getText();
+        productsSearchTxt.clear();
         if (searchProductsString.equals("")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Error.");
@@ -316,11 +317,7 @@ public class MainScreen implements Initializable {
                 }
             }
             if (found == false) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Part Search Warning");
-                alert.setHeaderText("There were no parts found!");
-                alert.setContentText("The search term entered does not match any part name!");
-                alert.showAndWait();
+                productsTbl.refresh();
             }
 
         }
