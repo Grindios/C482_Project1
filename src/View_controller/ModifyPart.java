@@ -78,7 +78,6 @@ public class ModifyPart implements Initializable {
         String min = modifyPartsMintxt.getText();
         String max = modifyPartsMaxtxt.getText();
         String partBool = modifyPartsBooltxt.getText();
-
         try {
             catchMessage = AddPart.getPartValidation(name,
                     Integer.parseInt(inStock),
@@ -98,7 +97,7 @@ public class ModifyPart implements Initializable {
             else {
                 if (isOutsourced == false) {
                     System.out.println("Part name: " + name);
-                    InHouse inPart = new InHouse();
+                    InHouse inPart = new InHouse(partID, name, Double.parseDouble(price), Integer.parseInt(inStock) , Integer.parseInt(min), Integer.parseInt(max));
                     inPart.setId(partID);
                     inPart.setName(name);
                     inPart.setPrice(Double.parseDouble(price));
@@ -107,10 +106,11 @@ public class ModifyPart implements Initializable {
                     inPart.setMax(Integer.parseInt(max));
                     inPart.setMachineID(Integer.parseInt(partBool));
                     Inventory.updatePart(partIndex, inPart);
+
                 }
                 else {
                     System.out.println("Part name: " + name);
-                    Outsourced outPart = new Outsourced();
+                    Outsourced outPart = new Outsourced(partID, name, Double.parseDouble(price), Integer.parseInt(inStock) , Integer.parseInt(min), Integer.parseInt(max));
                     outPart.setId(partID);
                     outPart.setName(name);
                     outPart.setPrice(Double.parseDouble(price));

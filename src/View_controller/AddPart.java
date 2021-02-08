@@ -79,10 +79,6 @@ public class AddPart implements Initializable{
         String min = addPartsMintxt.getText();
         String max = addPartsMaxtxt.getText();
         String partBool = addPartsBooltxt.getText();
-
-
-
-
         try {
             catchError = getPartValidation(name,
                     Integer.parseInt(inStock),
@@ -98,21 +94,19 @@ public class AddPart implements Initializable{
                 alert.showAndWait();
                 catchError = "";
             }
-            Boolean mID = addPartsInHouseRdBtn.isSelected();
-            Boolean outSrc = addPartsOutsourceRdBtn.isSelected();
-            if(mID == false && outSrc == false){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Error");
-                alert.setHeaderText("In House or Outsourced must be Selected ");
-                alert.setContentText(catchError);
-                alert.showAndWait();
-            }
-
-
             else {
+                Boolean mID = addPartsInHouseRdBtn.isSelected();
+                Boolean outSrc = addPartsOutsourceRdBtn.isSelected();
+                if(mID == false && outSrc == false){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("In House or Outsourced must be Selected ");
+                    alert.setContentText(catchError);
+                    alert.showAndWait();
+                }
                 if (isOutsourced == false) {
                     System.out.println("Part name: " + name);
-                    InHouse inPart = new InHouse();
+                    InHouse inPart = new InHouse(partID, name, Double.parseDouble(price), Integer.parseInt(inStock) , Integer.parseInt(min), Integer.parseInt(max));
                     inPart.setId(partID);
                     inPart.setName(name);
                     inPart.setPrice(Double.parseDouble(price));
@@ -123,7 +117,7 @@ public class AddPart implements Initializable{
                     Inventory.addPart(inPart);
                 } else {
                     System.out.println("Part name: " + name);
-                    Outsourced outPart = new Outsourced();
+                    Outsourced outPart = new Outsourced(partID, name, Double.parseDouble(price), Integer.parseInt(inStock) , Integer.parseInt(min), Integer.parseInt(max));
                     outPart.setId(partID);
                     outPart.setName(name);
                     outPart.setPrice(Double.parseDouble(price));

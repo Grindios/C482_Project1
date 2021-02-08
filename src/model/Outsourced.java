@@ -10,8 +10,8 @@ public class Outsourced extends Part {
     private final StringProperty companyName;
 
     /** This is the Outsourced method. Called when Outsource radio button is selected. */
-    public Outsourced() {
-        super();
+    public Outsourced(int id, String name, double price, int stock, int min, int max) {
+        super(id, name, price, stock, min, max);
         companyName = new SimpleStringProperty();
     }
 
@@ -28,3 +28,5 @@ public class Outsourced extends Part {
 
 
 }
+/** I ran into another issue here when updating the Part.Java page. I forgot to update the values that are to pass in the super method.
+ * I fixed it by updating it to match the inputs that are displayed in the parts.java file.  */

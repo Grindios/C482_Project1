@@ -90,9 +90,9 @@ public class ModifyProduct implements Initializable {
                     modPartsAddTbl.setItems(filteredPartsList);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Part Search Warning");
-                    alert.setHeaderText("There were no parts found!");
-                    alert.setContentText("The search term entered does not match any part ID!");
+                    alert.setTitle("Product Search Warning");
+                    alert.setHeaderText("There were no products found!");
+                    alert.setContentText("The search term entered does not match any product ID!");
                     alert.showAndWait();
                 }
             } catch (NumberFormatException e) {
@@ -237,15 +237,15 @@ public class ModifyProduct implements Initializable {
         modifyProductsMintxt.setText(Integer.toString(selectedProduct.getMin()));
         modifyProductsMaxtxt.setText(Integer.toString(selectedProduct.getMax()));
         currentParts.addAll(selectedProduct.getAssociatedPartsList());
-        modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
-        modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
-        modPartPriceAddCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
+        modPartIdAddCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        modPartNameAddCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        modPartsInStockAddCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        modPartPriceAddCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        modPartIdAssocCol.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        modPartNameAssocCol.setCellValueFactory(new PropertyValueFactory<>("partName"));
-        modPartsInStockAssocCol.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
-        modPartPriceAssocCol.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
+        modPartIdAssocCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        modPartNameAssocCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        modPartsInStockAssocCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        modPartPriceAssocCol.setCellValueFactory(new PropertyValueFactory<>("price"));
         updateAssociatedPartsTbl();
         updatePartsTable();
 

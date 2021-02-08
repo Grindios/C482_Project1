@@ -324,20 +324,24 @@ public class AddProduct implements Initializable {
     /**This is the initialize method. It updates the parts table and displays the product incremented count. */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
-        addProductIDAddColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        addProductNameAddColumn.setCellValueFactory(new PropertyValueFactory<>("partName"));
-        addProductInStockAddColumn.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
-        addProductPriceAddColumn.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
+        addProductIDAddColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        addProductNameAddColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addProductInStockAddColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        addProductPriceAddColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         updatePartsTable();
-        addProductAssocIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        addProductNameAssocColumn.setCellValueFactory(new PropertyValueFactory<>("partName"));
-        addProductInStockAssocColumn.setCellValueFactory(new PropertyValueFactory<>("partInStock"));
-        addProductPriceAssocColumn.setCellValueFactory(new PropertyValueFactory<>("partPrice"));
+        addProductAssocIDColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        addProductNameAssocColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addProductInStockAssocColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        addProductPriceAssocColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         updateAssocTable();
         productID = Inventory.getProductIDCount();
         addProductsIDNumberLbl.setText("Part ID :" + productID);
 
     }
+
+    /** When running the the program and adding a part the parts wouldn't display in the parts table. The issue was found after I had done updates to the parts.java file.
+     * I fixed the issue by searching for where it would be referencing the information from and fixed the variable naming convention where is
+     * was getting called from in the initialize method. After that was done, the information was was displayed as desired. */
 
 
 
