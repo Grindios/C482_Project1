@@ -6,17 +6,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.InHouse;
-import model.Inventory;
-import model.Outsourced;
-import model.Product;
 
 import java.io.IOException;
 
+/**Main class that start up up the application. */
 public class Main extends Application {
 
 
-
+/** This is the Start method. It handles start up action. */
     @Override
     public void start(Stage stage) throws IOException {
         try {
@@ -36,7 +33,7 @@ public class Main extends Application {
         }
     }
 
-
+    /** This is the main method. It called when you start up the app.  */
     public static void main(String[] args) {
         launch(args);
     }

@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import model.InHouse;
 import model.Inventory;
 import model.Outsourced;
-import model.Part;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,23 +46,8 @@ public class AddPart implements Initializable{
     private int partID;
     private boolean isOutsourced;
 
-    /*
-    *
-    * Variables go above
-    *
-    *
-    *
-    *
-    *
-    *
-    *
-    *
-    *
-    *
-    * Below are the methods
-    */
-
-    //cancels the addition of part and takes the user back to the home screen.
+   /** This is the cancel method. When clicked the user will be prompted if they are sure they want to cancel.
+    * @param event The parameter that calls the main screen. */
     @FXML
     public void addPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -85,7 +69,8 @@ public class AddPart implements Initializable{
         }
     }
 
-    //saves the newly added part
+    /** This is the save method. It saves the added part.
+     * @param event The parameter that calls the main screen. */
     @FXML
     public void SaveAddPartsAct(javafx.event.ActionEvent event) throws IOException {
         String name = addPartsNametxt.getText();
@@ -128,10 +113,10 @@ public class AddPart implements Initializable{
                 if (isOutsourced == false) {
                     System.out.println("Part name: " + name);
                     InHouse inPart = new InHouse();
-                    inPart.setPartID(partID);
-                    inPart.setPartName(name);
-                    inPart.setPartPrice(Double.parseDouble(price));
-                    inPart.setPartInStock(Integer.parseInt(inStock));
+                    inPart.setId(partID);
+                    inPart.setName(name);
+                    inPart.setPrice(Double.parseDouble(price));
+                    inPart.setStock(Integer.parseInt(inStock));
                     inPart.setMin(Integer.parseInt(min));
                     inPart.setMax(Integer.parseInt(max));
                     inPart.setMachineID(Integer.parseInt(partBool));
@@ -139,10 +124,10 @@ public class AddPart implements Initializable{
                 } else {
                     System.out.println("Part name: " + name);
                     Outsourced outPart = new Outsourced();
-                    outPart.setPartID(partID);
-                    outPart.setPartName(name);
-                    outPart.setPartPrice(Double.parseDouble(price));
-                    outPart.setPartInStock(Integer.parseInt(inStock));
+                    outPart.setId(partID);
+                    outPart.setName(name);
+                    outPart.setPrice(Double.parseDouble(price));
+                    outPart.setStock(Integer.parseInt(inStock));
                     outPart.setMin(Integer.parseInt(min));
                     outPart.setMax(Integer.parseInt(max));
                     outPart.setCompanyName(partBool);
@@ -166,12 +151,9 @@ public class AddPart implements Initializable{
         }
 
     }
-
-
-
-   //selects the InHouse radio button
+/** This is the InHouse radio button method. It sets the boolean value of the isOutsourced variable to false. */
     @FXML
-    public void selectAddPartInHouse(javafx.event.ActionEvent event) {
+    public void selectAddPartInHouse() {
         isOutsourced = false;
         addPartsBoolLbl.setText("Machine ID");
         addPartsBooltxt.setPromptText("Machine ID");
@@ -179,7 +161,7 @@ public class AddPart implements Initializable{
         addPartsOutsourceRdBtn.setSelected(false);
     }
 
-    //selects the Outsourced radio button
+    /** This is the Outsourced radio button method. It sets the boolean value of the isOutsourced variable to true. */
     @FXML
     public void setAddPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
         isOutsourced = true;
@@ -189,7 +171,14 @@ public class AddPart implements Initializable{
         addPartsInHouseRdBtn.setSelected(false);
     }
 
-    // Validate Content Entry
+    /** This is the part validation method. It validates the user input to meet project specifications.
+     * @param name This is the name value that is validated.
+     * @param inStock This is the in stock value that is validated.
+     * @param price This is the price value that is validated.
+     * @param  max this is the price value that is validated.
+     * @param min  this is the price value that is validated.
+     * @param PartError this is the part error that will later be aggregated.
+     * @return  Returns the part error messages. */
     public static String getPartValidation(String name, int inStock, double price, int max, int min, String PartError) {
 
         if (name == null) {
@@ -215,7 +204,7 @@ public class AddPart implements Initializable{
 
 
 
-
+    /** This is the the initialize method. It is called when the screen is loaded.*/
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         partID = Inventory.getPartIDCount();

@@ -1,75 +1,82 @@
 package model;
 
-/**This class handles */
+/**This is the Part class. It handles the part methods and the getters and setters for their associated variables. */
 public abstract class Part {
-
-    protected int partID;
-    protected String partName;
-    protected double partPrice = 0.0;
-    protected int partInStock;
+    protected int id;
+    protected String name;
+    protected double price;
+    protected int stock;
     protected int min;
     protected int max;
-
+    /** This is the part method. */
     public Part() {
-        this.partID = partID;
-        this.partName = partName;
-        this.partPrice = partPrice;
-        this.partInStock = partInStock;
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
         this.min = min;
         this.max = max;
 
     }
 
-    //Part ID Getters and Setters
-    public int getPartID() {
-        return partID;
-    }
 
-    public void setPartID(int partID) {
-        this.partID = partID;
+    /** This is the part ID getter. Called when part ID value is needed.
+     * @return returns part ID. */
+    public int getId() {
+        return id;
     }
-
-    //Name Getters and Setters
-    public String getPartName() {
-        return partName;
+    /** This is the part ID setter. Called when part ID needs to be set.
+     * @param id Sets the part ID the incremented amount. */
+    public void setId(int id) {
+        this.id = id;
     }
-
-    public void setPartName(String partName) {
-        this.partName = partName;
+    /** This is the part name getter. Called when part name value is needed.
+     * @return returns part name. */
+    public String getName() {
+        return name;
     }
-
-    //Price Getters and Setters
-    public double getPartPrice() {
-        return partPrice;
+    /** This is the part name setter. Called when the part name needs to be set.
+     * @param name Sets the part name of the desired part. */
+    public void setName(String name) {
+        this.name = name;
     }
-
-    public void setPartPrice(double partPrice) {
-        this.partPrice = partPrice;
+    /** This is the part price getter. Called when the the part price is needed.
+     * @return Returns the part price value. */
+    public double getPrice() {
+        return price;
     }
-
-    //InStock Getters and Setters
-    public int getPartInStock() {
-        return partInStock;
+    /** This is the part price setter. Called when the part price is needs to be set.
+     * @param price Sets the part price of the desired part. */
+    public void setPrice(double price) {
+        this.price = price;
     }
-
-    public void setPartInStock(int partInStock) {
-        this.partInStock = partInStock;
+    /** This is the part inventory getter. Called when the part inventory number is needed.
+     * @return  Returns the inventory amount of the desired part. */
+    public int getStock() {
+        return stock;
     }
-
-    //Min Getters and Setters
+    /** This is the part inventory setter. Called when the part inventory amount needs to be set.
+     * @param partInStock  Sets the part inventory amount of the desired part. */
+    public void setStock(int partInStock) {
+        this.stock = partInStock;
+    }
+    /**This is the minimum amount getter. Called when the minimum amount of parts is needed.
+     * @return Returns the value of the minimum amount. */
     public int getMin() {
         return min;
     }
-
+    /** This is the minimum amount setter. Called when the minimum amount of parts needs to be set.
+     * @param min Sets the part inventory minimum to the desired amount within validation parameters. */
     public void setMin(int min) {
         this.min = min;
     }
-
-    //Max Getters and Setters
+    /** This is the maximum amount getter. Called when the maximum amount of parts is needed.
+     * @return Returns the value of the maximum amount.  */
     public int getMax() {
         return max;
     }
-
+    /** This is the maximum amount setter. Called when maximum amount of parts needs to be set.
+     * @param max Sets the part inventory maximum to the desired amount within validation parameters. */
     public void setMax(int max) {
         this.max = max;
     }

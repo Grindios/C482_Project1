@@ -2,7 +2,7 @@ package model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
+/**This is the Product class. It handles the product methods and the getters and setters for their associated variables. */
 public class Product {
     public ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     protected int productID;
@@ -11,7 +11,7 @@ public class Product {
     protected int productInStock;
     protected int min;
     protected int max;
-
+/** This is the product method. */
     public Product() {
         this.productID = productID;
         this.productName = productName;
@@ -21,82 +21,50 @@ public class Product {
         this.max = max;
 
     }
-   public void addAssociatedPart(Part part){
-       this.associatedParts.add(part);
-
-   }
-
-    //Product ID Getters and Setters
+   /**This is the product ID getter. Called when the product ID value is needed.
+    * @return Returns the product ID. */
     public int getProductID() { return productID; }
+    /**This is the product ID setter. Called when the product ID needs to be set.
+     * @param productID Value that set the product id to its incremented amount. */
     public void setProductID(int productID) { this.productID = productID; }
-
-    //Name Getters and Setters
+    /**This is the product name getter. Called when the product name value is needed.
+     * @reutn Returns the product name. */
     public String getProductName() { return productName; }
+    /**This is the product name setter. Called when the product name needs to be set.
+     * @param productName Value that sets the product name to the users input. */
     public void setProductName(String productName) { this.productName = productName; }
-
-    //Price Getters and Setters
+    /**This is the product price getter. Called when the product price value is needed.
+     * @return Returns the product price value. */
     public double getProductPrice() { return productPrice; }
+    /** This is the product price setter. Called when the product price value needs to be set.
+     * @param productPrice Value that sets the product price to the users input. */
     public void setProductPrice(double productPrice) { this.productPrice = productPrice; }
-
-    //In Stock Getters and Setters
+    /** This is the product inventory getter. Called when the inventory amount is needed.
+     * @return  Returns the product inventory value. */
     public int getProductInStock() { return productInStock; }
+    /** This is the product inventory setter. Called when the inventory amount needs to be set.
+     * @param productInStock Value that sets the product inventory to the validated amount. */
     public void setProductInStock(int productInStock) { this.productInStock = productInStock; }
-
-    //Min Getters and Setters
+    /** This is the product minimum getter. Called when the the product minimum is needed.
+     * @return  Returns the minimum value to the associated product. */
     public int getMin() { return min; }
+    /** This is the product minimum setter. Called when the product minimum needs to be set.
+     * @param min Value that sets the product minimum to the desired amount. */
     public void setMin(int min) { this.min = min; }
-
-    //Max Getters and Setters
+    /** This is the product maximum getter. Called when the product maximum is needed.
+     * @return Returns the product maximum to the selected product. */
     public int getMax() { return max; }
+    /** This is the product maximum setter. Called when the product maximum needs to be set.
+     * @param max Value that set the product maximum to the associated product. */
     public void setMax(int max) { this.max = max; }
-
-
-    //Assoc Getters & Setters
+    /** This is the associated parts list getter. Called when an associated part needs to be recalled from and associated product.
+     * @return returns the associated part to the product. */
     public ObservableList<Part> getAssociatedPartsList() {
         return associatedParts;
     }
-
-
-
-   //Product Validation
-
-    public static String getProductValidation (String name, int inStock, double price, int max, int min, String ProductError){
-        if (inStock < 1) {
-            ProductError = ProductError + "The Product Name field cannot be empty. ";
-        }
-        if(price <= 0) {
-            ProductError = ProductError + "\nThe Price must be greater than $0; ";
-        }
-        if (max < min) {
-            ProductError = ProductError + "\nThe Maximum stock must be greater than the Minimum stock";
-        }
-        if (inStock > max) {
-            ProductError = ProductError + "\nThe Inventory Must be less than or equal to the Maximum stock. ";
-        }
-        if (inStock < min) {
-            ProductError = ProductError + "\nThe Inventory must be greater than or equal to the Minimum stock. ";
-        }
-        return ProductError;
+    /** This is the add associated part method (setter). It adds the selected associated part/s to the selected product.
+     * @param part This is the selected part for the product. */
+    public void addAssociatedPart(Part part){
+        this.associatedParts.add(part);
     }
-
- public static String getEmptyFields (String name, String inStock, String price, String max, String min, String ProductEmpty) {
-     if (name.equals("")) {
-         ProductEmpty = ProductEmpty + "The Product Name field cannot be empty. ";
-     }
-     if (inStock.equals("")) {
-         ProductEmpty = ProductEmpty + "\nThe Product Inventory field cannot be empty. ";
-     }
-     if (price.equals("")) {
-         ProductEmpty = ProductEmpty + "\nThe Product Price field cannot be empty. ";
-     }
-     if (max.equals("")) {
-         ProductEmpty = ProductEmpty + "\nThe Product Max field cannot be empty. ";
-     }
-     if (min.equals("")) {
-         ProductEmpty = ProductEmpty + "\nThe product Min field cannot be empty. ";
-     }
-     return ProductEmpty;
- }
-
-
 }

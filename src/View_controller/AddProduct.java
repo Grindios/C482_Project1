@@ -15,14 +15,12 @@ import model.Inventory;
 import model.Part;
 import model.Product;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import static model.Inventory.getParts;
-import static model.Product.*;
 
 
 public class AddProduct implements Initializable {
@@ -69,28 +67,15 @@ public class AddProduct implements Initializable {
     private String catchError = new String();
     private int productID;
 
-  /*
-  * Above are the variables
-  *
-  *
-  *
-  * Below are the methods
-  * */
-
-
-
-
-
-    //search action for the add product screen
+  /** This is the search product method. It is called when the user looks for either part ID or part name (partial or full). */
+  private ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
     @FXML
     public void SearchProductAct() {
         String searchPartIDString = addProductSearchTxt.getText();
+        addProductSearchTxt.clear();
+        filteredPartsList.clear();
         if (searchPartIDString.equals("")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Part Search Warning");
-            alert.setHeaderText("There were no parts found!");
-            alert.setContentText("You did not enter a part to search for!");
-            alert.showAndWait();
+            updatePartsTable();
         } else {
             boolean found = false;
             try {
@@ -108,36 +93,32 @@ public class AddProduct implements Initializable {
                 }
             } catch (NumberFormatException e) {
                 for (Part p : getParts()) {
-                    if (p.getPartName().toLowerCase(Locale.ROOT).contains(searchPartIDString.toLowerCase(Locale.ROOT))) {
+                    if (p.getName().toLowerCase(Locale.ROOT).contains(searchPartIDString.toLowerCase(Locale.ROOT))) {
                         found = true;
-                        ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
+
                         filteredPartsList.add(p);
-                        addProductPartsTbl.setItems(filteredPartsList);
+
                     }
                 }
-                if (found == false) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Part Search Warning");
-                    alert.setHeaderText("There were no parts found!");
-                    alert.setContentText("The search term entered does not match any part name!");
-                    alert.showAndWait();
-                }
+                addProductPartsTbl.setItems(filteredPartsList);
+                addProductPartsTbl.refresh();
+
             }
         }
     }
 
 
-//action to add part
+/** This is the add parts method. It handles the addition of parts to the associated product table. */
     @FXML
-    public void AddPartsAct(javafx.event.ActionEvent event) {
+    public void AddPartsAct() {
         Part part = addProductPartsTbl.getSelectionModel().getSelectedItem();
         boolean repeatedItem = false;
           if (part == null) {
               return;
           } else {
-              int id = part.getPartID();
+              int id = part.getId();
               for (int i = 0; i < currentParts.size(); i++)
-                  if (currentParts.get(i).getPartID() == id) {
+                  if (currentParts.get(i).getId() == id) {
                       Alert alert = new Alert(Alert.AlertType.INFORMATION);
                       alert.setTitle("Error");
                       alert.setHeaderText("That Part is already associated.");
@@ -154,7 +135,7 @@ public class AddProduct implements Initializable {
 
 
 
-    // removes selected part
+    /** This is the delete part method. It removes an associated part from the associated part list. */
     @FXML
     public void DeleteItemAct() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -179,7 +160,8 @@ public class AddProduct implements Initializable {
         }
     }
 
-    //Saves the associated parts and Product
+    /** This is the save items method. It saves the newly added product, and associated parts to the newly added product.
+     * @param event This parameter is what kicks of the loading of the main screen. */
     @FXML
     public void SaveItemsAct(javafx.event.ActionEvent event){
         String name = addProductsNameTxt.getText();
@@ -251,7 +233,8 @@ public class AddProduct implements Initializable {
     }
 
 
-    //Cancels the add product action
+    /** This is the cancel method. When clicked the user will be prompted if they are sure they want to cancel.
+     * @param event The parameter that calls the main screen. */
     @FXML
     public void CancelAct(javafx.event.ActionEvent event) throws IOException {
         try {
@@ -275,9 +258,18 @@ public class AddProduct implements Initializable {
         }
     }
 
-    //Product Validation
-
+    /** This is the product validation method. It validates the product values to meet project specification.
+     * @param name This is the name value that is validated.
+     * @param inStock This is the in stock value that is validated.
+     * @param price This is the price value that is validated.
+     * @param  max this is the price value that is validated.
+     * @param min  this is the price value that is validated.
+     * @param ProductError this is the part error that will later be aggregated.
+     * @return Returns the product error messages. */
     public static String getProductValidation (String name, int inStock, double price, int max, int min, String ProductError){
+        if (name == null) {
+            ProductError = ProductError + " Name field required. ";
+        }
         if (inStock < 1) {
             ProductError = ProductError + "The Product Name field cannot be empty. ";
         }
@@ -295,7 +287,14 @@ public class AddProduct implements Initializable {
         }
         return ProductError;
     }
-
+    /** This is the empty field validator. This validates the input for any empty entries.
+     * @param name This is the name value that is validated.
+     * @param inStock This is the in stock value that is validated.
+     * @param price This is the price value that is validated.
+     * @param min This is the min inventory value that is validated.
+     * @param max This is the max inventory value that is validated.
+     * @param ProductEmpty This is the part error that will later be aggregated.
+     * @return Returns the product error messages. */
     public static String getEmptyFields (String name, String inStock, String price, String max, String min, String ProductEmpty) {
         if (name.equals("")) {
             ProductEmpty = ProductEmpty + "The Product Name field cannot be empty. ";
@@ -315,13 +314,14 @@ public class AddProduct implements Initializable {
         return ProductEmpty;
     }
 
-    //Update inStock parts table
+    /** This is the update parts table method. It updates the table upon loading the page. */
     @FXML
     public void updatePartsTable() { addProductPartsTbl.setItems(getParts()); }
-    //updates Associated parts table
+    /** This is the update associated table. It loads the associated parts table upon loading the page. */
     @FXML
     public void updateAssocTable() {addProductAssocTbl.setItems(currentParts);}
 
+    /**This is the initialize method. It updates the parts table and displays the product incremented count. */
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         addProductIDAddColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));

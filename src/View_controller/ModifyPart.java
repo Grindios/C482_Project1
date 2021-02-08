@@ -48,20 +48,9 @@ public class ModifyPart implements Initializable {
     private String catchMessage = new String();
     private int partID;
 
-/*
-* above are variables
-*
-*
-*
-* below are methods
-* */
-
-
-
-
-    //Handles the selection of in house radio button
+    /** This is the InHouse radio button method. It sets the isOutsourced boolean value to false. */
     @FXML
-    public void selectModPartInHouse(javafx.event.ActionEvent event) {
+    public void selectModPartInHouse() {
         isOutsourced = false;
         modifyPartsBoolLbl.setText("Machine ID");
         modifyPartsBooltxt.setPromptText("Machine ID");
@@ -69,7 +58,7 @@ public class ModifyPart implements Initializable {
         modifyPartsOutsourceRdBtn.setSelected(false);
     }
 
-    //Handles the selection of outsourced radio button
+    /** This is the Outsourced radio button method. It sets the isOutsourced boolean value to true. */
     @FXML
     public void setModPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
         isOutsourced = true;
@@ -79,7 +68,8 @@ public class ModifyPart implements Initializable {
         modifyPartsOutsourceRdBtn.setSelected(true);
     }
 
-    //Saves the modification of the selected part
+    /** This is the save modified part method. It saves the modifications done to a selected part.
+     * @param event  This parameter loads the main page. */
     @FXML
     public void SaveModPartsAct(javafx.event.ActionEvent event) throws IOException {
         String name = modifyPartsNametxt.getText();
@@ -109,10 +99,10 @@ public class ModifyPart implements Initializable {
                 if (isOutsourced == false) {
                     System.out.println("Part name: " + name);
                     InHouse inPart = new InHouse();
-                    inPart.setPartID(partID);
-                    inPart.setPartName(name);
-                    inPart.setPartPrice(Double.parseDouble(price));
-                    inPart.setPartInStock(Integer.parseInt(inStock));
+                    inPart.setId(partID);
+                    inPart.setName(name);
+                    inPart.setPrice(Double.parseDouble(price));
+                    inPart.setStock(Integer.parseInt(inStock));
                     inPart.setMin(Integer.parseInt(min));
                     inPart.setMax(Integer.parseInt(max));
                     inPart.setMachineID(Integer.parseInt(partBool));
@@ -121,10 +111,10 @@ public class ModifyPart implements Initializable {
                 else {
                     System.out.println("Part name: " + name);
                     Outsourced outPart = new Outsourced();
-                    outPart.setPartID(partID);
-                    outPart.setPartName(name);
-                    outPart.setPartPrice(Double.parseDouble(price));
-                    outPart.setPartInStock(Integer.parseInt(inStock));
+                    outPart.setId(partID);
+                    outPart.setName(name);
+                    outPart.setPrice(Double.parseDouble(price));
+                    outPart.setStock(Integer.parseInt(inStock));
                     outPart.setMin(Integer.parseInt(min));
                     outPart.setMax(Integer.parseInt(max));
                     outPart.setCompanyName(partBool);
@@ -147,7 +137,8 @@ public class ModifyPart implements Initializable {
 
     }
 
-    //Cancels the modification of the selected part
+    /** This is the cancel part method. It cancels the modification of a part and laods the main screen.
+     * @param event This parameter laods the main screen. */
     @FXML
     public void ModifyPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -170,15 +161,15 @@ public class ModifyPart implements Initializable {
     }
 
 
-
+    /** This is the initialize method. It loads the information of the selected part to be modified. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Part part = model.Inventory.getParts().get(partIndex);
-        partID = model.Inventory.getParts().get(partIndex).getPartID();
+        partID = model.Inventory.getParts().get(partIndex).getId();
         modifyPartsIDNumberLbl.setText("Auto-Gen: " + partID);
-        modifyPartsNametxt.setText(part.getPartName());
-        modifyPartsInStocktxt.setText(Integer.toString(part.getPartInStock()));
-        modifyPartsPricetxt.setText(Double.toString(part.getPartPrice()));
+        modifyPartsNametxt.setText(part.getName());
+        modifyPartsInStocktxt.setText(Integer.toString(part.getStock()));
+        modifyPartsPricetxt.setText(Double.toString(part.getPrice()));
         modifyPartsMintxt.setText(Integer.toString(part.getMin()));
         modifyPartsMaxtxt.setText(Integer.toString(part.getMax()));
         if (part instanceof InHouse) {

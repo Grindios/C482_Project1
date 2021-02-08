@@ -2,7 +2,6 @@ package View_controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,7 +23,6 @@ import java.util.ResourceBundle;
 import static View_controller.MainScreen.*;
 import static model.Inventory.getParts;
 import static model.Inventory.getProducts;
-import static model.Product.*;
 
 
 public class ModifyProduct implements Initializable {
@@ -72,24 +70,16 @@ public class ModifyProduct implements Initializable {
     private int productID;
 
 
-/*
-* above are variables
-*
-*
-*
-* below are methods
-* */
 
-//handles the search of the parts in stock table
+    private ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
+    /** This is the search part method. It search parts via partial name or ID number. */
     @FXML
     public void SearchProductPartAction() {
         String searchPartIDString = modProductSearchTxt.getText();
+        modProductSearchTxt.clear();
+        filteredPartsList.clear();
         if (searchPartIDString.equals("")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Part Search Warning");
-            alert.setHeaderText("There were no parts found!");
-            alert.setContentText("You did not enter a part to search for!");
-            alert.showAndWait();
+            updatePartsTable();
         } else {
             boolean found = false;
             try {
@@ -107,25 +97,18 @@ public class ModifyProduct implements Initializable {
                 }
             } catch (NumberFormatException e) {
                 for (Part p : getParts()) {
-                    if (p.getPartName().toLowerCase(Locale.ROOT).contains(searchPartIDString.toLowerCase(Locale.ROOT))) {
+                    if (p.getName().toLowerCase(Locale.ROOT).contains(searchPartIDString.toLowerCase(Locale.ROOT))) {
                         found = true;
-                        ObservableList<Part> filteredPartsList = FXCollections.observableArrayList();
                         filteredPartsList.add(p);
-                        modPartsAddTbl.setItems(filteredPartsList);
                     }
                 }
-                if (found == false) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setTitle("Part Search Warning");
-                    alert.setHeaderText("There were no parts found!");
-                    alert.setContentText("The search term entered does not match any part name!");
-                    alert.showAndWait();
-                }
+                modPartsAddTbl.setItems(filteredPartsList);
+                modPartsAddTbl.refresh();
             }
         }
     }
 
-    //handles the association of product to part
+    /** This is the add product method. It adds an associated part to the associated parts table and updates the table.*/
     @FXML
     public void AddProductAct() {
         Part part = modPartsAddTbl.getSelectionModel().getSelectedItem();
@@ -142,7 +125,7 @@ public class ModifyProduct implements Initializable {
         }
     }
 
-    //removes the associated part from the associated part table
+    /** This is the delete method. It handles the deletion of an association between a part and a product. */
     @FXML
     public void DeleteAct() {
         Part part = modProductAssocTbl.getSelectionModel().getSelectedItem();
@@ -150,7 +133,7 @@ public class ModifyProduct implements Initializable {
         alert.initModality(Modality.NONE);
         alert.setTitle("Part Deletion");
         alert.setHeaderText("Confirm");
-        alert.setContentText("Are you sure you want to delete " + part.getPartName() + " from parts?");
+        alert.setContentText("Are you sure you want to delete " + part.getName() + " from parts?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             currentParts.remove(part);
@@ -159,7 +142,8 @@ public class ModifyProduct implements Initializable {
         }
     }
 
-    // saves the modification done to part and association
+    /** This is a save product method. It saves the modifications done to the product and the association of a part to product.
+     * @param event This parameter loads the main page. */
     @FXML
     public void SaveModProductAct(javafx.event.ActionEvent event) {
         String name = modifyProductsNametxt.getText();
@@ -212,7 +196,8 @@ public class ModifyProduct implements Initializable {
         }
     }
 
-    //cancels the modification of product
+    /** This is the cancel method. This method cancels the modification of a product and returns to main page.
+     * @param event This parameter loads the main page. */
     public void ModifyProductCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);
@@ -232,15 +217,15 @@ public class ModifyProduct implements Initializable {
             System.out.println("Process Canceled. ");
         }
     }
-    //updates the associated parts table view
+    /** This is the update associated parts table method. It updates the table to the most current values. */
     public void updateAssociatedPartsTbl() {
         modProductAssocTbl.setItems(currentParts);
     }
-    //updates the parts in stock table view
+    /** This is the update parts table method. This updates the parts table to the most recent associated values. */
     @FXML
     public void updatePartsTable() { modPartsAddTbl.setItems(getParts()); }
 
-
+    /** This is the initialize method. It loads the information of the product being modified and the the tables being updated. */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Product selectedProduct = getProducts().get(productIndex);
