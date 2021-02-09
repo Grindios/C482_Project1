@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**Main class that start up up the application. */
+/**Main class that start up up the application. Being that I worked a lot with version control with this project. In a future project I would like to add a user name input.
+ * Where the user has to put in his/her id and password to modify or add anything. The user ID or input then has a user name associated with it.
+ * when changes are made, it must be logged to display who made the changes, and when.*/
 public class Main extends Application {
 
 

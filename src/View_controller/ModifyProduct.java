@@ -105,6 +105,16 @@ public class ModifyProduct implements Initializable {
                 modPartsAddTbl.setItems(filteredPartsList);
                 modPartsAddTbl.refresh();
             }
+            if (found == false) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Part Search Warning");
+                alert.setHeaderText("There were no parts found!");
+                alert.setContentText("The search term entered does not match any part name!");
+                alert.showAndWait();
+                updatePartsTable();
+
+            }
         }
     }
 

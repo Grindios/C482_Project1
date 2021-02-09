@@ -118,9 +118,9 @@ public class MainScreen implements Initializable {
         if(deletePartVal(part))
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Error.");
-            alert.setHeaderText("Products cannot be deleted.");
-            alert.setContentText("Product contains at least one part.");
+            alert.setTitle("Delete Part");
+            alert.setHeaderText("Are you sure you want to delete this part? ");
+            alert.setContentText("Part contains at least one associated product.");
             alert.showAndWait();
         }
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -187,6 +187,17 @@ public class MainScreen implements Initializable {
                 }
                 partsTbl.setItems(filteredPartList);
                 partsTbl.refresh();
+
+            }
+            if (found == false) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Part Search Warning");
+                alert.setHeaderText("There were no parts found!");
+                alert.setContentText("The search term entered does not match any part name!");
+                alert.showAndWait();
+                updatePartsTable();
+
             }
 
         }
@@ -299,6 +310,16 @@ public class MainScreen implements Initializable {
                 productsTbl.refresh();
 
             }
+            if (found == false) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Product Search Warning");
+                alert.setHeaderText("There were no products found!");
+                alert.setContentText("The search term entered does not match any product name!");
+                alert.showAndWait();
+                updatePartsTable();
+
+            }
 
         }
     }
@@ -349,7 +370,9 @@ public class MainScreen implements Initializable {
         return selectedProductIndex;
     }
 
-    /** This is the initialize method. Upon page loading it updates parts table and product table. */
+    /** This is the initialize method. Upon page loading it updates parts table and product table. When running the the program and adding a part the parts wouldn't display in the parts table. The issue was found after I had done updates to the parts.java file.
+     * I fixed the issue by searching for where it would be referencing the information from and fixed the variable naming convention where is
+     * was getting called from in the initialize method. After that was done, the information was was displayed as desired. */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -366,10 +389,5 @@ public class MainScreen implements Initializable {
     }
 
 }
-/** When running the the program and adding a part the parts wouldn't display in the parts table. The issue was found after I had done updates to the parts.java file.
- * I fixed the issue by searching for where it would be referencing the information from and fixed the variable naming convention where is
- * was getting called from in the initialize method. After that was done, the information was was displayed as desired. */
 
-/** Being that I worked a lot with version control with this project. In a future project I would like to add a user name input.
- * Where the user has to put in his/her id and password to modify or add anything. The user ID or input then has a user name associated with it.
- * when changes are made, it must be logged to display who made the changes, and when.*/
+

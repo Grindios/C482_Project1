@@ -115,7 +115,8 @@ public class AddPart implements Initializable{
                     inPart.setMax(Integer.parseInt(max));
                     inPart.setMachineID(Integer.parseInt(partBool));
                     Inventory.addPart(inPart);
-                } else {
+                }
+                if (isOutsourced == true){
                     System.out.println("Part name: " + name);
                     Outsourced outPart = new Outsourced(partID, name, Double.parseDouble(price), Integer.parseInt(inStock) , Integer.parseInt(min), Integer.parseInt(max));
                     outPart.setId(partID);

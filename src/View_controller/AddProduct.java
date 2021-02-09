@@ -104,6 +104,17 @@ public class AddProduct implements Initializable {
                 addProductPartsTbl.refresh();
 
             }
+
+            if (found == false) {
+
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Part Search Warning");
+                alert.setHeaderText("There were no parts found!");
+                alert.setContentText("The search term entered does not match any part name!");
+                alert.showAndWait();
+                updatePartsTable();
+
+            }
         }
     }
 
@@ -163,74 +174,91 @@ public class AddProduct implements Initializable {
     /** This is the save items method. It saves the newly added product, and associated parts to the newly added product.
      * @param event This parameter is what kicks of the loading of the main screen. */
     @FXML
-    public void SaveItemsAct(javafx.event.ActionEvent event){
+    public void SaveItemsAct(javafx.event.ActionEvent event) {
         String name = addProductsNameTxt.getText();
         String inStock = addProductsInStockTxt.getText();
         String price = addProductsPriceTxt.getText();
         String max = addProductsMaxTxt.getText();
         String min = addProductsMinTxt.getText();
+        try {
+            catchError = getProductValidation(name,
+                    Integer.parseInt(inStock),
+                    Double.parseDouble(price),
+                    Integer.parseInt(max),
+                    Integer.parseInt(min),
+                    catchError);
 
 
-        catchError = getEmptyFields(name, inStock, price, max, min, catchError);
-        if (catchError.length() > 0) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Product Addition Warning");
-            alert.setHeaderText("The product was NOT added!");
-            alert.setContentText(catchError);
-            alert.showAndWait();
-            catchError = "";
-        } else {
-            if (currentParts.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Product Save Error");
-                alert.setHeaderText("The product was not saved!");
-                alert.setContentText("An associated part was not selected!");
+            catchError = getEmptyFields(name, inStock, price, max, min, catchError);
+            if (catchError.length() > 0) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Product Addition Warning");
+                alert.setHeaderText("The product was NOT added!");
+                alert.setContentText(catchError);
                 alert.showAndWait();
+                catchError = "";
             } else {
-                try {
-                    catchError = getProductValidation(name,
-                            Integer.parseInt(inStock),
-                            Double.parseDouble(price),
-                            Integer.parseInt(max),
-                            Integer.parseInt(min),
-                            catchError);
-                    if (catchError.length() > 0) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setTitle("Product Addition Warning");
-                        alert.setHeaderText("The product was NOT added!");
-                        alert.setContentText(catchError);
-                        alert.showAndWait();
-                        catchError = "";
-                    } else {
+                if (currentParts.isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Product Save Error");
+                    alert.setHeaderText("The product was not saved!");
+                    alert.setContentText("An associated part was not selected!");
+                    alert.showAndWait();
+                } else {
+                    try {
 
-                        Product SaveProduct = new Product();
-                        SaveProduct.setProductID(productID);
-                        SaveProduct.setProductName(name);
-                        SaveProduct.setProductInStock(Integer.parseInt(inStock));
-                        SaveProduct.setProductPrice(Double.parseDouble(price));
-                        SaveProduct.setMax(Integer.parseInt(max));
-                        SaveProduct.setMin(Integer.parseInt(min));
-                        //SaveProduct.setAssociatedPartsList(currentParts);
+                        if (catchError.length() > 0) {
+                            Alert alert = new Alert(Alert.AlertType.WARNING);
+                            alert.setTitle("Product Addition Warning");
+                            alert.setHeaderText("The product was NOT added!");
+                            alert.setContentText(catchError);
+                            alert.showAndWait();
+                            catchError = "";
+                        } else {
 
-                        for(Part p : currentParts)
-                        {
-                            SaveProduct.addAssociatedPart(p);
+                            Product SaveProduct = new Product();
+                            SaveProduct.setProductID(productID);
+                            SaveProduct.setProductName(name);
+                            SaveProduct.setProductInStock(Integer.parseInt(inStock));
+                            SaveProduct.setProductPrice(Double.parseDouble(price));
+                            SaveProduct.setMax(Integer.parseInt(max));
+                            SaveProduct.setMin(Integer.parseInt(min));
+                            //SaveProduct.setAssociatedPartsList(currentParts);
+
+                            for (Part p : currentParts) {
+                                SaveProduct.addAssociatedPart(p);
+                            }
+                            Inventory.addProduct(SaveProduct);
+
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
+                            Parent root = loader.load();
+                            Scene scene = new Scene(root);
+                            Stage winMainScreen = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                            winMainScreen.setTitle("Inventory Management System");
+                            winMainScreen.setScene(scene);
+                            winMainScreen.show();
                         }
-                        Inventory.addProduct(SaveProduct);
-
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
-                        Parent root = loader.load();
-                        Scene scene = new Scene(root);
-                        Stage winMainScreen = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                        winMainScreen.setTitle("Inventory Management System");
-                        winMainScreen.setScene(scene);
-                        winMainScreen.show();
+                    } catch (IOException e) {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Error Adding Product");
+                        alert.setContentText("Invalid Entry ");
+                        alert.showAndWait();
                     }
-                } catch (IOException e) {
                 }
             }
         }
+
+            catch(NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Error Adding Product");
+            alert.setContentText("Invalid Entry ");
+            alert.showAndWait();
+        }
     }
+
+
 
 
     /** This is the cancel method. When clicked the user will be prompted if they are sure they want to cancel.
@@ -321,7 +349,9 @@ public class AddProduct implements Initializable {
     @FXML
     public void updateAssocTable() {addProductAssocTbl.setItems(currentParts);}
 
-    /**This is the initialize method. It updates the parts table and displays the product incremented count. */
+    /**This is the initialize method. It updates the parts table and displays the product incremented count. When running the the program and adding a part the parts wouldn't display in the parts table. The issue was found after I had done updates to the parts.java file.
+     * I fixed the issue by searching for where it would be referencing the information from and fixed the variable naming convention where is
+     * was getting called from in the initialize method. After that was done, the information was was displayed as desired.*/
     @Override
     public void initialize (URL url, ResourceBundle resourceBundle){
         addProductIDAddColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -338,13 +368,6 @@ public class AddProduct implements Initializable {
         addProductsIDNumberLbl.setText("Part ID :" + productID);
 
     }
-
-    /** When running the the program and adding a part the parts wouldn't display in the parts table. The issue was found after I had done updates to the parts.java file.
-     * I fixed the issue by searching for where it would be referencing the information from and fixed the variable naming convention where is
-     * was getting called from in the initialize method. After that was done, the information was was displayed as desired. */
-
-
-
 
 }
 
