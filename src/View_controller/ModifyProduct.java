@@ -197,7 +197,8 @@ public class ModifyProduct implements Initializable {
     }
 
     /** This is the cancel method. This method cancels the modification of a product and returns to main page.
-     * @param event This parameter loads the main page. */
+     * @param event This parameter loads the main page.
+     * @throws IOException catches exception. */
     public void ModifyProductCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.initModality(Modality.NONE);

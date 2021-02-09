@@ -157,7 +157,7 @@ public class AddPart implements Initializable{
 
     /** This is the Outsourced radio button method. It sets the boolean value of the isOutsourced variable to true. */
     @FXML
-    public void setAddPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
+    public void setAddPartsOutsourceRdBtn() {
         isOutsourced = true;
         addPartsBoolLbl.setText("Company Name");
         addPartsBooltxt.setPromptText("Company Name");

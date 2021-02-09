@@ -28,7 +28,7 @@ public class Product {
      * @param productID Value that set the product id to its incremented amount. */
     public void setProductID(int productID) { this.productID = productID; }
     /**This is the product name getter. Called when the product name value is needed.
-     * @reutn Returns the product name. */
+     * @return Returns the product name. */
     public String getProductName() { return productName; }
     /**This is the product name setter. Called when the product name needs to be set.
      * @param productName Value that sets the product name to the users input. */

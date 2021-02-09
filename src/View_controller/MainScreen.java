@@ -192,7 +192,8 @@ public class MainScreen implements Initializable {
         }
     }
     /** This is the add product method. It navigates the add product screen.
-     * @param actionEvent This parameter loads the add product screen. */
+     * @param actionEvent This parameter loads the add product screen.
+     * @throws IOException catches exception */
     @FXML
     public void addProductsAct(ActionEvent actionEvent) throws IOException{
         Parent addPartsParent = FXMLLoader.load(getClass().getResource("AddProduct.fxml"));
@@ -327,7 +328,8 @@ public class MainScreen implements Initializable {
         }
     }
     /** This is the refresh method. It refreshes the page (was used during testing to clear the page of data).
-     * @param actionEvent This parameter reloads the page. */
+     * @param actionEvent This parameter reloads the page.
+     * @throws IOException catches exception*/
     public void RefreshAct(javafx.event.ActionEvent actionEvent) throws IOException {
         Parent RefreshAct = FXMLLoader.load(getClass().getResource("MainScreen.fxml"));
         Scene scene = new Scene(RefreshAct);

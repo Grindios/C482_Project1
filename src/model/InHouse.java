@@ -9,7 +9,13 @@ public class InHouse extends Part {
 
     protected final IntegerProperty machineID;
 
-    /**InHouse method. Called when InHouse radio button is selected. */
+    /**InHouse method. Called when InHouse radio button is selected.
+     * @param id id value that is getting associated with machineID.
+     * @param name name value that is getting associated with machineID.
+     * @param price price value that is getting associated with machineID.
+     * @param stock stock value that is getting associated with MachineID.
+     * @param min min value that is getting associated with MachineID.
+     * @param max max value that is getting associated with MachineID.  */
     public InHouse(int id, String name, double price, int stock, int min, int max) {
         super(id, name, price, stock, min, max);
         machineID = new SimpleIntegerProperty();

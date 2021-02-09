@@ -60,7 +60,7 @@ public class ModifyPart implements Initializable {
 
     /** This is the Outsourced radio button method. It sets the isOutsourced boolean value to true. */
     @FXML
-    public void setModPartsOutsourceRdBtn(javafx.event.ActionEvent event) {
+    public void setModPartsOutsourceRdBtn() {
         isOutsourced = true;
         modifyPartsBoolLbl.setText("Company Name");
         modifyPartsBooltxt.setPromptText("Company Name");
@@ -69,7 +69,8 @@ public class ModifyPart implements Initializable {
     }
 
     /** This is the save modified part method. It saves the modifications done to a selected part.
-     * @param event  This parameter loads the main page. */
+     * @param event  This parameter loads the main page.
+     * @throws IOException catches exception */
     @FXML
     public void SaveModPartsAct(javafx.event.ActionEvent event) throws IOException {
         String name = modifyPartsNametxt.getText();
@@ -138,7 +139,8 @@ public class ModifyPart implements Initializable {
     }
 
     /** This is the cancel part method. It cancels the modification of a part and laods the main screen.
-     * @param event This parameter laods the main screen. */
+     * @param event This parameter loads the main screen.
+     * @throws IOException catches exception.*/
     @FXML
     public void ModifyPartCancelAct (javafx.event.ActionEvent event) throws IOException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

@@ -9,7 +9,14 @@ public class Outsourced extends Part {
 
     private final StringProperty companyName;
 
-    /** This is the Outsourced method. Called when Outsource radio button is selected. */
+    /** This is the Outsourced method. Called when Outsource radio button is selected.
+     * @param id id value that is getting associated with companyName.
+     * @param name name value that is getting associated with companyName.
+     * @param price price value that is getting associated with companyName.
+     * @param stock stock value that is getting associated with companyName.
+     * @param min min value that is getting associated with companyName.
+     * @param max max value that is getting associated with companyName.
+     * */
     public Outsourced(int id, String name, double price, int stock, int min, int max) {
         super(id, name, price, stock, min, max);
         companyName = new SimpleStringProperty();

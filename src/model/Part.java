@@ -1,5 +1,5 @@
 package model;
-
+/**@author Shelby Benscoter*/
 /**This is the Part class. It handles the part methods and the getters and setters for their associated variables. */
 public abstract class Part {
     protected int id;
@@ -8,7 +8,13 @@ public abstract class Part {
     protected int stock;
     protected int min;
     protected int max;
-    /** This is the part method. */
+    /** This is the part method. Contains the values that make up the parts
+     * @param id id value to create part.
+     * @param name name value to create part.
+     * @param price price value to create part.
+     * @param stock stock value to create part.
+     * @param min min value to create part.
+     * @param max max value to create part. */
     public Part(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
         this.name = name;
