@@ -198,13 +198,6 @@ public class AddProduct implements Initializable {
                 alert.showAndWait();
                 catchError = "";
             } else {
-                if (currentParts.isEmpty()) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Product Save Error");
-                    alert.setHeaderText("The product was not saved!");
-                    alert.setContentText("An associated part was not selected!");
-                    alert.showAndWait();
-                } else {
                     try {
 
                         if (catchError.length() > 0) {
@@ -246,7 +239,7 @@ public class AddProduct implements Initializable {
                         alert.showAndWait();
                     }
                 }
-            }
+
         }
 
             catch(NumberFormatException e){
